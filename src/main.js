@@ -5,13 +5,15 @@ import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
-
 import restCss from './assets/css/reset.css'
-import commonCss from './assets/css/public.css'
+import publicCss from './assets/css/public.css'
 import mainCss from './assets/css/main.css'
 import echarts from 'echarts'
+import commonCss from './assets/css/common.css'
+import iconFont from './assets/aliIcon/iconfont.css'
 Vue.prototype.$echarts = echarts
 import axios from './api/ajax'
+
 
 // 引用全局变量
 import globalVariable from '../src/assets/js/globalVal.js'

@@ -10,10 +10,8 @@
                     <input type="text" class="fl input input1" />
 
                     <a class="search-btn">检索项目<span class="icon iconfont icon-sousuo"></span> </a>
-                    <a class="search-btn addNewObject"> <span class="icon iconfont icon-zengjia"></span> 新建项目</a>
+                    <a class="search-btn addNewObject" @click="dialogShow = true"> <span class="icon iconfont icon-zengjia" ></span> 新建项目</a>
                 </div>
-
-
                 <div class="table">
                     <table class="keshihua-table" id="tableContent">
                         <thead>
@@ -29,110 +27,17 @@
                         </thead>
 
                         <tbody>
-                            <tr class="oddTr">
+                            <tr class="oddTr" v-for="(item,index) in 10" :key="index">
                                 <td><input type="checkbox" /><span class="toggle"></span></td>
                                 <td>高血压数据</td>
                                 <td>S/N</td>
                                 <td class="handle">
-                                    <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
-                                </td>
-                            </tr>
-                            <tr class="evenTr">
-                                <td><input type="checkbox" /><span class="toggle"></span></td>
-                                <td>高血压数据</td>
-                                <td>S/N</td>
-                                <td class="handle">
-                                    <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
+                                    <a title="数据集" class="wenjian"><span class=" iconfont icon-wenjian"></span></a>
+                                    <a title="修改" class="xiugai"><span class=" iconfont icon-xiugai"></span></a>
                                     <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
                                 </td>
                             </tr>
 
-                            <tr class="oddTr">
-                                <td><input type="checkbox" /><span class="toggle"></span></td>
-                                <td>高血压数据</td>
-                                <td>S/N</td>
-                                <td class="handle">
-                                    <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
-                                </td>
-                            </tr>
-                            <tr class="evenTr">
-                                <td><input type="checkbox" /><span class="toggle"></span></td>
-                                <td>高血压数据</td>
-                                <td>S/N</td>
-                                <td class="handle">
-                                    <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
-                                </td>
-                            </tr>
-
-                            <tr class="oddTr">
-                                <td><input type="checkbox" /><span class="toggle"></span></td>
-                                <td>高血压数据</td>
-                                <td>S/N</td>
-                                <td class="handle">
-                                    <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
-                                </td>
-                            </tr>
-                            <tr class="evenTr">
-                                <td><input type="checkbox" /><span class="toggle"></span></td>
-                                <td>高血压数据</td>
-                                <td>S/N</td>
-                                <td class="handle">
-                                    <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
-                                </td>
-                            </tr>
-
-                            <tr class="oddTr">
-                                <td><input type="checkbox" /><span class="toggle"></span></td>
-                                <td>高血压数据</td>
-                                <td>S/N</td>
-                                <td class="handle">
-                                    <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
-                                </td>
-                            </tr>
-                            <tr class="evenTr">
-                                <td><input type="checkbox" /><span class="toggle"></span></td>
-                                <td>高血压数据</td>
-                                <td>S/N</td>
-                                <td class="handle">
-                                    <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
-                                </td>
-                            </tr>
-
-                            <tr class="oddTr">
-                                <td><input type="checkbox" /><span class="toggle"></span></td>
-                                <td>高血压数据</td>
-                                <td>S/N</td>
-                                <td class="handle">
-                                    <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
-                                </td>
-                            </tr>
-                            <tr class="evenTr">
-                                <td><input type="checkbox" /><span class="toggle"></span></td>
-                                <td>高血压数据</td>
-                                <td>S/N</td>
-                                <td class="handle">
-                                    <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
 
@@ -192,7 +97,24 @@
         </div>
 
 
-
+        <el-dialog  title="添加新项目" customClass="customWidth" :visible.sync="dialogShow" :center="true">
+            <el-form :model="addProjectform">
+                <el-form-item label="项目名称" :label-width="formLabelWidth">
+                    <el-input v-model="addProjectform.name" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="项目描述" :label-width="formLabelWidth">
+                    <el-form-item >
+                        <el-input type="textarea" v-model="addProjectform.desc" ></el-input>
+                    </el-form-item>
+                </el-form-item>
+                
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="addProject()">添 加</el-button>
+                <el-button @click="dialogShow = false">返 回</el-button>
+                
+            </div>
+        </el-dialog>
         <!-- 弹窗删除 -->
         <div class="alert-box" id="alert-box-del">
             <div class="title text-c">
@@ -249,14 +171,22 @@
     </div>
 </template>
 <script>
-
 import commonHeade from '../components/header.vue'
     export default {
         name: "Project",
             data () {
                 return {
                     msg: 'Welcome to Your Vue.js App',
-                    paletteShow:false
+                    paletteShow:false,
+                    dialogShow: false,
+                    addProjectform: {
+                        name: '',
+                        delivery: false,
+                        desc: '',
+                        
+                    },
+                    formLabelWidth: '100%',
+                    customWidth:'600px'
                 }
             },
             components:{
@@ -265,6 +195,56 @@ import commonHeade from '../components/header.vue'
             mounted(){
             },
             methods: {
+                open() {
+                    this.$alert('这是一段内容', '标题名称', {
+                        confirmButtonText: '确定',
+                        callback: action => {
+                            this.$message({
+                            type: 'info',
+                            message: `action: ${ action }`
+                            });
+                        }
+                    });
+                },
+                addProject(){
+                    
+                    var obj = this.addProjectform
+                    if(!obj.name || !obj.desc){
+                        this.$alert('请输入项目名称和项目描述', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                // this.$message({
+                                //     type: 'info',
+                                //     message: `action: ${ action }`
+                                // });
+                            }
+                        });
+                    } else{
+                        this.dialogShow = false
+                    }
+                },
+                cancle(){
+                    // 取消按钮
+                    this.dialogShow = false
+                },
+                open3() {
+                    this.$prompt('请输入邮箱', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+                        inputErrorMessage: '邮箱格式不正确'
+                    }).then(({ value }) => {
+                        this.$message({
+                            type: 'success',
+                            message: '你的邮箱是: ' + value
+                        });
+                    }).catch(() => {
+                        // this.$message({
+                        //     type: 'info',
+                        //     message: '取消输入'
+                        // });       
+                    });
+                },
                 themOne(){
                     this.GLOBAL.chooseTheme = JSON.parse(JSON.stringify(this.GLOBAL.themeConfig.dark))
 
@@ -289,14 +269,11 @@ import commonHeade from '../components/header.vue'
 
             },
             created(){
-                this.layer.alert(content, [options, yes]);
             }
     }
 </script>
 <style scoped src='../../assets/css/palette.css' ></style>
 <style scoped src='../../assets/css/mypop.css' ></style>
-<style scoped src='../../assets/js/layer/mobile/need/layer.css' ></style>
-<style scoped src='../../assets/js/layer/mobile/need/layer.css' ></style>
 <style scoped>
 #main{
         background-image: linear-gradient(45deg, #20234f, #141a36);
@@ -322,10 +299,10 @@ import commonHeade from '../components/header.vue'
 .keshihua-table th {
     color: #8b9df9;
 }
-.keshihua-table tbody tr.oddTr {
+.keshihua-table tbody tr:nth-child(odd) {
     background-color: #23285a;
 }
-.keshihua-table tbody tr.evenTr {
+.keshihua-table tbody tr:nth-child(even) {
     background-color: #1d2751;
 }
 .keshihua-table td {
@@ -338,4 +315,9 @@ import commonHeade from '../components/header.vue'
 .ui-page-sort .right-tool .span-setting, .ui-page-sort .right-tool .span-number, .ui-page-sort .right-tool .span-number a, .ui-page-sort .right-tool .span-tool a {
     color: #838fa9;
 }
+#main .xiangmu-main .keshihua-table tr td.handle a {
+    margin-left: 10px;
+}
+
+
 </style>
