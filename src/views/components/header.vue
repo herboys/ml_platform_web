@@ -37,22 +37,35 @@
             <div class="header-right clearfix">
                 <i class="house-icon fl"></i>
                 <span class="fl span1" @command="changeColor" @click="changeTheme(this)" ref="changeTehme">换肤设置 
-                    <i class="arrow arrow-down" ref="arrow" v-show="isShow"> </i>
-                    <i class="arrow arrow-up" ref="arrow" v-show="!isShow"> </i>
+                    <i class="arrow arrow-down" ref="arrow" v-show="paletteShow"> </i>
+                    <i class="arrow arrow-up" ref="arrow" v-show="!paletteShow"> </i>
                 </span>
             </div>
 
 
         </header>
-        <!-- <div class="header">头部</div>
-        <el-dropdown  class="colorBtn " trigger="click"  @command="changeColor">
-            <span class="el-dropdown-link " >换肤</span>
-            <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="a"  @click="change_type(a)">梦幻粉</el-dropdown-item>
-            <el-dropdown-item command="b"  @click="change_type(b)">天空蓝</el-dropdown-item>
-            <el-dropdown-item command="c"  @click="change_type(c)">雾霾灰</el-dropdown-item>
-            </el-dropdown-menu>
-        </el-dropdown> -->
+        <div id="palette" class="palette animated" v-show="paletteShow">
+            <div class="palette-list">
+                <div class="title title1">整体风格设置</div>
+                <div class="content1 clearfix">
+                    <div class="flex flex1 fl" @click="themOne">
+                        <p class="p1"></p>
+                        <p class="p2"></p>
+                        <i class="check checked"></i>
+                    </div>
+                    <div class="flex flex2 fl" @click="themTwo">
+                        <p class="p1"></p>
+                        <p class="p2"></p>
+                        <i class="check"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-wrap clearfix">
+                <a class="cannel-btn" @click="cancle">取消</a>
+                <a class="success-btn" @click="confire">确认</a>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -62,7 +75,8 @@
                 return {
                     msg: 'Welcome to Your Vue.js App',
                     themeBox:false,
-                    isShowloginout:false
+                    isShowloginout:false,
+                    paletteShow:false
                 }
             },
             mounted(){
@@ -80,15 +94,29 @@
                 },
                 changeTheme(e){
                     var hasCss = this.$refs.arrow.className.split(',')
-                    this.$emit('showPalette',!this.isShow)
-                    console.log(this.isShow)
+                    // this.$emit('showPalette',!this.isShow)
+                    this.paletteShow = !this.paletteShow
+                    console.log(this.paletteShow)
                 },
                 showLoginout(){
                     this.isShowloginout = !this.isShowloginout
-                }
+                },
+                cancle(){
+                    this.paletteShow = false
+                    
+                },
+                confire(){
+                    this.paletteShow = false
+                },
+                themOne(){
+                    
+                },
+                themTwo(){
+                },
             }
     }
 </script>
+<style scoped src='../../assets/css/palette.css' ></style>
 <style scoped src='../../assets/css/header.css' ></style>
 <style scoped lang="less">
 #header{

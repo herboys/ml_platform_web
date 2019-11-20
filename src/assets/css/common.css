@@ -56,14 +56,26 @@
 }
 
 .el-button {
-    width: 192px;
+    width: 190px;
     line-height: 46px;
     padding: 0;
     text-align: center;
     font-size: 16px;
+    color: #a9b2dd;
+    background-color: #3e498b;
+    border: none;
 }
 
 .el-button--primary {
+    color: #fff;
+    background-color: #369bf0;
+    border: 0;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.el-message-box__btns button:nth-child(2) {
     color: #fff;
     background-color: #369bf0;
     border: 0;
@@ -90,7 +102,7 @@
     color: #fff;
     font-size: 20px;
     text-align: center;
-    padding: 12px 0 56px;
+    padding: 12px 0 20px;
 }
 
 .el-message-box__message p {
@@ -111,8 +123,7 @@
 
 .el-message-box__btns {
     margin: 20px auto;
-    width: 192px;
-    padding: 0;
+    text-align: center;
 }
 
 .el-message-box__headerbtn .el-message-box__close {

@@ -12,36 +12,8 @@
                     <a class="search-btn">检索项目<span class="icon iconfont icon-sousuo"></span> </a>
                     <a class="search-btn addNewObject" @click="dialogShow = true"> <span class="icon iconfont icon-zengjia" ></span> 新建项目</a>
                 </div>
-                <div class="table">
-                    <table class="keshihua-table" id="tableContent">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <input type="checkbox" id="toggleAll">
-                                    <span></span>
-                                </th>
-                                <th>项目名称</th>
-                                <th>描述</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr class="oddTr" v-for="(item,index) in 10" :key="index">
-                                <td><input type="checkbox" /><span class="toggle"></span></td>
-                                <td>高血压数据</td>
-                                <td>S/N</td>
-                                <td class="handle">
-                                    <a title="数据集" class="wenjian"><span class=" iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class=" iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-
-                    <div class="ui-page-sort">
+                <commonTable></commonTable>
+                <div class="ui-page-sort">
                         <div class="right-tool">
                             <span class="span-setting">
                                     每页条数
@@ -65,7 +37,6 @@
                                 </span>
                         </div>
                     </div>
-                </div>
 
 
 
@@ -73,28 +44,7 @@
         </section>
 
 
-        <div id="palette" class="palette animated" v-if="paletteShow">
-            <div class="palette-list">
-                <div class="title title1">整体风格设置</div>
-                <div class="content1 clearfix">
-                    <div class="flex flex1 fl" @click="themOne">
-                        <p class="p1"></p>
-                        <p class="p2"></p>
-                        <i class="check checked"></i>
-                    </div>
-                    <div class="flex flex2 fl" @click="themTwo">
-                        <p class="p1"></p>
-                        <p class="p2"></p>
-                        <i class="check"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="btn-wrap clearfix">
-                <a class="cannel-btn" @click="cancle">取消</a>
-                <a class="success-btn" @click="confire">确认</a>
-            </div>
-        </div>
+        
 
 
         <el-dialog  title="添加新项目" customClass="customWidth" :visible.sync="dialogShow" :center="true">
@@ -171,6 +121,7 @@
     </div>
 </template>
 <script>
+import commonTable from '../components/commonTable.vue'
 import commonHeade from '../components/header.vue'
     export default {
         name: "Project",
@@ -190,7 +141,7 @@ import commonHeade from '../components/header.vue'
                 }
             },
             components:{
-                commonHeade
+                commonHeade,commonTable
             },
             mounted(){
             },
@@ -223,10 +174,7 @@ import commonHeade from '../components/header.vue'
                         this.dialogShow = false
                     }
                 },
-                cancle(){
-                    // 取消按钮
-                    this.dialogShow = false
-                },
+                
                 open3() {
                     this.$prompt('请输入邮箱', '提示', {
                         confirmButtonText: '确定',
@@ -245,24 +193,8 @@ import commonHeade from '../components/header.vue'
                         // });       
                     });
                 },
-                themOne(){
-                    this.GLOBAL.chooseTheme = JSON.parse(JSON.stringify(this.GLOBAL.themeConfig.dark))
-
-                    less.modifyVars(JSON.parse(JSON.stringify(this.GLOBAL.chooseTheme)));
-                },
-                themTwo(){
-                    this.GLOBAL.chooseTheme = JSON.parse(JSON.stringify(this.GLOBAL.themeConfig.white))
-                    less.modifyVars(JSON.parse(JSON.stringify(this.GLOBAL.chooseTheme)));
-                },
-                cancle(){
-                    this.paletteShow = false
-                    this.GLOBAL.chooseTheme = JSON.parse(localStorage.getItem('themeRobot'));
-                    less.modifyVars(this.GLOBAL.chooseTheme);
-                },
-                confire(){
-                    this.paletteShow = false
-                    localStorage.setItem('themeRobot', JSON.stringify(this.GLOBAL.chooseTheme));
-                },
+                
+                
                 togglePalette(val){
                     this.paletteShow = val
                 }
@@ -272,7 +204,7 @@ import commonHeade from '../components/header.vue'
             }
     }
 </script>
-<style scoped src='../../assets/css/palette.css' ></style>
+
 <style scoped src='../../assets/css/mypop.css' ></style>
 <style scoped>
 #main{
@@ -292,26 +224,7 @@ import commonHeade from '../components/header.vue'
     background-image: linear-gradient(0deg, #02b09a, #08a1aa);
     border-radius: 4px;
 }
-.keshihua-table thead tr {
-    background-image: linear-gradient(0deg, #323a7b, #323a7a);
-    border-color: #505ba1;
-}
-.keshihua-table th {
-    color: #8b9df9;
-}
-.keshihua-table tbody tr:nth-child(odd) {
-    background-color: #23285a;
-}
-.keshihua-table tbody tr:nth-child(even) {
-    background-color: #1d2751;
-}
-.keshihua-table td {
-    color: #b1c8fe;
-    border-color: #505ba1;
-}
-.keshihua-table tr td input[type='checkbox'] + span, .keshihua-table th input[type='checkbox'] + span, .keshihua-table tr td input:checked + span, .keshihua-table th input:checked + span {
-    background-image: url(http://127.0.0.1:5500/images/dark/dark-icon-all.png);
-}
+
 .ui-page-sort .right-tool .span-setting, .ui-page-sort .right-tool .span-number, .ui-page-sort .right-tool .span-number a, .ui-page-sort .right-tool .span-tool a {
     color: #838fa9;
 }
