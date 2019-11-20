@@ -1,5 +1,4 @@
 <template>
-  <div>
   <div id="login-wrap" class="note"  >
 
         <div class="login-box-wrap">
@@ -34,7 +33,6 @@
             </ul>
         </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -63,7 +61,7 @@
 <style scoped src='../../assets/css/animate.min.css'></style>
 <style src="../../assets/aliIcon/iconfont.css"></style>
 <style scoped src='../../assets/css/login.css' ></style>
-<style lang="less" scoped>
 
+<style lang="less" scoped>
 
 </style>

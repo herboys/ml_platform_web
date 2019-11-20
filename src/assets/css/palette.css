@@ -30,6 +30,7 @@
     color: #fff;
     position: relative;
     text-indent: 20px;
+    line-height: 40px;
 }
 
 #palette .palette-list .title:before {
@@ -189,6 +190,7 @@
     padding: 8px 15px;
     border-radius: 4px;
     float: left;
+    line-height: 1.2;
 }
 
 #palette .btn-wrap a.cannel-btn {

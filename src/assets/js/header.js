@@ -10,6 +10,7 @@ function lineFn(obj) {
 
 
 lineFn("#header li.active");
+
 $("#header li").on("click", function(el) {
     var _this = $(this);
     lineFn(_this);

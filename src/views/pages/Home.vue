@@ -1,9 +1,12 @@
 <template>
     <div>
-        <div id="myChart" :style="{width: '300px', height: '300px'}"></div>
+        <Header></Header>
+        <router-view></router-view>
+        <!--<div id="myChart" :style="{width: '300px', height: '300px'}"></div>-->
     </div>
 </template>
 <script>
+    import  Header from  '@/views/components/header'
     export default {
         name: "Home",
         data () {
@@ -11,8 +14,9 @@
                 msg: 'Welcome to Your Vue.js App'
             }
         },
+        components:{Header},
         mounted(){
-            this.drawLine();
+            //this.drawLine();
         },
         methods: {
             drawLine(){

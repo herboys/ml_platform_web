@@ -8,8 +8,11 @@ Vue.use(ElementUI);
 
 import restCss from './assets/css/reset.css'
 import commonCss from './assets/css/public.css'
+require('./assets/css/palette.css')
 import mainCss from './assets/css/main.css'
+
 import echarts from 'echarts'
+
 Vue.prototype.$echarts = echarts
 import axios from './api/ajax'
 
