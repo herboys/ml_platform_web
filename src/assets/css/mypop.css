@@ -1,0 +1,201 @@
+.alert-box {
+    display: none;
+    background-image: linear-gradient(45deg, #33407a, #232761);
+    background-image: -webkit-linear-gradient(45deg, #33407a, #232761);
+}
+
+.alert-box .btn {
+    border: 0;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.alert-box .title {
+    height: 60px;
+    color: #c9cbd7;
+    font-size: 20px;
+    padding: 13px;
+    position: relative;
+}
+
+.alert-box .title .iconfont {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    font-size: 40px;
+    color: #fff;
+    z-index: 9;
+    cursor: pointer;
+}
+
+#alert-box-setOption .title,
+#alert-box-echarts .title,
+#alert-box-addNewObject .title,
+#alert-box-reviseNewObject .title {
+    background: rgba(59, 73, 140, 0.6);
+}
+
+#alert-box-setOption .content {
+    height: 302px;
+    padding: 25px 58px;
+}
+
+#alert-box-setOption .content p,
+#alert-box-addNewObject .content p,
+#alert-box-reviseNewObject .content p {
+    font-size: 16px;
+    color: #b1c8fe;
+    margin-bottom: 15px;
+}
+
+#alert-box-setOption .content input,
+#alert-box-addNewObject .content input,
+#alert-box-reviseNewObject .content input {
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #505ba1;
+    border-radius: 4px;
+    background-color: #243376;
+    margin-bottom: 18px;
+    text-indent: 15px;
+    color: #fff;
+}
+
+#alert-box-setOption .btn-wrap {
+    text-align: center;
+    margin-top: 24px;
+}
+
+#alert-box-setOption .btn-wrap .btnksh {
+    padding: 10px 18px;
+    color: #fff;
+    font-size: 16px;
+    background-image: linear-gradient(0deg, #359df1, #4a73e7);
+    background-image: -webkit-linear-gradient(0deg, #359df1, #4a73e7);
+}
+
+#alert-box-del .content {
+    padding: 0 62px 45px;
+}
+
+#alert-box-del .content-title {
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    padding: 12px 0 56px;
+}
+
+#alert-box-del .btn-wrap {
+    padding: 0 15px;
+}
+
+#alert-box-del .btn-wrap .btn {
+    font-size: 16px;
+    padding: 12px 40px;
+}
+
+#alert-box-del .btn-wrap .cancelBtn {
+    color: #a9b2dd;
+    background-color: #3e498b;
+}
+
+#alert-box-del .btn-wrap .okBtn {
+    color: #fff;
+    background-color: #369bf0;
+}
+
+#alert-box-echarts {
+    height: 448px;
+    overflow: hidden;
+}
+
+#alert-box-echarts .echarts {
+    height: 327px;
+}
+
+#alert-box-echarts .btn-download {
+    margin-bottom: 20px;
+    padding: 10px 26px;
+    color: #fff;
+    font-size: 16px;
+    background-image: linear-gradient(0deg, #359df1, #4a73e7);
+    background-image: -webkit-linear-gradient(0deg, #359df1, #4a73e7);
+}
+
+.bx-wrapper .bx-viewport {
+    background: none;
+    margin: 0;
+    padding: 0;
+}
+
+.bx-wrapper .bx-viewport {
+    border: 0;
+    left: 0;
+}
+
+.bx-wrapper .bx-controls-direction a {
+    width: 30px;
+    height: 50px;
+}
+
+.bx-wrapper .bx-prev,
+.bx-wrapper .bx-next {
+    width: 30px;
+    height: 50px;
+    background-image: none;
+    background-color: rgba(78, 78, 255, 0.5);
+}
+
+.bx-wrapper .bx-controls-direction a {
+    text-indent: 0;
+    color: #fff;
+    text-align: center;
+    line-height: 50px;
+}
+
+#alert-box-addNewObject .content,
+#alert-box-reviseNewObject .content {
+    padding: 25px 58px;
+}
+
+#alert-box-addNewObject .content textarea,
+#alert-box-reviseNewObject .content textarea {
+    width: 100%;
+    padding: 15px;
+    height: 200px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #505ba1;
+    border-radius: 4px;
+    background-color: #243376;
+    margin-bottom: 18px;
+    color: #fff;
+    outline: none;
+}
+
+#alert-box-addNewObject .btn-wrap,
+#alert-box-reviseNewObject .btn-wrap {
+    padding: 0 15px;
+}
+
+#alert-box-addNewObject .btn-wrap .btn,
+#alert-box-reviseNewObject .btn-wrap .btn {
+    font-size: 16px;
+    padding: 12px 80px;
+}
+
+#alert-box-addNewObject .btn-wrap .addBtn,
+#alert-box-reviseNewObject .btn-wrap .addBtn {
+    color: #fff;
+    background-color: #369bf0;
+}
+
+#alert-box-addNewObject .btn-wrap .backBtn,
+#alert-box-reviseNewObject .btn-wrap .backBtn {
+    color: #a9b2dd;
+    background-color: #3e498b;
+}

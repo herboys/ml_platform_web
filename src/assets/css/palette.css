@@ -1,0 +1,203 @@
+#palette {
+    padding: 20px 24px;
+    width: 230px;
+    color: #fff;
+    background: rgba(42, 61, 147, 0.8);
+    border-radius: 10px;
+    position: absolute;
+    z-index: 99999;
+    /* display: none; */
+    top: 74px;
+    right: 185px;
+    box-shadow: 0px 4px 10px #333;
+    -webkit-box-shadow: 0px 4px 10px #333;
+}
+
+#palette:after {
+    content: "";
+    position: absolute;
+    right: 18px;
+    top: -32px;
+    width: 0;
+    height: 0;
+    border-width: 16px;
+    border-style: solid;
+    border-color: transparent transparent rgba(42, 61, 147, 0.8) transparent;
+}
+
+#palette .palette-list .title {
+    font-size: 16px;
+    color: #fff;
+    position: relative;
+    text-indent: 20px;
+}
+
+#palette .palette-list .title:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transform: translate(0, -50%);
+    -webkit-transform: translate(0, -50%);
+}
+
+#palette .palette-list .title1:before {
+    background: #1ddbfd;
+}
+
+#palette .palette-list .title2:before,
+#palette .palette-list .title3:before {
+    background: #959595;
+}
+
+#palette .palette-list .content1 {
+    margin-top: 28px;
+    margin-bottom: 28px;
+}
+
+#palette .palette-list .content1 .flex {
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 48px;
+    height: 40px;
+    position: relative;
+    cursor: pointer;
+}
+
+#palette .palette-list .content1 .flex .p1 {
+    height: 10px;
+    border-radius: 6px 6px 0 0;
+}
+
+#palette .palette-list .content1 .flex1 .p1 {
+    background: #455cdc;
+}
+
+#palette .palette-list .content1 .flex2 .p1 {
+    background: #00a0e9;
+}
+
+#palette .palette-list .content1 .flex3 .p1 {
+    background: #4373ff;
+}
+
+#palette .palette-list .content1 .flex .p2 {
+    height: 30px;
+    border-radius: 0 0 6px 6px;
+    font-size: 14px;
+    text-align: center;
+    line-height: 30px;
+}
+
+#palette .palette-list .content1 .flex1 .p2 {
+    background: #4e95ff;
+    color: #283684;
+}
+
+#palette .palette-list .content1 .flex2 .p2 {
+    background: #ffffff;
+    color: #283684;
+}
+
+#palette .palette-list .content1 .flex3 .p2 {
+    background: #ffffff;
+    color: #283684;
+}
+
+#palette .palette-list .content1 .flex .check {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    right: -6px;
+    top: -6px;
+    background: url(../images/dark/unchecked-icon.png) no-repeat;
+    background-size: contain;
+}
+
+#palette .palette-list .content1 .flex .checked {
+    background: url(../images/dark/checked-icon.png) no-repeat;
+    background-size: contain;
+}
+
+#palette .palette-list .content2,
+#palette .palette-list .content3 {
+    margin-top: 18px;
+    margin-bottom: 18px;
+    margin-left: 6px;
+}
+
+#palette .palette-list .content2 i,
+#palette .palette-list .content3 i {
+    width: 28px;
+    height: 28px;
+    margin-left: 20px;
+    border-radius: 2px;
+    cursor: not-allowed;
+}
+
+#palette .palette-list .content2 .i1 {
+    background: #00a0e9;
+}
+
+#palette .palette-list .content2 .i2 {
+    background: #5543ff;
+}
+
+#palette .palette-list .content2 .i3 {
+    background: #0a71c1;
+}
+
+#palette .palette-list .content2 .i4 {
+    background: #1e9429;
+}
+
+#palette .palette-list .content2 .i5 {
+    background: #e03b56;
+}
+
+#palette .palette-list .content3 .i1 {
+    background: #ffffff;
+}
+
+#palette .palette-list .content3 .i2 {
+    background: #93eeff;
+}
+
+#palette .palette-list .content3 .i3 {
+    background: #0a71c1;
+}
+
+#palette .palette-list .content3 .i4 {
+    background: #ffe0b2;
+}
+
+#palette .palette-list .content3 .i5 {
+    background: #b5f4ff;
+}
+
+#palette .btn-wrap {
+    margin-left: 22px;
+    font-size: 0;
+    margin-top: 32px;
+}
+
+#palette .btn-wrap a {
+    font-size: 14px;
+    padding: 8px 15px;
+    border-radius: 4px;
+    float: left;
+}
+
+#palette .btn-wrap a.cannel-btn {
+    color: #3879f2;
+    background: #fff;
+    margin-right: 22px;
+}
+
+#palette .btn-wrap a.success-btn {
+    color: #fff;
+    background: #3879f2;
+}

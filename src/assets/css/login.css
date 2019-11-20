@@ -1,0 +1,150 @@
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    background-color: #0c1225;
+}
+
+#login-wrap {
+    position: relative;
+    height: 100vh;
+    min-height: 625px;
+    background-image: url(../images/public/loginbg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login-box-wrap {
+    background-color: rgba(20, 50, 96, 1);
+    border: 14px solid rgba(20, 50, 96, 1);
+    border-radius: 30px;
+    width: 27%;
+    position: absolute;
+    right: 8.3%;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+}
+
+.login-box {
+    background-color: #fff;
+    background-image: url(../../assets/images/public/login-t.png);
+    background-position: right 0;
+    background-repeat: no-repeat;
+    padding: 18% 12%;
+    border-radius: 25px;
+    position: relative;
+}
+
+.bg-bottom {
+    position: absolute;
+    left: -10%;
+    bottom: -12%;
+    width: 30%;
+    height: 30%;
+    background: url(../../assets/images/public/login-b.png) no-repeat;
+    background-size: contain;
+}
+
+.login-box input {
+    outline: none;
+    border: 0;
+    color: #6e7390;
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 10px 0;
+    text-indent: 25px;
+}
+
+.userName,
+.userPassword {
+    border-bottom: 1px solid #b8bcd0;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.userName i,
+.userPassword i {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 0;
+    bottom: 10px;
+}
+
+.userName i {
+    background-image: url(../../assets/images/public/user.png);
+}
+
+.userPassword i {
+    background-image: url(../../assets/images/public/password.png);
+}
+
+.userName i,
+.userPassword i {
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+.check {
+    color: #6e7390;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.check i {
+    margin-right: 5px;
+}
+
+#login {
+    margin-top: 50px;
+    padding: 10px 0;
+    width: 100%;
+    display: block;
+    height: 100%;
+    background-image: linear-gradient(90deg, #3c92e9, #2b6ace);
+    border-radius: 20px;
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+}
+
+.login-box-title {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.login-box-title img {
+    width: 220px;
+}
+
+.bg2 {
+    position: absolute;
+    top: 40%;
+    left: 18%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    background-image: url(../images/public/login-2.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 45%;
+    height: 60%;
+}
+
+.info {
+    position: absolute;
+    bottom: 15%;
+    left: 19%;
+}
+
+.info-list li {
+    letter-spacing: 1px;
+    color: #d9fff9;
+    font-size: 14px;
+    margin-top: 14px;
+    background: url(../images/public/login-li.png) no-repeat;
+    background-position: 0px 4px;
+    text-indent: 20px;
+}
