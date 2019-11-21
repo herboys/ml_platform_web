@@ -6,13 +6,14 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
-import restCss from './assets/css/reset.css'
-import commonCss from './assets/css/public.css'
+
+require('./assets/css/reset.css')
+require('./assets/css/public.css')
 require('./assets/css/palette.css')
-import mainCss from './assets/css/main.css'
+require('./assets/css/main.css')
+require('./assets/css/mypop.css')
 
 import echarts from 'echarts'
-
 Vue.prototype.$echarts = echarts
 import axios from './api/ajax'
 

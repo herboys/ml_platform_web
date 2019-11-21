@@ -1,7 +1,7 @@
 <template>
     <div>
         <commonHeade @showPalette="togglePalette" :isShow="paletteShow"></commonHeade>
-        
+
         <section id="main">
             <div class="keshihua-main xiangmu-main">
 

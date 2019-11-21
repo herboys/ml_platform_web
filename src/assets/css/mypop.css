@@ -32,7 +32,9 @@
 #alert-box-setOption .title,
 #alert-box-echarts .title,
 #alert-box-addNewObject .title,
-#alert-box-reviseNewObject .title {
+#alert-box-reviseNewObject .title,
+#alert-box-shujuyuchuli .title,
+#alert-box-shujujiTab .title {
     background: rgba(59, 73, 140, 0.6);
 }
 
@@ -78,32 +80,38 @@
     background-image: -webkit-linear-gradient(0deg, #359df1, #4a73e7);
 }
 
-#alert-box-del .content {
+#alert-box-del .content,
+#alert-box-del-fb .content {
     padding: 0 62px 45px;
 }
 
-#alert-box-del .content-title {
+#alert-box-del .content-title,
+#alert-box-del-fb .content-title {
     color: #fff;
     font-size: 20px;
     text-align: center;
     padding: 12px 0 56px;
 }
 
-#alert-box-del .btn-wrap {
+#alert-box-del .btn-wrap,
+#alert-box-del-fb .btn-wrap {
     padding: 0 15px;
 }
 
-#alert-box-del .btn-wrap .btn {
+#alert-box-del .btn-wrap .btn,
+#alert-box-del-fb .btn-wrap .btn {
     font-size: 16px;
     padding: 12px 40px;
 }
 
-#alert-box-del .btn-wrap .cancelBtn {
+#alert-box-del .btn-wrap .cancelBtn,
+#alert-box-del-fb .btn-wrap .cancelBtn {
     color: #a9b2dd;
     background-color: #3e498b;
 }
 
-#alert-box-del .btn-wrap .okBtn {
+#alert-box-del .btn-wrap .okBtn,
+#alert-box-del-fb .btn-wrap .okBtn {
     color: #fff;
     background-color: #369bf0;
 }
@@ -198,4 +206,265 @@
 #alert-box-reviseNewObject .btn-wrap .backBtn {
     color: #a9b2dd;
     background-color: #3e498b;
+}
+
+#alert-box-shujuyuchuli .content,
+#alert-box-shujujiTab .content {
+    padding: 26px 67px;
+}
+
+#alert-box-shujuyuchuli .content-item .name {
+    color: #adc5fa;
+    font-size: 16px;
+    margin-bottom: 18px;
+}
+
+#alert-box-shujuyuchuli .content-item1 .choose-wrap {
+    width: 206px;
+    float: left;
+    padding-left: 70px;
+}
+
+#alert-box-shujuyuchuli .content-item1 .choose-wrap label {
+    position: relative;
+}
+
+#alert-box-shujuyuchuli .content-item1 .choose-wrap label span {
+    margin-left: 7px;
+    color: #adc5fa;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+#alert-box-shujuyuchuli .content-item1 .choose-wrap .icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    background-image: url(../images/dark/dark-icon-all.png);
+    background-position: 0 -32px;
+    vertical-align: middle;
+}
+
+#alert-box-shujuyuchuli .content-item1 .choose-wrap input[type='checkbox'] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    opacity: 0;
+}
+
+#alert-box-shujuyuchuli .content-item1 .choose-wrap input:checked+i {
+    background-position: 0 -68px;
+}
+
+#alert-box-shujuyuchuli .content .content-item1,
+#alert-box-shujuyuchuli .content .content-item2 {
+    margin-bottom: 23px;
+}
+
+#alert-box-shujuyuchuli .content .content-item2 .select-wrap {
+    padding-left: 67px;
+}
+
+#alert-box-shujuyuchuli .content .content-item2 .select-wrap .select-wrap-half {
+    width: 50%;
+}
+
+#alert-box-shujuyuchuli .content .content-item2 .select-wrap .select-wrap-half p {
+    color: #b1c8fe;
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+#alert-box-shujuyuchuli .content .content-item2 .select-wrap .select-wrap-half .select {
+    position: relative;
+    width: 256px;
+    height: 35px;
+}
+
+#alert-box-shujuyuchuli .content .content-item2 .select-wrap .select-wrap-half select {
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    -webkit-appearance: none;
+    background-color: #243376;
+    border: 1px solid #505ba1;
+    border-radius: 4px;
+    outline: none;
+    position: relative;
+    background-image: url(../images/dark/dark-icon-other.png);
+    background-repeat: no-repeat;
+    background-position: 230px -218px;
+    color: #fff;
+    text-indent: 10px;
+}
+
+#alert-box-shujuyuchuli .content-item3 .choose-wrap {
+    width: 50%;
+    padding-bottom: 18px;
+}
+
+#alert-box-shujuyuchuli .btn-wrap {
+    text-align: center;
+}
+
+#alert-box-shujuyuchuli .btn-wrap button {
+    outline: none;
+    padding: 8px 10px;
+    font-size: 16px;
+    border: 0;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#alert-box-shujuyuchuli .btn-wrap button.more {
+    color: #a9b2dd;
+    background-color: #3e498b;
+    margin-right: 14px;
+}
+
+#alert-box-shujuyuchuli .btn-wrap button.dev {
+    color: #fff;
+    background-color: #4975e8;
+    margin-left: 14px;
+}
+
+#alert-box-shujujiTab .content .big-title {
+    font-size: 16px;
+    color: #fff;
+}
+
+#alert-box-shujujiTab .content .item-list {
+    margin-top: 40px;
+}
+
+#alert-box-shujujiTab .content .item-list>span {
+    width: 192px;
+    font-size: 16px;
+    color: #b1c8fe;
+    text-align: right;
+    line-height: 35px;
+    padding-right: 15px;
+}
+
+#alert-box-shujujiTab .content .item-list>div {
+    width: 380px;
+}
+
+#alert-box-shujujiTab .content .item-list>div select {
+    width: 310px;
+    height: 35px;
+    line-height: 35px;
+    -webkit-appearance: none;
+    background-color: #243376;
+    border: 1px solid #505ba1;
+    border-radius: 4px;
+    outline: none;
+    position: relative;
+    background-image: url(../images/dark/dark-icon-other.png);
+    background-repeat: no-repeat;
+    background-position: 280px -218px;
+    color: #fff;
+    text-indent: 10px;
+}
+
+#alert-box-shujujiTab .content .item-list>div input {
+    width: 310px;
+    height: 35px;
+    line-height: 35px;
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: 0;
+    border-bottom: 1px solid #505ba1;
+    outline: none;
+    color: #fff;
+    text-indent: 10px;
+}
+
+#alert-box-shujujiTab .content .item-list>div .pop {
+    position: relative;
+    padding-right: 10px;
+}
+
+#alert-box-shujujiTab .content .item-list>div .pop:hover .border-right {
+    display: block;
+}
+
+#alert-box-shujujiTab .content .item-list>div .pop .txt {
+    position: absolute;
+    z-index: 99;
+    left: 62px;
+    min-width: 180px;
+    border: 1px solid #4b6bb6;
+    background-color: #232b5e;
+    color: #b1c8fe;
+    font-size: 12px;
+    padding: 12px;
+    display: none;
+    line-height: 18px;
+    text-align: justify;
+    border-radius: 4px;
+}
+
+#alert-box-shujujiTab .content .item-list>div .wenhao {
+    color: #2a326c;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #505ba1;
+    margin-top: 7px;
+    margin-left: 7px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#alert-box-shujujiTab .content .item-list>div .wenhao i {
+    font-weight: bold;
+}
+
+#alert-box-shujujiTab .content .item-list>div .help {
+    line-height: 35px;
+    color: #505ba1;
+    margin-left: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+#alert-box-shujujiTab .content .item-list>div .pop:hover .txt {
+    display: block;
+}
+
+#alert-box-shujujiTab .content .item-list>div .pop:hover .wenhao {
+    background-color: #00ffff;
+}
+
+#alert-box-shujujiTab .content .item-list>div .pop:hover .help {
+    color: #fff;
+}
+
+#alert-box-shujujiTab .content .btn-save {
+    padding: 10px 38px;
+    cursor: pointer;
+    color: #fff;
+    border: 0;
+    border-radius: 4px;
+    margin-top: 40px;
+    outline: none;
+    background-image: linear-gradient(0deg, #359df1, #4a73e7);
+    background-image: -webkit-linear-gradient(0deg, #359df1, #4a73e7);
+}
+
+.border-right {
+    display: none;
+    width: 0;
+    height: 0;
+    border-right: 4px solid #4b6bb6;
+    border-bottom: 4px solid transparent;
+    border-top: 4px solid transparent;
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
 }

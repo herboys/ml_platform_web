@@ -14,17 +14,11 @@
                         </select>
                     </div>
                     <span class="s1 fl">时间选择：</span>
-                    <div class="time-wrap fl">
-                        <i class="icon"></i>
-                        <input type="text" id="beginTime" class="beginTime input" />
-                    </div>
+                    <input-time-pick @done="changeStartTime" class-name-user="aaa"></input-time-pick>
 
                     <span class="fl line">-</span>
 
-                    <div class="time-wrap fl">
-                        <i class="icon"></i>
-                        <input type="text" id="endTime" class="endTime input" />
-                    </div>
+                    <input-time-pick @done="changeEndTime"></input-time-pick>
 
                     <a class="search-btn">查询<i class="icon"></i></a>
                 </div>
@@ -57,7 +51,7 @@
                             <td class="status finished">已完成</td>
                             <td class="handle">
                                 <a class="look">查看</a>
-                                <a class="del"><span class="iconfont icon-shanchu"></span></a>
+                                <a @click="dialogDelete" class="del"><span class="iconfont icon-shanchu"></span></a>
                             </td>
                         </tr>
                         <tr class="evenTr">
@@ -205,26 +199,54 @@
 
             </div>
         </section>
+
         <!-- 弹窗删除 -->
-        <div class="alert-box" id="alert-box-del">
+        <div class="alert-box" ref="alertBoxDel" id="alert-box-del" style="display: none;">
             <div class="title text-c">
-                <span class="close iconfont icon-cross-fill"></span>
+                <span @click="closeDialog" class="close iconfont icon-cross-fill"></span>
             </div>
             <div class="content alert-box-content">
                 <p class="content-title">确定要删除此可视化项目？</p>
                 <div class="btn-wrap clearfix">
-                    <button class="btn cancelBtn fl">取消</button>
-                    <button class="btn okBtn fr">确认</button>
+                    <button @click="closeDialog" class="btn cancelBtn fl">取消</button>
+                    <button @click="closeDialog" class="btn okBtn fr">确认</button>
                 </div>
             </div>
         </div>
+
     </div>
 </template>
 
 <script>
+    import inputTimePick from '../components/inputTimePick'
     export default  {
         data(){
-            return {}
+            return {
+                startTime:"",
+                endTime:"",
+            }
+        },
+        components:{inputTimePick},
+        methods:{
+            changeStartTime(time){
+                this.startTime=time;
+            },
+            changeEndTime(time){
+                this.endTime=time;
+            },
+            dialogDelete(id){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    anim: 2,
+                    closeBtn: 0,
+                    area: [1000, 1000], //宽高
+                    content: $('#alert-box-del'),
+                });
+            },
+            closeDialog(){
+                layer.closeAll();
+            }
         }
     }
 </script>

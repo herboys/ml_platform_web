@@ -2,13 +2,14 @@ html,
 body {
     height: 100%;
     overflow: hidden;
+}
+
+body {
     background-color: #0c1225;
 }
 
 #login-wrap {
-    position: relative;
-    height: 100vh;
-    min-height: 625px;
+    height: 100%;
     background-image: url(../images/public/loginbg.jpg);
     background-repeat: no-repeat;
     background-size: cover;
@@ -28,7 +29,7 @@ body {
 
 .login-box {
     background-color: #fff;
-    background-image: url(../../assets/images/public/login-t.png);
+    background-image: url(../images/public/login-t.png);
     background-position: right 0;
     background-repeat: no-repeat;
     padding: 18% 12%;
@@ -42,7 +43,7 @@ body {
     bottom: -12%;
     width: 30%;
     height: 30%;
-    background: url(../../assets/images/public/login-b.png) no-repeat;
+    background: url(../images/public/login-b.png) no-repeat;
     background-size: contain;
 }
 
@@ -75,11 +76,11 @@ body {
 }
 
 .userName i {
-    background-image: url(../../assets/images/public/user.png);
+    background-image: url(../images/public/user.png);
 }
 
 .userPassword i {
-    background-image: url(../../assets/images/public/password.png);
+    background-image: url(../images/public/password.png);
 }
 
 .userName i,

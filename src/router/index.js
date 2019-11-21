@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../views/pages/Login.vue'
 import Home from '../views/pages/Home'
 import Visual from '../views/pages/Visual'
-import Project from '../views/pages/Project.vue'
+//import Project from '../views/pages/Project.vue'
 import Explain from '../views/pages/Explain.vue'
 
 Vue.use(VueRouter)
@@ -44,14 +44,14 @@ const routes = [{
         ]
     },
 
-    {
+    /*{
         path: '/project',
         name: Project,
         component: Project,
         meta: {
             title: '项目'
         }
-    }
+    }*/
 ]
 
 const router = new VueRouter({
