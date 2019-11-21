@@ -73,9 +73,6 @@ color: @fff333;
 .keshihua-table tbody tr:nth-child(even){
     background-color:@keshihuaTableTbodyTrEvenBg;
 }
-.keshihua-table tbody tr.sonTr{
-    background-color:#151b3c;
-}
 .keshihua-table td{
     color: @keshihuaTableTbodyTdColor;
     border-color:@keshihuaTableBorderColor;
@@ -95,23 +92,15 @@ color: @fff333;
 #main .keshihua-main .search-wrap .search-btn{
     background-image:@mainKeshihuamainsearchwrapsearchbtnBgImage;
 }
-#main .keshihua-table tr td.handle a.look,#main .keshihua-table tr td.handle a.pretreatment{
+#main .keshihua-table tr td.handle a.look{
+    color: @keshihuaTableHandleLook;
+    border-color:@keshihuaTableHandleLook;
     border-style: solid;
     border-width: 1px;
     border-radius: 10px;
     padding: 4px 10px;
     margin-right: 10px;
 }
-#main .keshihua-table tr td.handle a.look{
-    color: @keshihuaTableHandleLook;
-    border-color:@keshihuaTableHandleLook;
-}
-
-#main .shujuji-table tr td.handle a.pretreatment{
-    color: @keshihuaTableHandlePretreatment;
-    border-color:@keshihuaTableHandlePretreatment;
-}
-
 #main .keshihua-table tr td.handle a.del{
     color: @keshihuaTableHandleDel;
 }
@@ -122,21 +111,21 @@ color: @fff333;
     background-image:@keshihuatableChecked;
 }
 
-// #tableContent .bgc-change2{
-//     border: 0;
-// }
+#tableContent .bgc-change2{
+    border: 0;
+}
 
-// #tableContent .bgc-change{
-//     border-left-style: solid;
-//     border-left-width: 1px;
-//     border-left-color:@keshihuaTableBorderColor;
-//     border-right-style: solid;
-//     border-right-width: 1px;
-//     border-right-color:@keshihuaTableBorderColor;
-// }
-// #tableContent .bgc-change3{
-// background-color: @keshihuaTableTbodyTrOddBg;
-// }
+#tableContent .bgc-change{
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-left-color:@keshihuaTableBorderColor;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color:@keshihuaTableBorderColor;
+}
+#tableContent .bgc-change3{
+background-color: @keshihuaTableTbodyTrOddBg;
+}
 #main .keshihua-main .search-wrap .line{
     color: @fff333;
 }

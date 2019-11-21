@@ -1,7 +1,7 @@
 <template>
-    <div class="wrapbody">
+    <div>
         <commonHeade @showPalette="togglePalette" :isShow="paletteShow"></commonHeade>
-
+        
         <section id="main">
             <div class="keshihua-main xiangmu-main">
 
@@ -116,15 +116,15 @@
             </div>
         </el-dialog>
         <!-- 弹窗删除 -->
-        <div class="alert-box" ref="alertBoxDel" id="alert-box-del" style="display: none;">
+        <div class="alert-box" id="alert-box-del">
             <div class="title text-c">
-                <span @click="closeDialog" class="close iconfont icon-cross-fill"></span>
+                <span class="close iconfont icon-cross-fill"></span>
             </div>
             <div class="content alert-box-content">
                 <p class="content-title">确定要删除此可视化项目？</p>
                 <div class="btn-wrap clearfix">
-                    <button @click="closeDialog" class="btn cancelBtn fl">取消</button>
-                    <button @click="closeDialog" class="btn okBtn fr">确认</button>
+                    <button class="btn cancelBtn fl">取消</button>
+                    <button class="btn okBtn fr">确认</button>
                 </div>
             </div>
         </div>
@@ -134,7 +134,7 @@
         <div class="alert-box" id="alert-box-addNewObject">
             <div class="title text-c">
                 添加新项目
-                <span class="close iconfont icon-cross-fill"  @click="closeDialog"></span>
+                <span class="close iconfont icon-cross-fill"></span>
             </div>
             <div class="content alert-box-content">
                 <p>项目名称</p>
@@ -143,8 +143,8 @@
                 <textarea></textarea>
 
                 <div class="btn-wrap clearfix">
-                    <button class="btn addBtn fl"  @click="closeDialog">添加</button>
-                    <button class="btn backBtn fr"  @click="closeDialog">返回</button>
+                    <button class="btn addBtn fl">添加</button>
+                    <button class="btn backBtn fr">返回</button>
                 </div>
             </div>
         </div>
@@ -154,7 +154,7 @@
         <div class="alert-box" id="alert-box-reviseNewObject">
             <div class="title text-c">
                 修改该项目
-                <span class="close iconfont icon-cross-fill"  @click="closeDialog"></span>
+                <span class="close iconfont icon-cross-fill"></span>
             </div>
             <div class="content alert-box-content">
                 <p>项目名称</p>
@@ -163,8 +163,8 @@
                 <textarea></textarea>
 
                 <div class="btn-wrap clearfix">
-                    <button class="btn addBtn fl"  @click="closeDialog">添加</button>
-                    <button class="btn backBtn fr"  @click="closeDialog">返回</button>
+                    <button class="btn addBtn fl">添加</button>
+                    <button class="btn backBtn fr">返回</button>
                 </div>
             </div>
         </div>
