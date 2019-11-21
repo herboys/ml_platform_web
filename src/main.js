@@ -11,6 +11,8 @@ import mainCss from './assets/css/main.css'
 import echarts from 'echarts'
 import commonCss from './assets/css/common.css'
 import iconFont from './assets/aliIcon/iconfont.css'
+import qs from 'qs'
+Vue.prototype.$qs = qs
 Vue.prototype.$echarts = echarts
 import axios from './api/ajax'
 

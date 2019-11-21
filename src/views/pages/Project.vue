@@ -7,9 +7,9 @@
 
                 <div class="search-wrap clearfix">
                     <span class="s1 fl">项目名称：</span>
-                    <input type="text" class="fl input input1" />
+                    <input type="text" class="fl input input1" v-model="searchKey" placeholder="请输入检索项目名称" />
 
-                    <a class="search-btn">检索项目<span class="icon iconfont icon-sousuo"></span> </a>
+                    <a class="search-btn" href="javascript:void(0)" @click="searchProject">检索项目<span class="icon iconfont icon-sousuo"></span> </a>
                     <a class="search-btn addNewObject" @click="dialogShow = true"> <span class="icon iconfont icon-zengjia" ></span> 新建项目</a>
                 </div>
                 <!-- <commonTable></commonTable> -->
@@ -18,7 +18,7 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <input type="checkbox" id="toggleAll">
+                                    <input type="checkbox" @click="isCheckAll = !isCheckAll,checkAll()" :checked="isCheckAll" id="toggleAll">
                                     <span></span>
                                 </th>
                                 <th>项目名称</th>
@@ -28,39 +28,22 @@
                         </thead>
 
                         <tbody>
-                            <tr v-for="(item,index) in 10" :key="index">
-                                <td><input type="checkbox" /><span class="toggle"></span></td>
-                                <td>高血压数据</td>
-                                <td>S/N</td>
+                            <tr v-for="(item,index) in projectList" :key="index">
+                                <td ><input type="checkbox" :checked="item.checked"  @click="toggleCheckbox(item,index)"/><span class="toggle"></span></td>
+                                <td>{{item.projectName}}</td>
+                                <td>{{item.projectDescribe}}</td>
                                 <td class="handle">
                                     <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
 
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai" @click="dialogupShow = true"></span></a>
-                                    
-                                    <a title="删除" class="shanchu" @click="deleteProject"><span class="iconfont icon-shanchu"></span></a>
+                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai" @click="updateText(item)"></span></a>
+
+                                    <a title="删除" class="shanchu" @click="deleteProject(item.id)"><span class="iconfont icon-shanchu"></span></a>
                                 </td>
                             </tr>
 
                         </tbody>
                     </table>
-                    <el-dialog  title="修改新项目"  :visible.sync="dialogupShow" :center="true">
-                        <el-form :model="updateProjectform">
-                            <el-form-item label="修改名称" :label-width="formLabelWidth">
-                                <el-input v-model="updateProjectform.name" autocomplete="off"></el-input>
-                            </el-form-item>
-                            <el-form-item label="修改描述" :label-width="formLabelWidth">
-                                <el-form-item >
-                                    <el-input type="textarea" v-model="updateProjectform.desc" ></el-input>
-                                </el-form-item>
-                            </el-form-item>
-                            
-                        </el-form>
-                        <div slot="footer" class="dialog-footer">
-                            <el-button type="primary" @click="updateProject()">修 改</el-button>
-                            <el-button @click="dialogupShow = false">取 消</el-button>
-                            
-                        </div>
-                    </el-dialog>
+                    
 
                     
                 </div>
@@ -68,23 +51,21 @@
                         <div class="right-tool">
                             <span class="span-setting">
                                     每页条数
-                                    <select class="select-text">
-                                        <option>5</option>
-                                        <option>10</option>
-                                        <option>25</option>
+                                    <select class="select-text" v-model="pageSize">
+                                        <option v-for="(item,index) in options" :key="index" :value="item.value">{{item.value}}</option>
                                     </select>
                                 </span>
 
                             <span class="span-number">
                                     转到
-                                    <input class="input-text" type="text" />
-                                    <a class="go-btn" href="">GO</a>
+                                    <input class="input-text" type="text" v-model="page" />
+                                    <a class="go-btn" href="javascript:void(0);" @click="goPage()">GO</a>
                                 </span>
 
                             <span class="span-tool">
-                                    <a class="page-a" href="javascript:void(0);">首页</a>
-                                    <a class="page-a" href="javascript:void(0);">下一页</a>
-                                    <a class="page-a" href="javascript:void(0);">末页</a>
+                                    <a class="page-a" href="javascript:void(0);" @click="page = 1,getProjeclist()">首页</a>
+                                    <a class="page-a" href="javascript:void(0);" @click="nextPage">下一页</a>
+                                    <a class="page-a" href="javascript:void(0);" @click="page = maxPage,getProjeclist()">末页</a>
                                 </span>
                         </div>
                     </div>
@@ -113,6 +94,24 @@
             <div slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="addProject()">添 加</el-button>
                 <el-button @click="dialogShow = false">返 回</el-button>
+                
+            </div>
+        </el-dialog>
+        <el-dialog  title="修改新项目"  :visible.sync="dialogupShow" :center="true">
+            <el-form :model="updateProjectform">
+                <el-form-item label="修改名称" :label-width="formLabelWidth">
+                    <el-input v-model="updateProjectform.name" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="修改描述" :label-width="formLabelWidth">
+                    <el-form-item >
+                        <el-input type="textarea" v-model="updateProjectform.desc" ></el-input>
+                    </el-form-item>
+                </el-form-item>
+                
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="updateProject()">修 改</el-button>
+                <el-button @click="dialogupShow = false">取 消</el-button>
                 
             </div>
         </el-dialog>
@@ -174,6 +173,13 @@
 <script>
 import commonTable from '../components/commonTable.vue'
 import commonHeade from '../components/header.vue'
+  import qs from 'qs'
+  const parseForm = qs.stringify
+  function packup (data = {}) {
+        return parseForm({
+            projectDto: JSON.stringify(data)
+        })
+    }
     export default {
         name: "Project",
             data () {
@@ -184,7 +190,6 @@ import commonHeade from '../components/header.vue'
                     dialogupShow:false,
                     addProjectform: {
                         name: '',
-                        delivery: false,
                         desc: '',
                         
                     },
@@ -192,10 +197,24 @@ import commonHeade from '../components/header.vue'
                     customWidth:'600px',
                     updateProjectform: {
                         name: '',
-                        delivery: false,
                         desc: '',
+                        id:null
                     },
                     formLabelWidth: '100%',
+                    projectList:[],
+                    isCheckAll:false,
+                    newList:[],
+                    searchKey:'',
+                    page:1,
+                    pageSize:5,
+                    maxPage:null,
+                    userId:1,
+                    options:[
+                        {value:5},
+                        {value:10},
+                        {value:20},
+                    ],
+                    total:null
                 }
             },
             components:{
@@ -203,61 +222,56 @@ import commonHeade from '../components/header.vue'
             },
             mounted(){
             },
-            methods: {
-                open() {
-                    this.$alert('这是一段内容', '标题名称', {
-                        confirmButtonText: '确定',
-                        callback: action => {
-                            this.$message({
-                            type: 'info',
-                            message: `action: ${ action }`
-                            });
-                        }
-                    });
+            watch:{
+                searchKey(val){
+                    if(!val){
+                        this.getProjeclist()
+                    }
                 },
+                pageSize(val){
+                    this.getProjeclist()
+                }
+            },
+            methods: {
                 addProject(){
-                    
+                    var that = this
                     var obj = this.addProjectform
                     if(!obj.name || !obj.desc){
                         this.$alert('请输入项目名称和项目描述', '提示', {
                             confirmButtonText: '确定',
-                            callback: action => {
-                                // this.$message({
-                                //     type: 'info',
-                                //     message: `action: ${ action }`
-                                // });
-                            }
                         });
                     } else{
                         this.dialogShow = false
+                        let paramsData={
+                            'projectDescribe': that.addProjectform.name,
+                            'projectName': that.addProjectform.desc,
+                            'userId': that.userId
+                        }
+                  
+                        that.$axios.post(
+                            `api/project/save`,
+                            paramsData
+                        )
+                        .then((res) => {
+                            that.addProjectform.name =''
+                            that.addProjectform.desc = ''
+                            that.getProjeclist()
+                          
+                        })
                     }
                 },
-                
-                open3() {
-                    this.$prompt('请输入邮箱', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-                        inputErrorMessage: '邮箱格式不正确'
-                    }).then(({ value }) => {
-                        this.$message({
-                            type: 'success',
-                            message: '你的邮箱是: ' + value
-                        });
-                    }).catch(() => {
-                        // this.$message({
-                        //     type: 'info',
-                        //     message: '取消输入'
-                        // });       
-                    });
-                },
-                
-                
                 togglePalette(val){
                     this.paletteShow = val
                 },
+                updateText(item){
+                    this.dialogupShow = true
+                    this.updateProjectform.name = item.projectName
+                    this.updateProjectform.desc = item.projectDescribe
+                    this.updateProjectform.id = item.id
+                },
                 updateProject(){
                     var obj = this.updateProjectform
+                    var that=this
                     if(!obj.name || !obj.desc){
                         this.$alert('请输入修改名称和修改描述', '提示', {
                             confirmButtonText: '确定',
@@ -270,30 +284,154 @@ import commonHeade from '../components/header.vue'
                         });
                     } else{
                         this.dialogupShow = false
+                        let paramsData={
+                            "id": that.updateProjectform.id,
+                            "projectDescribe": that.updateProjectform.desc,
+                            "projectName": that.updateProjectform.name,
+                            "userId": that.userId
+                        }
+                  
+                        that.$axios.post(
+                            `api/project/update`,
+                            paramsData
+                        )
+                        .then((res) => {
+                            that.updateProjectform.name =''
+                            that.updateProjectform.desc = ''
+                            that.updateProjectform.id =null
+                            that.getProjeclist()
+                          
+                        })
                     }
                 },
-                deleteProject(){
-                    this.$confirm('确定要删除此可视化项目?', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            // type: 'warning',
-                            dangerouslyUseHTMLString: true
+                deleteProject(id){
+                    let that = this
+                    let paramData={
+                        projectId:id
+                    }
+                    that.$confirm('确定要删除此可视化项目?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        // type: 'warning'
                         }).then(() => {
-                            this.$message({
+                            that.$axios.get(
+                                `api/project/delete`,
+                                {
+                                    params:paramData,
+                                })
+                                .then((res) => {
+                                    that.getProjeclist()
+                                })
+                            that.$message({
                                 type: 'success',
                                 message: '删除成功!'
                             });
-
                         }).catch(() => {
-                            this.$message({
+                            that.$message({
                                 type: 'info',
                                 message: '已取消删除'
                             });          
                     });
                 },
+                getProjeclist(){
+                    // 获得项目列表
+                    var that = this
+                    
+                    var paramData={
+                        search:that.searchKey,
+                        userId:that.userId,
+                        page:that.page || 1,
+                        size:that.pageSize
+                    }
+                    that.$axios.get(
+                        `api/project/list`,
+                        {
+                            params:paramData,
+                        })
+                        .then((res) => {
+                            if(res.data=='获取为空'){
+                                that.projectList =[]
+                                that.$message('抱歉，没有找到对应数据');
+                            } else {
+                                that.projectList = res.data.list
+                                that.projectList.map(item=>{
+                                    item.checked = false
+                                })
+                            }
+                            that.total=res.data.count
+                            that.maxPage =Math.ceil(that.total/that.pageSize) 
+                        })
+                },
+                toggleCheckbox(item,index){
+                    // 复选框切换
+                    item.checked = !item.checked
+                    var that= this
+                    var i =0
+                    that.projectList.forEach(item=>{
+                        if(item.checked){
+                            i++
+                        } else {
+                            this.isCheckAll = false
+                        }
+                        
+                    })
+                    if(i == that.projectList.length){
+                        that.isCheckAll = true
+                    }
+
+                },
+                checkAll(){
+                    // 全选
+                    var that = this
+                    that.projectList.filter((item,index)=>{
+                            if(that.isCheckAll){
+                                // item.checked = true
+                                that.$set(that.projectList,index,{checked:true,projectDescribe:item.projectDescribe,projectName:item.projectName,userId:item.userId})
+                            } else{
+                                // item.checked = false
+                                that.$set(that.projectList,index,{checked:false,projectDescribe:item.projectDescribe,projectName:item.projectName,userId:item.userId})
+                            }
+                        
+                    })
+                    
+                },
+                searchProject(){
+                    if(!this.searchKey){
+                       this.$alert('检索项目名称不能为空', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                // this.$message({
+                                //     type: 'info',
+                                //     message: `action: ${ action }`
+                                // });
+                            }
+                        });
+                    } else {
+                        this.getProjeclist()
+                    }
+                    
+                },
+                nextPage(){
+                    if(this.page == this.maxPage){
+                        this.$message('当前是最后一页');
+                    } else {
+                        this.page++
+                        this.getProjeclist()
+                    }
+                },
+                goPage(){
+                    if(this.page >this.maxPage){
+                        this.$message('当前数据一共'+this.maxPage +'页');
+                        return
+                    } else {
+                        this.getProjeclist()
+                    }
+                }
 
             },
             created(){
+                this.getProjeclist()
+              
             }
     }
 </script>

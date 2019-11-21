@@ -63,16 +63,16 @@
     font-size: 16px;
     color: #a9b2dd;
     background-color: #3e498b;
-    border: none;
+    border: 0;
 }
 
 .el-button--primary {
-    color: #fff;
-    background-color: #369bf0;
     border: 0;
     border-radius: 4px;
     outline: none;
     cursor: pointer;
+    color: #a9b2dd;
+    background-color: #3e498b;
 }
 
 .el-message-box__btns button:nth-child(2) {
