@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="wrapbody">
         <section id="main">
             <div class="main-body">
                 <p class="top clearfix">
@@ -177,3 +177,10 @@
         }
     }
 </script>
+<style scoped>
+#main .main-body .top .btn-wrap .a1{margin-right: 8px;}
+#main .main-body .top .select-wrap .select{
+    appearance: none;
+    -webkit-appearance: none;
+}
+</style>

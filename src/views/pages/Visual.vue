@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="wrapbody">
         <section id="main">
             <div class="keshihua-main">
 
@@ -42,7 +42,7 @@
                         </thead>
 
                         <tbody>
-                        <tr data-control="1" class="oddTr">
+                        <tr class="oddTr">
                             <td><input type="checkbox" /><span class="toggle"></span></td>
                             <td>高血压数据</td>
                             <td>medcine</td>
@@ -63,10 +63,9 @@
                             <td class="status notFinished">未完成</td>
                             <td class="handle">
                                 <a class="look">查看</a>
-                                <a class="del"><span class="iconfont icon-shanchu"></span></a>
+                                <a @click="dialogDelete" class="del"><span class="iconfont icon-shanchu"></span></a>
                             </td>
                         </tr>
-
                         <tr class="oddTr">
                             <td><input type="checkbox" /><span class="toggle"></span></td>
                             <td>高血压数据</td>
@@ -76,7 +75,7 @@
                             <td class="status finished">已完成</td>
                             <td class="handle">
                                 <a class="look">查看</a>
-                                <a class="del"><span class="iconfont icon-shanchu"></span></a>
+                                <a @click="dialogDelete" class="del"><span class="iconfont icon-shanchu"></span></a>
                             </td>
                         </tr>
                         <tr class="evenTr">
@@ -88,10 +87,9 @@
                             <td class="status notFinished">未完成</td>
                             <td class="handle">
                                 <a class="look">查看</a>
-                                <a class="del"><span class="iconfont icon-shanchu"></span></a>
+                                <a @click="dialogDelete" class="del"><span class="iconfont icon-shanchu"></span></a>
                             </td>
                         </tr>
-
                         <tr class="oddTr">
                             <td><input type="checkbox" /><span class="toggle"></span></td>
                             <td>高血压数据</td>
@@ -101,7 +99,7 @@
                             <td class="status finished">已完成</td>
                             <td class="handle">
                                 <a class="look">查看</a>
-                                <a class="del"><span class="iconfont icon-shanchu"></span></a>
+                                <a @click="dialogDelete" class="del"><span class="iconfont icon-shanchu"></span></a>
                             </td>
                         </tr>
                         <tr class="evenTr">
@@ -113,10 +111,9 @@
                             <td class="status notFinished">未完成</td>
                             <td class="handle">
                                 <a class="look">查看</a>
-                                <a class="del"><span class="iconfont icon-shanchu"></span></a>
+                                <a @click="dialogDelete" class="del"><span class="iconfont icon-shanchu"></span></a>
                             </td>
                         </tr>
-
                         <tr class="oddTr">
                             <td><input type="checkbox" /><span class="toggle"></span></td>
                             <td>高血压数据</td>
@@ -126,7 +123,7 @@
                             <td class="status finished">已完成</td>
                             <td class="handle">
                                 <a class="look">查看</a>
-                                <a class="del"><span class="iconfont icon-shanchu"></span></a>
+                                <a @click="dialogDelete" class="del"><span class="iconfont icon-shanchu"></span></a>
                             </td>
                         </tr>
                         <tr class="evenTr">
@@ -138,10 +135,9 @@
                             <td class="status notFinished">未完成</td>
                             <td class="handle">
                                 <a class="look">查看</a>
-                                <a class="del"><span class="iconfont icon-shanchu"></span></a>
+                                <a @click="dialogDelete" class="del"><span class="iconfont icon-shanchu"></span></a>
                             </td>
                         </tr>
-
                         <tr class="oddTr">
                             <td><input type="checkbox" /><span class="toggle"></span></td>
                             <td>高血压数据</td>
@@ -151,7 +147,7 @@
                             <td class="status finished">已完成</td>
                             <td class="handle">
                                 <a class="look">查看</a>
-                                <a class="del"><span class="iconfont icon-shanchu"></span></a>
+                                <a @click="dialogDelete" class="del"><span class="iconfont icon-shanchu"></span></a>
                             </td>
                         </tr>
                         <tr class="evenTr">
@@ -163,9 +159,36 @@
                             <td class="status notFinished">未完成</td>
                             <td class="handle">
                                 <a class="look">查看</a>
-                                <a class="del"><span class="iconfont icon-shanchu"></span></a>
+                                <a @click="dialogDelete" class="del"><span class="iconfont icon-shanchu"></span></a>
                             </td>
                         </tr>
+                        <tr class="oddTr">
+                            <td><input type="checkbox" /><span class="toggle"></span></td>
+                            <td>高血压数据</td>
+                            <td>medcine</td>
+                            <td>可视化就绪</td>
+                            <td>03:25:12</td>
+                            <td class="status finished">已完成</td>
+                            <td class="handle">
+                                <a class="look">查看</a>
+                                <a @click="dialogDelete" class="del"><span class="iconfont icon-shanchu"></span></a>
+                            </td>
+                        </tr>
+                        <tr class="evenTr">
+                            <td><input type="checkbox" /><span class="toggle"></span></td>
+                            <td>高血压数据</td>
+                            <td>medcine</td>
+                            <td>可视化就绪</td>
+                            <td>03:25:12</td>
+                            <td class="status notFinished">未完成</td>
+                            <td class="handle">
+                                <a class="look">查看</a>
+                                <a @click="dialogDelete" class="del"><span class="iconfont icon-shanchu"></span></a>
+                            </td>
+                        </tr>
+
+        
+                        
                         </tbody>
                     </table>
 
@@ -240,7 +263,7 @@
                     title: false,
                     anim: 2,
                     closeBtn: 0,
-                    area: [1000, 1000], //宽高
+                    area: ['422px', 1000], //宽高
                     content: $('#alert-box-del'),
                 });
             },
@@ -250,3 +273,9 @@
         }
     }
 </script>
+<style scoped>
+#main .keshihua-main .select-con .icon{
+    appearance: none;
+    -webkit-appearance: none;
+}
+</style>

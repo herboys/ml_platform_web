@@ -43,7 +43,8 @@ var themeConfig = {
         mainKeshihuamainsearchwrapsearchbtnBgImage: "linear-gradient(0deg, #02b09a, #08a1aa)",
         keshihuaTableHandleLook: "#00c1a9",
         keshihuaTableHandleDel: "#77829e",
-        keshihuatableChecked: 'url(../images/dark/dark-icon-all.png)'
+        keshihuatableChecked: 'url(../images/dark/dark-icon-all.png)',
+        keshihuaTableHandlePretreatment: "#3f97f1"
     },
     white: {
         index: 2,
@@ -89,7 +90,8 @@ var themeConfig = {
         mainKeshihuamainsearchwrapsearchbtnBgImage: "linear-gradient(0deg, #36a5f2, #338af0)",
         keshihuaTableHandleLook: "#333",
         keshihuaTableHandleDel: "#000",
-        keshihuatableChecked: 'url(../images/white/white-icon-all.png)'
+        keshihuatableChecked: 'url(../images/white/white-icon-all.png)',
+        keshihuaTableHandlePretreatment: "#333"
     }
 
 }

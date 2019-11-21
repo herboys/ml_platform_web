@@ -3,9 +3,9 @@ import VueRouter from 'vue-router'
 import Login from '../views/pages/Login.vue'
 import Home from '../views/pages/Home'
 import Visual from '../views/pages/Visual'
-//import Project from '../views/pages/Project.vue'
+import Project from '../views/pages/Project.vue'
 import Explain from '../views/pages/Explain.vue'
-
+import DataSet from '../views/pages/dataSet.vue'
 Vue.use(VueRouter)
 
 const routes = [{
@@ -24,8 +24,7 @@ const routes = [{
         meta: {
             title: '首页'
         },
-        children: [
-            {
+        children: [{
                 path: '/visual',
                 name: Visual,
                 component: Visual,
@@ -40,18 +39,26 @@ const routes = [{
                 meta: {
                     title: '解释'
                 },
+            },
+            {
+                path: '/dataSet',
+                name: DataSet,
+                component: DataSet,
+                meta: {
+                    title: '数据集'
+                },
             }
         ]
     },
 
-    /*{
+    {
         path: '/project',
         name: Project,
         component: Project,
         meta: {
             title: '项目'
         }
-    }*/
+    }
 ]
 
 const router = new VueRouter({

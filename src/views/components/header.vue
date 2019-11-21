@@ -107,11 +107,11 @@
                         return [
                             {
                                 name:'项目',
-                                path:'',
+                                path:'/project',
                             },
                             {
                                 name:'数据集',
-                                path:'',
+                                path:'/dataSet',
                             },
                             {
                                 name:'可视化',

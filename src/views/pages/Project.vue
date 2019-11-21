@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="wrapbody">
         <commonHeade @showPalette="togglePalette" :isShow="paletteShow"></commonHeade>
 
         <section id="main">
@@ -10,7 +10,7 @@
                     <input type="text" class="fl input input1" />
 
                     <a class="search-btn">检索项目<span class="icon iconfont icon-sousuo"></span> </a>
-                    <a class="search-btn addNewObject"> <span class="icon iconfont icon-zengjia"></span> 新建项目</a>
+                    <a class="search-btn addNewObject" @click="dialogAddObject()"> <span class="icon iconfont icon-zengjia"></span> 新建项目</a>
                 </div>
 
 
@@ -35,8 +35,8 @@
                                 <td>S/N</td>
                                 <td class="handle">
                                     <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
+                                    <a title="修改" class="xiugai" @click="dialogReviseNewObject"><span class="icon iconfont icon-xiugai"></span></a>
+                                    <a title="删除" class="shanchu" @click="dialogDelete" ><span class="iconfont icon-shanchu"></span></a>
                                 </td>
                             </tr>
                             <tr class="evenTr">
@@ -45,8 +45,8 @@
                                 <td>S/N</td>
                                 <td class="handle">
                                     <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
+                                    <a title="修改" class="xiugai" @click="dialogReviseNewObject"><span class="icon iconfont icon-xiugai"></span></a>
+                                    <a title="删除" class="shanchu" @click="dialogDelete" ><span class="iconfont icon-shanchu"></span></a>
                                 </td>
                             </tr>
 
@@ -56,8 +56,8 @@
                                 <td>S/N</td>
                                 <td class="handle">
                                     <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
+                                    <a title="修改" class="xiugai" @click="dialogReviseNewObject"><span class="icon iconfont icon-xiugai"></span></a>
+                                    <a title="删除" class="shanchu" @click="dialogDelete" ><span class="iconfont icon-shanchu"></span></a>
                                 </td>
                             </tr>
                             <tr class="evenTr">
@@ -66,8 +66,8 @@
                                 <td>S/N</td>
                                 <td class="handle">
                                     <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
+                                    <a title="修改" class="xiugai" @click="dialogReviseNewObject"><span class="icon iconfont icon-xiugai"></span></a>
+                                    <a title="删除" class="shanchu" @click="dialogDelete" ><span class="iconfont icon-shanchu"></span></a>
                                 </td>
                             </tr>
 
@@ -77,8 +77,8 @@
                                 <td>S/N</td>
                                 <td class="handle">
                                     <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
+                                    <a title="修改" class="xiugai" @click="dialogReviseNewObject"><span class="icon iconfont icon-xiugai"></span></a>
+                                    <a title="删除" class="shanchu" @click="dialogDelete" ><span class="iconfont icon-shanchu"></span></a>
                                 </td>
                             </tr>
                             <tr class="evenTr">
@@ -87,8 +87,8 @@
                                 <td>S/N</td>
                                 <td class="handle">
                                     <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
+                                    <a title="修改" class="xiugai" @click="dialogReviseNewObject"><span class="icon iconfont icon-xiugai"></span></a>
+                                    <a title="删除" class="shanchu" @click="dialogDelete" ><span class="iconfont icon-shanchu"></span></a>
                                 </td>
                             </tr>
 
@@ -98,8 +98,8 @@
                                 <td>S/N</td>
                                 <td class="handle">
                                     <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
+                                    <a title="修改" class="xiugai" @click="dialogReviseNewObject"><span class="icon iconfont icon-xiugai"></span></a>
+                                    <a title="删除" class="shanchu" @click="dialogDelete" ><span class="iconfont icon-shanchu"></span></a>
                                 </td>
                             </tr>
                             <tr class="evenTr">
@@ -108,8 +108,8 @@
                                 <td>S/N</td>
                                 <td class="handle">
                                     <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
+                                    <a title="修改" class="xiugai" @click="dialogReviseNewObject"><span class="icon iconfont icon-xiugai"></span></a>
+                                    <a title="删除" class="shanchu" @click="dialogDelete" ><span class="iconfont icon-shanchu"></span></a>
                                 </td>
                             </tr>
 
@@ -119,8 +119,8 @@
                                 <td>S/N</td>
                                 <td class="handle">
                                     <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
+                                    <a title="修改" class="xiugai" @click="dialogReviseNewObject"><span class="icon iconfont icon-xiugai"></span></a>
+                                    <a title="删除" class="shanchu" @click="dialogDelete" ><span class="iconfont icon-shanchu"></span></a>
                                 </td>
                             </tr>
                             <tr class="evenTr">
@@ -129,8 +129,8 @@
                                 <td>S/N</td>
                                 <td class="handle">
                                     <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai"></span></a>
-                                    <a title="删除" class="shanchu"><span class="iconfont icon-shanchu"></span></a>
+                                    <a title="修改" class="xiugai"@click="dialogReviseNewObject"><span class="icon iconfont icon-xiugai"></span></a>
+                                    <a title="删除" class="shanchu" @click="dialogDelete" ><span class="iconfont icon-shanchu"></span></a>
                                 </td>
                             </tr>
                         </tbody>
@@ -168,41 +168,17 @@
         </section>
 
 
-        <div id="palette" class="palette animated" v-if="paletteShow">
-            <div class="palette-list">
-                <div class="title title1">整体风格设置</div>
-                <div class="content1 clearfix">
-                    <div class="flex flex1 fl" @click="themOne">
-                        <p class="p1"></p>
-                        <p class="p2"></p>
-                        <i class="check checked"></i>
-                    </div>
-                    <div class="flex flex2 fl" @click="themTwo">
-                        <p class="p1"></p>
-                        <p class="p2"></p>
-                        <i class="check"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="btn-wrap clearfix">
-                <a class="cannel-btn" @click="cancle">取消</a>
-                <a class="success-btn" @click="confire">确认</a>
-            </div>
-        </div>
-
-
 
         <!-- 弹窗删除 -->
-        <div class="alert-box" id="alert-box-del">
+        <div class="alert-box" ref="alertBoxDel" id="alert-box-del" style="display: none;">
             <div class="title text-c">
-                <span class="close iconfont icon-cross-fill"></span>
+                <span @click="closeDialog" class="close iconfont icon-cross-fill"></span>
             </div>
             <div class="content alert-box-content">
                 <p class="content-title">确定要删除此可视化项目？</p>
                 <div class="btn-wrap clearfix">
-                    <button class="btn cancelBtn fl">取消</button>
-                    <button class="btn okBtn fr">确认</button>
+                    <button @click="closeDialog" class="btn cancelBtn fl">取消</button>
+                    <button @click="closeDialog" class="btn okBtn fr">确认</button>
                 </div>
             </div>
         </div>
@@ -212,7 +188,7 @@
         <div class="alert-box" id="alert-box-addNewObject">
             <div class="title text-c">
                 添加新项目
-                <span class="close iconfont icon-cross-fill"></span>
+                <span class="close iconfont icon-cross-fill"  @click="closeDialog"></span>
             </div>
             <div class="content alert-box-content">
                 <p>项目名称</p>
@@ -221,8 +197,8 @@
                 <textarea></textarea>
 
                 <div class="btn-wrap clearfix">
-                    <button class="btn addBtn fl">添加</button>
-                    <button class="btn backBtn fr">返回</button>
+                    <button class="btn addBtn fl"  @click="closeDialog">添加</button>
+                    <button class="btn backBtn fr"  @click="closeDialog">返回</button>
                 </div>
             </div>
         </div>
@@ -232,7 +208,7 @@
         <div class="alert-box" id="alert-box-reviseNewObject">
             <div class="title text-c">
                 修改该项目
-                <span class="close iconfont icon-cross-fill"></span>
+                <span class="close iconfont icon-cross-fill"  @click="closeDialog"></span>
             </div>
             <div class="content alert-box-content">
                 <p>项目名称</p>
@@ -241,8 +217,8 @@
                 <textarea></textarea>
 
                 <div class="btn-wrap clearfix">
-                    <button class="btn addBtn fl">添加</button>
-                    <button class="btn backBtn fr">返回</button>
+                    <button class="btn addBtn fl"  @click="closeDialog">添加</button>
+                    <button class="btn backBtn fr"  @click="closeDialog">返回</button>
                 </div>
             </div>
         </div>
@@ -255,7 +231,7 @@ import commonHeade from '../components/header.vue'
         name: "Project",
             data () {
                 return {
-                    msg: 'Welcome to Your Vue.js App',
+                    msg: '',
                     paletteShow:false
                 }
             },
@@ -265,6 +241,39 @@ import commonHeade from '../components/header.vue'
             mounted(){
             },
             methods: {
+                dialogDelete(id){
+                    layer.open({
+                        type: 1,
+                        title: false,
+                        anim: 2,
+                        closeBtn: 0,
+                        area: ['422px', 1000], //宽高
+                        content: $('#alert-box-del'),
+                    });
+                },
+                dialogAddObject(id){
+                    layer.open({
+                        type: 1,
+                        title: false,
+                        anim: 2,
+                        closeBtn: 0,
+                        area: ['600px', 1000], //宽高
+                        content: $('#alert-box-addNewObject'),
+                    });
+                },
+                dialogReviseNewObject(id){
+                    layer.open({
+                        type: 1,
+                        title: false,
+                        anim: 2,
+                        closeBtn: 0,
+                        area: ['600px', 1000], //宽高
+                        content: $('#alert-box-reviseNewObject'),
+                    });
+                },
+                closeDialog(){
+                    layer.closeAll();
+                },
                 themOne(){
                     this.GLOBAL.chooseTheme = JSON.parse(JSON.stringify(this.GLOBAL.themeConfig.dark))
 
@@ -289,14 +298,13 @@ import commonHeade from '../components/header.vue'
 
             },
             created(){
-                this.layer.alert(content, [options, yes]);
+                //this.layer.alert(content, [options, yes]);
             }
     }
 </script>
 <style scoped src='../../assets/css/palette.css' ></style>
 <style scoped src='../../assets/css/mypop.css' ></style>
-<style scoped src='../../assets/js/layer/mobile/need/layer.css' ></style>
-<style scoped src='../../assets/js/layer/mobile/need/layer.css' ></style>
+<style scoped src='../../assets/js/layer/mobile/need/layer.css' ></style>s
 <style scoped>
 #main{
         background-image: linear-gradient(45deg, #20234f, #141a36);
@@ -333,9 +341,11 @@ import commonHeade from '../components/header.vue'
     border-color: #505ba1;
 }
 .keshihua-table tr td input[type='checkbox'] + span, .keshihua-table th input[type='checkbox'] + span, .keshihua-table tr td input:checked + span, .keshihua-table th input:checked + span {
-    background-image: url(http://127.0.0.1:5500/images/dark/dark-icon-all.png);
+    background-image: url(../../assets/images/dark/dark-icon-all.png);
 }
 .ui-page-sort .right-tool .span-setting, .ui-page-sort .right-tool .span-number, .ui-page-sort .right-tool .span-number a, .ui-page-sort .right-tool .span-tool a {
     color: #838fa9;
+}.keshihua-table td.handle a{
+    margin-left: 10px;
 }
 </style>

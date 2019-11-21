@@ -31,4 +31,10 @@
     }
 </script>
 <style lang="scss">
+#app,.wrapbody{
+  height: 100%;
+}
+#app>div{
+  height: 100%;
+}
 </style>

@@ -6,12 +6,12 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         token: null,
-        theme: localStorage.getItem('theme')||'dark',
+        theme: localStorage.getItem('theme') || 'dark',
         changeMenuTheme: [],
         changeMainTheme: []
     },
     mutations: {
-        changeTheme(state,theme){
+        changeTheme(state, theme) {
             state.theme = theme;
         },
         changeMenuTheme(state, theme) {

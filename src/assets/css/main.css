@@ -1,6 +1,6 @@
 #main {
     padding: 90px 114px 80px;
-    height: 100%;
+    min-height: 100%;
 }
 
 #main .main-body {
@@ -266,6 +266,14 @@
     height: 27px;
 }
 
+#main .keshihua-main .search-wrap .search-btn span {
+    font-size: 12px;
+}
+
+#main .keshihua-main .search-wrap .search-btn span.icon-sousuo {
+    margin-left: 4px;
+}
+
 #main .keshihua-main .search-wrap .search-btn i {
     background-image: url(../images/public/icon-all.png);
     background-position: 5px -96px;
@@ -404,4 +412,180 @@
     height: 20px;
     border: 0;
     text-align: center;
+}
+
+.breadpage span a {
+    font-size: 12px;
+}
+
+.breadpage .light_bread a {
+    color: #05d1e7;
+}
+
+.breadpage .dark_bread,
+.breadpage .dark_bread a {
+    color: #838fa9;
+}
+
+#main .keshihua-main .search-wrap .chooseType {
+    display: inline-block;
+    color: #fff;
+    margin-left: 30px;
+    font-size: 14px;
+    position: relative;
+}
+
+#main .shujuji-main .search-wrap .search-btn {
+    color: #fff;
+    font-size: 13px;
+    padding: 0px 15px;
+    border-radius: 15px;
+    margin-left: 10px;
+    margin: 9px;
+    line-height: 27px;
+    height: 27px;
+    float: left;
+    margin-top: 0;
+}
+
+#main .keshihua-main .search-wrap .chooseType>p {
+    position: relative;
+    font-size: 13px;
+    border-radius: 12px;
+    line-height: 27px;
+    height: 27px;
+    text-indent: 15px;
+    padding-right: 40px;
+    background-image: -webkit-linear-gradient(0deg, #36a7f2, #3388f0);
+    background-image: linear-gradient(to right, #36a7f2, #3388f0);
+    cursor: pointer;
+}
+
+#main .keshihua-main .search-wrap .chooseType>p i {
+    width: 10px;
+    height: 6px;
+    position: absolute;
+    z-index: 9;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    background-image: url(../images/dark/dark-icon-other.png);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+#main .keshihua-main .search-wrap .chooseType>div {
+    /* display: none; */
+    position: absolute;
+    z-index: 99;
+    left: 0;
+    top: 40px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background-color: rgba(49, 59, 115, 0.9);
+    width: 160px;
+    box-shadow: 0 0 10px #000;
+}
+
+#main .keshihua-main .search-wrap .chooseType>div li {
+    border-bottom: 1px solid #7889dd;
+    padding: 10px 0;
+    text-indent: 10px;
+    color: #b1c8fe;
+    cursor: pointer;
+}
+
+#main .keshihua-main .search-wrap .chooseType>div li:hover {
+    color: #fff;
+}
+
+#main .keshihua-main .search-wrap .chooseType>div li:last-child {
+    border-bottom: 0;
+}
+
+#main .shujuji-main #tableContent .pull-icon {
+    width: 16px;
+    height: 16px;
+    display: block;
+    background-image: url(../images/dark/dark-icon-other.png);
+    background-repeat: no-repeat;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+#main .shujuji-main #tableContent .pull-icon.down {
+    background-position: 0 -195px;
+}
+
+#main .shujuji-main #tableContent .pull-icon.up {
+    background-position: 0 -169px;
+}
+
+#main .shujuji-main .shujuji-table .del {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    background-image: url(../images/dark/dark-icon-other.png);
+    background-repeat: no-repeat;
+    background-position: 0 -136px;
+    vertical-align: -4px;
+}
+
+#main .shujuji-main .shujuji-table .icon {
+    background-image: url(../images/dark/dark-icon-other.png);
+    background-repeat: no-repeat;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+#main .shujuji-main .shujuji-table .icon1 {
+    background-position: 0 -53px;
+}
+
+#main .shujuji-main .shujuji-table .icon2 {
+    background-position: 0 -82px;
+}
+
+#main .shujuji-main .shujuji-table .icon3 {
+    background-position: 0 -27px;
+}
+
+#main .shujuji-main .shujuji-table .icon4 {
+    background-position: 0 -109px;
+}
+
+#main .shujuji-main .shujuji-table .icon5 {
+    background-position: 0 -136px;
+}
+
+.breadpage span a {
+    font-size: 12px;
+}
+
+.breadpage .light_bread a {
+    color: #05d1e7;
+}
+
+.breadpage .dark_bread,
+.breadpage .dark_bread a {
+    color: #838fa9;
+}
+
+#main .shujuji-main .shujuji-table td.notStart {
+    color: #00c1a9;
+}
+
+#main .shujuji-main .shujuji-table td.finished {
+    color: #b1c8fe;
+}
+
+#main .shujuji-main .shujuji-table td.unfininshed {
+    color: #8875dd;
+}
+
+#main .shujuji-main .shujuji-table td.pause {
+    color: #17a6d5;
 }

@@ -97,7 +97,7 @@
 }
 
 #header .header-right .house-icon {
-    background: url(http://127.0.0.1:5500/images/dark/house-icon.png) no-repeat;
+    background: url(../images/dark/house-icon.png) no-repeat;
     width: 31px;
     height: 31px;
     background-size: contain;
