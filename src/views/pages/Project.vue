@@ -189,9 +189,7 @@ import commonHeade from '../components/header.vue'
                     var that = this
                     var obj = this.addProjectform
                     if(!obj.name || !obj.desc){
-                        this.$alert('请输入项目名称和项目描述', '提示', {
-                            confirmButtonText: '确定',
-                        });
+                        this.$message('请输入项目名称和项目描述');
                     } else{
                         // this.dialogShow = false
                         this.closeDialog()
@@ -234,15 +232,9 @@ import commonHeade from '../components/header.vue'
                     var obj = this.updateProjectform
                     var that=this
                     if(!obj.name || !obj.desc){
-                        this.$alert('请输入修改名称和修改描述', '提示', {
-                            confirmButtonText: '确定',
-                            callback: action => {
-                                // this.$message({
-                                //     type: 'info',
-                                //     message: `action: ${ action }`
-                                // });
-                            }
-                        });
+                        this.$message('请输入修改名称和修改描述');
+                        
+                  
                     } else{
                         // this.dialogupShow = false
                         this.closeDialog()
@@ -362,15 +354,7 @@ import commonHeade from '../components/header.vue'
                 },
                 searchProject(){
                     if(!this.searchKey){
-                       this.$alert('检索项目名称不能为空', '提示', {
-                            confirmButtonText: '确定',
-                            callback: action => {
-                                // this.$message({
-                                //     type: 'info',
-                                //     message: `action: ${ action }`
-                                // });
-                            }
-                        });
+                        this.$message('检索项目名称不能为空');
                     } else {
                         this.getProjeclist()
                     }
