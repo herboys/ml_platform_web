@@ -10,7 +10,7 @@
                     <input type="text" class="fl input input1" v-model="searchKey" placeholder="请输入检索项目名称" />
 
                     <a class="search-btn" href="javascript:void(0)" @click="searchProject">检索项目<span class="icon iconfont icon-sousuo"></span> </a>
-                    <a class="search-btn addNewObject" @click="dialogShow = true"> <span class="icon iconfont icon-zengjia" ></span> 新建项目</a>
+                    <a class="search-btn addNewObject" @click="adddialogShow"> <span class="icon iconfont icon-zengjia" ></span> 新建项目</a>
                 </div>
                 <!-- <commonTable></commonTable> -->
                 <div class="table">
@@ -26,7 +26,6 @@
                                 <th>操作</th>
                             </tr>
                         </thead>
-
                         <tbody>
                             <tr v-for="(item,index) in projectList" :key="index">
                                 <!-- <td ><input type="checkbox" :checked="item.checked"  @click="toggleCheckbox(item,index)"/><span class="toggle"></span></td> -->
@@ -43,9 +42,6 @@
 
                         </tbody>
                     </table>
-                    
-
-                    
                 </div>
                 <div class="ui-page-sort">
                         <div class="right-tool">
@@ -74,97 +70,52 @@
 
             </div>
         </section>
-
-
-        
-
-
-        <el-dialog  title="添加新项目" customClass="customWidth" :visible.sync="dialogShow" :center="true">
-            <el-form :model="addProjectform">
-                <el-form-item label="项目名称" :label-width="formLabelWidth">
-                    <el-input v-model="addProjectform.name" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="项目描述" :label-width="formLabelWidth">
-                    <el-form-item >
-                        <el-input type="textarea" v-model="addProjectform.desc" ></el-input>
-                    </el-form-item>
-                </el-form-item>
-                
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="addProject()">添 加</el-button>
-                <el-button @click="dialogShow = false">返 回</el-button>
-                
-            </div>
-        </el-dialog>
-        <el-dialog  title="修改新项目"  :visible.sync="dialogupShow" :center="true">
-            <el-form :model="updateProjectform">
-                <el-form-item label="修改名称" :label-width="formLabelWidth">
-                    <el-input v-model="updateProjectform.name" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="修改描述" :label-width="formLabelWidth">
-                    <el-form-item >
-                        <el-input type="textarea" v-model="updateProjectform.desc" ></el-input>
-                    </el-form-item>
-                </el-form-item>
-                
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="updateProject()">修 改</el-button>
-                <el-button @click="dialogupShow = false">取 消</el-button>
-                
-            </div>
-        </el-dialog>
         <!-- 弹窗删除 -->
         <div class="alert-box" id="alert-box-del">
             <div class="title text-c">
-                <span class="close iconfont icon-cross-fill"></span>
+                <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
             </div>
             <div class="content alert-box-content">
                 <p class="content-title">确定要删除此可视化项目？</p>
                 <div class="btn-wrap clearfix">
-                    <button class="btn cancelBtn fl">取消</button>
-                    <button class="btn okBtn fr">确认</button>
+                    <button class="btn cancelBtn fl" @click="closeDialog">取消</button>
+                    <button class="btn okBtn fr" @click="confireDelete">确认</button>
                 </div>
             </div>
         </div>
-
-
-
+        <!-- 添加新项目 -->
         <div class="alert-box" id="alert-box-addNewObject">
             <div class="title text-c">
                 添加新项目
-                <span class="close iconfont icon-cross-fill"></span>
+                <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
             </div>
             <div class="content alert-box-content">
                 <p>项目名称</p>
-                <input type="text">
+                <input type="text" v-model="addProjectform.name">
                 <p>项目描述</p>
-                <textarea></textarea>
+                <textarea v-model="addProjectform.desc"></textarea>
 
                 <div class="btn-wrap clearfix">
-                    <button class="btn addBtn fl">添加</button>
-                    <button class="btn backBtn fr">返回</button>
+                    <button class="btn addBtn fl" @click="addProject()">添加</button>
+                    <button class="btn backBtn fr" @click="closeDialog">返回</button>
                 </div>
             </div>
         </div>
-
-
-
+        <!-- 修改项目 -->
         <div class="alert-box" id="alert-box-reviseNewObject">
             <div class="title text-c">
                 修改该项目
-                <span class="close iconfont icon-cross-fill"></span>
+                <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
             </div>
             <div class="content alert-box-content">
                 <p>项目名称</p>
-                <input type="text">
+                <input type="text" v-model="updateProjectform.name">
                 <p>项目描述</p>
-                <textarea></textarea>
+                <textarea v-model="updateProjectform.desc"></textarea>
 
                 <div class="btn-wrap clearfix">
-                    <button class="btn addBtn fl">添加</button>
-                    <button class="btn backBtn fr">返回</button>
+                    <button class="btn addBtn fl" @click="updateProject()">添加</button>
+                    <button class="btn backBtn fr" @click="closeDialog">返回</button>
                 </div>
             </div>
         </div>
@@ -214,7 +165,8 @@ import commonHeade from '../components/header.vue'
                         {value:10},
                         {value:20},
                     ],
-                    total:null
+                    total:null,
+                    deleteId:null
                 }
             },
             components:{
@@ -241,7 +193,8 @@ import commonHeade from '../components/header.vue'
                             confirmButtonText: '确定',
                         });
                     } else{
-                        this.dialogShow = false
+                        // this.dialogShow = false
+                        this.closeDialog()
                         let paramsData={
                             'projectDescribe': that.addProjectform.name,
                             'projectName': that.addProjectform.desc,
@@ -264,7 +217,15 @@ import commonHeade from '../components/header.vue'
                     this.paletteShow = val
                 },
                 updateText(item){
-                    this.dialogupShow = true
+                    // this.dialogupShow = true
+                    layer.open({
+                        type: 1,
+                        title: false,
+                        anim: 2,
+                        closeBtn: 0,
+                        area: ['860px', 1000], //宽高
+                        content: $('#alert-box-reviseNewObject'),
+                    });
                     this.updateProjectform.name = item.projectName
                     this.updateProjectform.desc = item.projectDescribe
                     this.updateProjectform.id = item.id
@@ -283,7 +244,8 @@ import commonHeade from '../components/header.vue'
                             }
                         });
                     } else{
-                        this.dialogupShow = false
+                        // this.dialogupShow = false
+                        this.closeDialog()
                         let paramsData={
                             "id": that.updateProjectform.id,
                             "projectDescribe": that.updateProjectform.desc,
@@ -306,32 +268,35 @@ import commonHeade from '../components/header.vue'
                 },
                 deleteProject(id){
                     let that = this
-                    let paramData={
-                        projectId:id
-                    }
-                    that.$confirm('确定要删除此可视化项目?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        // type: 'warning'
-                        }).then(() => {
-                            that.$axios.get(
-                                `api/project/delete`,
-                                {
-                                    params:paramData,
-                                })
-                                .then((res) => {
-                                    that.getProjeclist()
-                                })
-                            that.$message({
-                                type: 'success',
-                                message: '删除成功!'
-                            });
-                        }).catch(() => {
-                            that.$message({
-                                type: 'info',
-                                message: '已取消删除'
-                            });          
+                    this.deleteId = id
+                    
+                    layer.open({
+                        type: 1,
+                        title: false,
+                        anim: 2,
+                        closeBtn: 0,
+                        area: ['422px', 1000], //宽高
+                        content: $('#alert-box-del'),
                     });
+                },
+                confireDelete(){
+                    // 确认删除
+                    let paramData={
+                        projectId:this.deleteId
+                    }
+                    this.$axios.get(
+                        `api/project/delete`,
+                        {
+                            params:paramData,
+                        })
+                        .then((res) => {
+                            this.getProjeclist()
+                            this.closeDialog()
+                        })
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
                 },
                 getProjeclist(){
                     // 获得项目列表
@@ -431,7 +396,21 @@ import commonHeade from '../components/header.vue'
                 toDataset(){
                     // 跳转到数据集
                     this.$router.push({path:'/dataSet'})
-                }
+                },
+                adddialogShow(){
+                    // this.dialogShow = true
+                    layer.open({
+                        type: 1,
+                        title: false,
+                        anim: 2,
+                        closeBtn: 0,
+                        area: ['860px', 1000], //宽高
+                        content: $('#alert-box-addNewObject'),
+                    });
+                },
+                closeDialog(){
+                    layer.closeAll();
+                },
 
             },
             created(){
