@@ -17,10 +17,10 @@
                     <table class="keshihua-table" id="tableContent">
                         <thead>
                             <tr>
-                                <th>
+                                <!-- <th>
                                     <input type="checkbox" @click="isCheckAll = !isCheckAll,checkAll()" :checked="isCheckAll" id="toggleAll">
                                     <span></span>
-                                </th>
+                                </th> -->
                                 <th>项目名称</th>
                                 <th>描述</th>
                                 <th>操作</th>
@@ -29,13 +29,13 @@
 
                         <tbody>
                             <tr v-for="(item,index) in projectList" :key="index">
-                                <td ><input type="checkbox" :checked="item.checked"  @click="toggleCheckbox(item,index)"/><span class="toggle"></span></td>
+                                <!-- <td ><input type="checkbox" :checked="item.checked"  @click="toggleCheckbox(item,index)"/><span class="toggle"></span></td> -->
                                 <td>{{item.projectName}}</td>
                                 <td>{{item.projectDescribe}}</td>
                                 <td class="handle">
-                                    <a title="数据集" class="wenjian"><span class="icon iconfont icon-wenjian"></span></a>
+                                    <a title="数据集" class="wenjian" @click="toDataset(item)"><span class="icon iconfont icon-wenjian"></span></a>
 
-                                    <a title="修改" class="xiugai"><span class="icon iconfont icon-xiugai" @click="updateText(item)"></span></a>
+                                    <a title="修改" class="xiugai" @click="updateText(item)"><span class="icon iconfont icon-xiugai" ></span></a>
 
                                     <a title="删除" class="shanchu" @click="deleteProject(item.id)"><span class="iconfont icon-shanchu"></span></a>
                                 </td>
@@ -52,12 +52,12 @@
                             <span class="span-setting">
                                     每页条数
                                     <select class="select-text" v-model="pageSize">
-                                        <option v-for="(item,index) in options" :key="index" :value="item.value">{{item.value}}</option>
+                                        <option v-for="(item,index) in options" :key="index" :value="item.value"> {{item.value}}</option>
                                     </select>
                                 </span>
 
                             <span class="span-number">
-                                    转到
+                                     转到
                                     <input class="input-text" type="text" v-model="page" />
                                     <a class="go-btn" href="javascript:void(0);" @click="goPage()">GO</a>
                                 </span>
@@ -420,12 +420,17 @@ import commonHeade from '../components/header.vue'
                     }
                 },
                 goPage(){
+                    // 页面go判断
                     if(this.page >this.maxPage){
                         this.$message('当前数据一共'+this.maxPage +'页');
                         return
                     } else {
                         this.getProjeclist()
                     }
+                },
+                toDataset(){
+                    // 跳转到数据集
+                    this.$router.push({path:'/dataSet'})
                 }
 
             },

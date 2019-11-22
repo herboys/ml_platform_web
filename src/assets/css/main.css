@@ -182,7 +182,7 @@
 
 #main .keshihua-main .search-wrap {
     margin: 0 auto;
-    width: 850px;
+    width: 1080px;
 }
 
 #main .keshihua-main .search-wrap .s1 {
@@ -325,6 +325,10 @@
 
 .keshihua-table td.notFinished {
     color: #f09300;
+}
+
+.keshihua-table td.handle a {
+    margin-right: 5px;
 }
 
 
