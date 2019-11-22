@@ -83,7 +83,7 @@
 
                         
                         <tr name="1" class="sonTr">
-             
+                            <td></td>
                             <td>medcine</td>
                             <td>42kb</td>
                             <td class="pause">暂停中</td>
@@ -98,6 +98,7 @@
                         </tr>
 
                         <tr name="1" class="sonTr">
+                            <td></td>
                             <td>medcine</td>
                             <td>756kb</td>
                             <td class="unfininshed">未完成</td>

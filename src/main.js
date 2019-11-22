@@ -5,17 +5,17 @@ import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
-
-
-require('./assets/css/reset.css')
-require('./assets/css/public.css')
-require('./assets/css/palette.css')
-require('./assets/css/main.css')
-require('./assets/css/mypop.css')
-
+import restCss from './assets/css/reset.css'
+import publicCss from './assets/css/public.css'
+import mainCss from './assets/css/main.css'
 import echarts from 'echarts'
+import commonCss from './assets/css/common.css'
+import iconFont from './assets/aliIcon/iconfont.css'
+import qs from 'qs'
+Vue.prototype.$qs = qs
 Vue.prototype.$echarts = echarts
 import axios from './api/ajax'
+
 
 // 引用全局变量
 import globalVariable from '../src/assets/js/globalVal.js'

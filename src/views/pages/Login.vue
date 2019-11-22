@@ -36,7 +36,7 @@
 </template>
 
 <script>
-    import {getlogin} from '../../api/api'
+    // import {getlogin} from '../../api/api'
     export default {
         name: "LOgin",
         data(){
