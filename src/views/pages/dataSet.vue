@@ -725,7 +725,7 @@
                     title: false,
                     anim: 2,
                     closeBtn: 0,
-                    area: ['560px', "auto"], //宽高
+                    area: ['600px', "auto"], //宽高
                     content: $('#alert-box-xunliangmoxing'),
                 });
             },
