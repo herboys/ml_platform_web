@@ -2,7 +2,7 @@
     <div class="wrapbody">
 
 
-            <section id="main">
+        <section id="main">
 
 
         <div class="breadpage">
@@ -83,7 +83,7 @@
 
                         
                         <tr name="1" class="sonTr">
-                            <td></td>
+                            
                             <td>medcine</td>
                             <td>42kb</td>
                             <td class="pause">暂停中</td>
@@ -98,7 +98,7 @@
                         </tr>
 
                         <tr name="1" class="sonTr">
-                            <td></td>
+                            
                             <td>medcine</td>
                             <td>756kb</td>
                             <td class="unfininshed">未完成</td>
@@ -158,11 +158,6 @@
 
                     </tbody>
                 </table>
-
-
-
-
-
                 <div class="ui-page-sort">
                     <div class="right-tool">
                         <span class="span-setting">

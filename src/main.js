@@ -8,6 +8,7 @@ Vue.use(ElementUI);
 import restCss from './assets/css/reset.css'
 import publicCss from './assets/css/public.css'
 import mainCss from './assets/css/main.css'
+import mypopCss from './assets/css/mypop.css'
 import echarts from 'echarts'
 import commonCss from './assets/css/common.css'
 import iconFont from './assets/aliIcon/iconfont.css'
