@@ -44,7 +44,9 @@ var themeConfig = {
         keshihuaTableHandleLook: "#00c1a9",
         keshihuaTableHandleDel: "#77829e",
         keshihuatableChecked: 'url(../images/dark/dark-icon-all.png)',
-        keshihuaTableHandlePretreatment: "#3f97f1"
+        keshihuaTableHandlePretreatment: "#3f97f1",
+        backgroundBgOther: 'url(../images/dark/dark-icon-other.png)',
+        keshihuatabletrsonTr: "#151b3c"
     },
     white: {
         index: 2,
@@ -91,7 +93,9 @@ var themeConfig = {
         keshihuaTableHandleLook: "#333",
         keshihuaTableHandleDel: "#000",
         keshihuatableChecked: 'url(../images/white/white-icon-all.png)',
-        keshihuaTableHandlePretreatment: "#333"
+        keshihuaTableHandlePretreatment: "#333",
+        backgroundBgOther: 'url(../images/white/white-icon-other.png)',
+        keshihuatabletrsonTr: "#fff"
     }
 
 }

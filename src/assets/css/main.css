@@ -507,7 +507,7 @@
     width: 16px;
     height: 16px;
     display: block;
-    background-image: url(../images/dark/dark-icon-other.png);
+    /* background-image: url(../images/dark/dark-icon-other.png); */
     background-repeat: no-repeat;
     margin: 0 auto;
     cursor: pointer;
