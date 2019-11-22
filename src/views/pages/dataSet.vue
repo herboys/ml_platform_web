@@ -64,7 +64,7 @@
                             <td class="handle">
                                 <a class="look" @click="dialogTab">查看</a>
                                 <a class="pretreatment" @click="dialogPretreatment">预处理</a>
-                                <a class="del" @click="dialogDelete"></a>
+                                <a class="del" title="删除" @click="dialogDelete"></a>
                             </td>
                         </tr>
                         <tr data-control="1" class="oddTr">
@@ -77,7 +77,7 @@
                             <td class="handle">
                                 <a class="look">查看</a>
                                 <a class="pretreatment">预处理</a>
-                                <a class="del" @click="dialogDelete"></a>
+                                <a class="del" title="删除" @click="dialogDelete"></a>
                             </td>
                         </tr>
 
@@ -89,11 +89,11 @@
                             <td class="pause">暂停中</td>
                             <td>决策树</td>
                             <td class="handle">
-                                <a class="icon icon1"></a>
-                                <a class="icon icon2"></a>
-                                <a class="icon icon3"></a>
-                                <a class="icon icon4"></a>
-                                <a class="icon icon5 shanchu" @click="dialogDeleteFB"></a>
+                                <a class="icon icon1" title="查看数据"></a>
+                                <a class="icon icon2" title="数据可视化"></a>
+                                <a class="icon icon3" title="特征工程" @click="dialogtezhenggongcheng"></a>
+                                <a class="icon icon4" title="开始训练" @click="dialogxunliangmoxing"></a>
+                                <a class="icon icon5 shanchu" title="删除" @click="dialogDeleteFB"></a>
                             </td>
                         </tr>
 
@@ -103,12 +103,12 @@
                             <td>756kb</td>
                             <td class="unfininshed">未完成</td>
                             <td>-</td>
-                            <td class="handle">
-                                <a class="icon icon1"></a>
-                                <a class="icon icon2"></a>
-                                <a class="icon icon3"></a>
-                                <a class="icon icon4"></a>
-                                <a class="icon icon5 shanchu" @click="dialogDeleteFB"></a>
+                             <td class="handle">
+                                <a class="icon icon1" title="查看数据"></a>
+                                <a class="icon icon2" title="数据可视化"></a>
+                                <a class="icon icon3" title="特征工程"></a>
+                                <a class="icon icon4" title="开始训练"></a>
+                                <a class="icon icon5 shanchu" title="删除" @click="dialogDeleteFB"></a>
                             </td>
                         </tr>
                         
@@ -135,7 +135,7 @@
                             <td class="handle">
                                 <a class="look">查看</a>
                                 <a class="pretreatment">预处理</a>
-                                <a class="del" @click="dialogDelete"></a>
+                                <a class="del" title="删除" @click="dialogDelete"></a>
                             </td>
                         </tr>
 
@@ -145,12 +145,12 @@
                             <td class="pause">暂停中</td>
 
                             <td>决策树</td>
-                            <td class="handle">
-                                <a class="icon icon1"></a>
-                                <a class="icon icon2"></a>
-                                <a class="icon icon3"></a>
-                                <a class="icon icon4"></a>
-                                <a class="icon icon5 shanchu" @click="dialogDeleteFB"></a>
+                             <td class="handle">
+                                <a class="icon icon1" title="查看数据"></a>
+                                <a class="icon icon2" title="数据可视化"></a>
+                                <a class="icon icon3" title="特征工程"></a>
+                                <a class="icon icon4" title="开始训练"></a>
+                                <a class="icon icon5 shanchu" title="删除" @click="dialogDeleteFB"></a>
                             </td>
                         </tr>
 
@@ -410,6 +410,7 @@
                             <span class="border-right"></span>
                             <span class="txt">
                                     特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
+                                    
                             </span>
                         </p>
 
@@ -425,6 +426,194 @@
     </div>
 
 
+ <!-- 模型驯良设置 -->
+    <div class="alert-box" id="alert-box-xunliangmoxing">
+        <div class="title text-c">
+            模型驯良设置
+            <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
+        </div>
+        <div class="content alert-box-content">
+            <div class="item-lists">
+                <div class="item-list clearfix">
+                    <span class="fl name">选择拆分比例</span>
+                    <input type="text" class="fl input" placeholder="请输入训练集与测试集的拆分比例，如：0.75">
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl name">添加随机种子</span>
+                    <select class="fl select"></select>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl name">选择抽样比例</span>
+                    <input type="text" class="fl input" placeholder="请输入抽样比例，如：0.5">
+                </div>
+
+                <p class="t">
+                    <span class="light">选择算法：</span>(可选择多种选择算法添加至模型训练中)
+                </p>
+
+                <div class="item-list clearfix">
+                    <span class="fl name">选择需要拆分的列</span>
+                    <div class="form-wrap fl clearfix">
+                        <select class="fl select"></select>
+                        <span class="icon add">+</span>
+                    </div>
+                    
+                </div>
+                <div class="list">
+                    <div class="item-list clearfix">
+                        <span class="fl name">拆分列数</span>
+                        <div class="form-wrap fl clearfix">
+                        <input type="text" class="fl input" placeholder="请输入拆分列数">
+                        <span class="icon minus">-</span>
+                        </div>
+                    </div>
+                </div>
+                
+
+
+            </div>
+
+            
+            <div class="btn-wrap text-c">
+                <button class="btn esc" @click="closeDialog">退出</button>
+                <button class="btn begin" @click="closeDialog">开始训练</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- 特征工程 -->
+        <div class="alert-box" id="alert-box-tezhenggongcheng">
+            <div class="arrow arrow-left" @click="tezhenggongcheng1Fn()"></div>
+            <div class="arrow arrow-right" @click="tezhenggongcheng2Fn()"></div>
+            <div id="alert-box-tezhenggongcheng1" v-show="tezhenggongcheng1">
+                <div class="title text-c">
+                    特征工程1
+                    <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
+                </div>
+                <div class="content alert-box-content">
+                    <div class="item-lists">
+                        <div class="item-list clearfix">
+                            <span class="fl name">选择剔除类<b class="sm">(可多选)</b></span>
+                            <select class="fl select"></select>
+                        </div>
+
+                        <p class="t">
+                            <span class="light">特称组合：</span>
+                        </p>
+    
+
+                        <div class="item-list clearfix">
+                            <span class="fl name">选择需要合并的列</span>
+                            <div class="form-wrap fl clearfix">
+                                <select class="fl select"></select>
+                                <span class="icon add">+</span>
+                            </div>
+                        </div>
+                        <div class="item-list clearfix">
+                            <span class="fl name">合并列名称</span>
+                            <input class="fl input" placeholder="请输入合并列的名称" />
+                        </div>
+
+                        <p class="t">
+                            <span class="light">特征拆分：</span>
+                        </p>
+
+                        <div class="item-list clearfix">
+                            <span class="fl name">选择需要拆分的列</span>
+                            <div class="form-wrap fl clearfix">
+                                <select class="fl select"></select>
+                                <span class="icon add">+</span>
+                            </div>
+                        </div>
+
+                        <div class="list">
+                            <div class="item-list clearfix">
+                                <span class="fl name">拆分列数</span>
+                                <div class="form-wrap fl clearfix">
+                                <input type="text" class="fl input" placeholder="请输入拆分列数">
+                                <span class="icon minus">-</span>
+                                </div>
+                            </div>
+                        
+                        </div>
+                        
+
+                    </div>
+                    
+                    <div class="btn-wrap text-c">
+                        <button class="btn begin" @click="closeDialog">调用更多配方</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="alert-box-tezhenggongcheng2" v-show="tezhenggongcheng2">
+                <div class="title text-c">
+                    特征工程2
+                    <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
+                </div>
+                <div class="content alert-box-content">
+                    <div class="item-lists">
+
+                        <p class="t">
+                            <span class="light">线性版本分析：</span>
+                        </p>
+
+                        <div class="item-list clearfix">
+                            <span class="fl name">降维算法</span>
+                            <select class="fl select"></select>
+                        </div>
+                        <div class="item-list clearfix">
+                            <span class="fl name">正则化</span>
+                            <select class="fl select"></select>
+                        </div>
+                        <div class="item-list clearfix">
+                            <span class="fl name">降维数</span>
+                            <input class="fl input" placeholder="请输入LDA降维时降到的维数" />
+                        </div>
+
+                        <p class="t">
+                            <span class="light">主成分分析：</span>
+                        </p>
+                        <div class="item-list clearfix">
+                            <span class="fl name">主成分个数</span>
+                            <input class="fl input" placeholder="请输入拆分的列数" />
+                        </div>
+                        <div class="item-list clearfix">
+                            <span class="fl name">白化</span>
+                            <select class="fl select"></select>
+                            <p class="fl pop">
+                                <span class="wenhao fl">
+                                    <i class="icon iconfont icon-qm"></i>
+                                </span>
+                                <span class="fl help">帮助</span>
+                                <span class="border-right"></span>
+                                <span class="txt">
+                                        特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
+                           
+                                </span>
+                            </p>
+                        </div>
+                         
+
+
+                   
+
+
+
+                    </div>
+                    
+                    <div class="btn-wrap text-c">
+                        <button class="btn esc" @click="closeDialog">调用更多配方</button>
+                        <button class="btn begin" @click="closeDialog">保存</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
     </div>
 </template>
@@ -438,6 +627,9 @@
                 endTime:"",
                 chooseTypeTxt:"上传数据集",
                 isShowChooseType:false,
+                tezhenggongcheng1:true,
+                tezhenggongcheng2:false,
+                tezhenggongcheng:true,
                 tabList:[
                     {
                         name:"SVR"
@@ -452,18 +644,26 @@
                         name:"GBTD"
                     }
                 ],
-                active:""
+                active:"",
             }
-        },
-        computed:{
-            
         },
         components:{inputTimePick},
         mounted(){
             this.init();
             this.active=this.tabList[1]["name"];
+            
+            
         },
         methods:{
+
+            tezhenggongcheng1Fn(){
+                this.tezhenggongcheng1=true;
+                this.tezhenggongcheng2=false;
+            },
+            tezhenggongcheng2Fn(){
+                this.tezhenggongcheng2=true;
+                this.tezhenggongcheng1=false;
+            },
             init(){
                 $("#tableContent tr[name]").hide();
                 $("#tableContent tbody .pull-icon").on("click", function() {
@@ -488,10 +688,10 @@
                 });
 
 
-                $(".pop").hover(function() {
+                $("#alert-box-shujujiTab .pop").hover(function() {
                     var positionTop = $(this).position().top;
                     var txtHeight = $(this).find(".txt").height();
-                    var alertBoxHeight = $("#alert-box-shujuyuchuli").height();
+                    var alertBoxHeight = $("#alert-box-shujujiTab").height();
                     var dic=document.getElementById("alert-box-shujujiTab").scrollHeight-document.getElementById("alert-box-shujujiTab").clientHeight;
                     if (positionTop + txtHeight > alertBoxHeight) {
                         $(this).find(".txt").css({
@@ -508,6 +708,26 @@
             },
             selected(name){
                 this.active = name;
+            },
+            dialogtezhenggongcheng(){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    anim: 2,
+                    closeBtn: 0,
+                    area: ['630px', "512px"], //宽高
+                    content: $('#alert-box-tezhenggongcheng'),
+                });
+            },
+            dialogxunliangmoxing(){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    anim: 2,
+                    closeBtn: 0,
+                    area: ['560px', "auto"], //宽高
+                    content: $('#alert-box-xunliangmoxing'),
+                });
             },
             dialogTab(){
                 layer.open({
