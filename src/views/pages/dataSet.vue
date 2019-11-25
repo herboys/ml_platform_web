@@ -15,7 +15,7 @@
 
                 <div class="search-wrap clearfix">
                     <span class="s1 fl">数据集名称：</span>
-                    <input type="text" class="fl input input1" />
+                    <input type="text" class="fl input input1" v-model="searchKey" />
 
                     <span class="s1 fl">时间选择：</span>
                     <input-time-pick @done="changeStartTime" class-name-user="aaa"></input-time-pick>
@@ -24,7 +24,7 @@
 
                     <input-time-pick @done="changeEndTime"></input-time-pick>
 
-                    <a class="search-btn">查询<i class="icon"></i></a>
+                    <a class="search-btn" @click="toSearch">查询<i class="icon"></i></a>
 
                     <div class="chooseType">
                         <p @click="chooseType"><span>{{chooseTypeTxt}}</span> <i class="icon up-icon"></i></p>
@@ -47,7 +47,7 @@
                             <tr>
                                 <th></th>
                                 <th>数据集名称</th>
-                                <th>数据集大小</th>
+                                <th>数据量</th>
                                 <th>训练情况</th>
                                 <th>最佳模型</th>
                                 <th>操作</th>
@@ -55,19 +55,19 @@
                         </thead>
 
                         <tbody>
-                            <tr class="evenTr">
+                            <tr class="evenTr" v-for="(item,index) in dataList" :key="index">
                                 <td><span class="pull-icon down"></span></td>
-                                <td>medcine</td>
+                                <td>{{item.bmc}}</td>
                                 <td>756kb</td>
                                 <td class="notStart">未开始</td>
                                 <td>-</td>
                                 <td class="handle">
                                     <a class="look" @click="dialogTab">查看</a>
                                     <a class="pretreatment" @click="dialogPretreatment">预处理</a>
-                                    <a class="del" title="删除" @click="dialogDelete"></a>
+                                    <a class="del" title="删除" @click="dialogDelete(item)"></a>
                                 </td>
                             </tr>
-                            <tr data-control="1" class="oddTr">
+                            <!-- <tr data-control="1" >
                                 
                                 <td><span class="pull-icon down"></span></td>
                                 <td>medcine</td>
@@ -77,7 +77,7 @@
                                 <td class="handle">
                                     <a class="look">查看</a>
                                     <a class="pretreatment">预处理</a>
-                                    <a class="del" title="删除" @click="dialogDelete"></a>
+                                    <a class="del" title="删除" @click="deleteDatasource(),"></a>
                                 </td>
                             </tr>
 
@@ -113,7 +113,7 @@
                             </tr>
                             
 
-                            <tr class="evenTr">
+                            <tr >
                                 <td><span class="pull-icon down"></span></td>
                                 <td>medcine_c</td>
                                 <td>76kb</td>
@@ -124,9 +124,9 @@
                                     <a class="pretreatment">预处理</a>
                                     <a class="del" @click="dialogDelete"></a>
                                 </td>
-                            </tr>
+                            </tr> -->
 
-                            <tr data-control="2" class="oddTr">
+                            <!-- <tr data-control="2" >
                                 <td><span class="pull-icon down"></span></td>
                                 <td>medcine_c</td>
                                 <td>76kb</td>
@@ -153,7 +153,7 @@
                                     <a class="icon icon4" title="开始训练"></a>
                                     <a class="icon icon5 shanchu" title="删除" @click="dialogDeleteFB"></a>
                                 </td>
-                            </tr>
+                            </tr> -->
 
                         
 
@@ -178,7 +178,7 @@
                 <p class="content-title">确定要删除此原始数据集？</p>
                 <div class="btn-wrap clearfix">
                     <button class="btn cancelBtn fl" @click="closeDialog">取消</button>
-                    <button class="btn okBtn fr" @click="closeDialog">确认</button>
+                    <button class="btn okBtn fr" @click="deleteDatasource()">确认</button>
                 </div>
             </div>
         </div>
@@ -432,16 +432,21 @@
             <div class="content alert-box-content">
                 <div class="content">
                     <div><label for="linkName">连接名</label><input type="text " v-model="linkName" name="linkName"></div>
-                    <div><label for="ipAddress">主机名或IP地址</label><input type="text " v-model="ipAddress" name="ipAddress"></div>
-                    <div><label for="port">端口</label><input type="text " v-model="port"  name="port"></div>
+                    <div><label for="ipAddress">主机名或IP地址</label><input type="text " v-model="ipAddress" placeholder=""  name="ipAddress"></div>
+                    <div><label for="port">端口</label><input type="text " v-model="port" placeholder=""  name="port"></div>
                     <div><label for="userName">用户名</label><input type="text " v-model="userName" name="userName"></div>
-                    <div><label for="password">密码</label><input type="text " v-model="password" name="password"></div>
-                    
+                    <div><label for="password">密码</label><input type="text " placeholder="" v-model="password" name="password"></div>
+                    <div><label for="type">数据库类型</label>
+                        <select name="" id="">
+                            <option value="">mysql</option>
+                            <option value=""></option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="btn-wrap">
                     <!-- <button class="more" @click="closeDialog">调用更多配方</button> -->
-                    <button class="btn" @click="closesjkDialog">测试并进行下一步</button>
+                    <button class="btn" @click="toggleDatasource()">测试并进行下一步</button>
                 </div>
             </div>
         </div>
@@ -454,47 +459,43 @@
             <div class="content alert-box-content">
                 <div class="content">
                     <div class="item"><label for="linkName">选择库名</label>
-                        <select>
-                            <option value=""></option>
+                        <select v-model="selectDatesource">
+                            <option :value="item" v-for="(item,index) in dataBaseList" :key="index">{{item}}</option>
                         </select>
                     </div>
                     <div class="item"><label for="ipAddress">选择表名字</label>
-                        <select>
-                            <option value=""></option>
+                        <select v-model="selectTablename">
+                            <option :value="item" v-for="(item,index) in tableNameList"  :key="index">{{item}}</option>
                         </select>
                     </div>
                     <div class="text item">选择上传字段并确认字段类型</div>
-                    <el-table
-                        ref="multipleTable"
-                        :data="tableData"
-                        tooltip-effect="dark"
-                        style="width: 100%"
-                        @selection-change="handleSelectionChange">
-                        <el-table-column
-                        type="selection"
-                        width="55">
-                        </el-table-column>
-                        <el-table-column
-                        label="日期"
-                        width="120">
-                        <template slot-scope="scope">{{ scope.row.date }}</template>
-                        </el-table-column>
-                        <el-table-column
-                        prop="name"
-                        label="姓名"
-                        width="120">
-                        </el-table-column>
-                        <el-table-column
-                        prop="address"
-                        label="地址"
-                        show-overflow-tooltip>
-                        </el-table-column>
-                    </el-table>
+                    <table>
+                        <thead>
+                            <tr>
+                                <td><input type="checkbox" @click="isCheckAll = !isCheckAll,checkAll()" :checked="isCheckAll" id="toggleAll"></td>
+                                <td>字段名称</td>
+                                <td>字段类型</td>
+                            </tr>
+                            
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item,index) in fieldList" :key="index">
+                                <td><input type="checkbox" :checked="item.checked"  @click="toggleCheckbox(item,index)"/><span class="toggle"></span></td>
+                                <td>{{item.field}}</td>
+                                <td>
+                                    <select name="" id="" v-model="item.fieldType">
+                                        <option :value="type" v-for="(type,index) in optionList" :key="index">{{type}}</option>
+                                    </select>
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     
                 </div>
 
                 <div class="btn-wrap">
-                    <button class="btn" @click="closesSelectsjk">下一步</button>
+                    <button class="btn" @click="checkSelect">下一步</button>
                 </div>
             </div>
         </div>
@@ -506,9 +507,9 @@
             </div> -->
             <div class="content alert-box-content">
                 <div class="text">数据集名</div>
-                <input type="text" v-model='sjjName'>
+                <input type="text" v-model='sjjName' placeholder="请输入数据集名称">
                 <div class="btn-wrap clearfix">
-                    <button class="btn okBtn fr" @click="closeDialog">确定并上传</button>
+                    <button class="btn okBtn fr" @click="confireUpload">确定并上传</button>
                 </div>
             </div>
         </div>
@@ -693,17 +694,12 @@
             </div>
         </div>
         
-
-
-        
-    
-
-
     </div>
 </template>
 
 <script>
     let dialogSjkLayer,dialogSelectsjk
+    import * as ReqUrl from '../../api/reqUrl'
     import inputTimePick from '../components/inputTimePick'
     export default  {
         data(){
@@ -715,7 +711,6 @@
                 tezhenggongcheng1:true,
                 tezhenggongcheng2:false,
                 tezhenggongcheng:true,
-
                 tabList:[
                     {
                         name:"SVR"
@@ -738,10 +733,10 @@
                 fileList:[],
                 filesName:'',
                 linkName:'',
-                ipAddress:'',
-                port:'',
-                userName:'',
-                password:'',
+                ipAddress:'10.1.192.118',
+                port:'3306',
+                userName:'root',
+                password:'!Aa123456',
                 tableData: [{
                 date: '2016-05-03',
                 name: '王小虎',
@@ -756,7 +751,23 @@
                 address: '上海市普陀区金沙江路 1518 弄'
                 }],
                 multipleSelection: [],
-                sjjName:''
+                sjjName:'',
+                dataList:[],
+                currentId:null,
+                projectId:null,
+                dataBaseList:[],
+                tableNameList:[],
+                selectDatesource:'',
+                selectTablename:'',
+                fieldList:[],
+                isCheckAll:false,
+                optionList:[
+                    '字符串',
+                    '时间',
+                    '数值'
+                ],
+                searchKey:'',
+                mapValue:{},
  
             }
         },
@@ -767,6 +778,18 @@
         mounted(){
             this.init();
             this.active=this.tabList[1]["name"];
+        },
+        watch:{
+            selectDatesource(val){
+                console.log(val)
+                // 库名切换时请求接口切换表名
+                this.toggleDatasource()
+            },
+            selectTablename(val){
+                // 表名切换时请求接口切换字段列表
+                this.toggleDatasource()
+
+            }
         },
         methods:{
             tezhenggongcheng1Fn(){
@@ -863,7 +886,9 @@
                     content: $('#alert-box-shujuyuchuli'),
                 });
             },
-            dialogDelete(id){
+            dialogDelete(item){
+                console.log(item)
+                this.currentId = item.taId
                 layer.open({
                     type: 1,
                     title: false,
@@ -905,19 +930,6 @@
             },
             changeEndTime(time){
                 this.endTime=time;
-            },
-            dialogDelete(id){
-                layer.open({
-                    type: 1,
-                    title: false,
-                    anim: 2,
-                    closeBtn: 0,
-                    area: ['422px', 1000], //宽高
-                    content: $('#alert-box-del'),
-                });
-            },
-            closeDialog(){
-                layer.closeAll();
             },
             // belle新加方法
             dialogUpload(){
@@ -961,7 +973,6 @@
             submitUpload(){
                 
                 this.$refs.upload.submit();
-                console.log('ok')
             },
             uploadSuccess(){
                 this.$message('成功');
@@ -1019,7 +1030,191 @@
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
+            },
+            getDatasource(){
+                // 获取数据集列表
+                var that = this
+                let url=`${ReqUrl.getDatasoure}`
+                let paramsData={
+                    userId:1,
+                    projectId:that.projectId,
+                    page:1,
+                    size:5,
+                    search:that.searchKey
+                }
+                axios({
+                    url: 'api/dataSource/getData',
+                    method: 'post',
+                    params: paramsData
+                })
+                .then(res=>{
+                    console.log(res)
+                    that.dataList = res.data.list
+                    console.log(that.dataList)
+                })
+            },
+            toSearch(){
+                if(!this.searchKey){
+                    this.$message('请输入数据集名称');
+                } else {
+                    this.deleteDatasource()
+                }
+            },
+            deleteDatasource(){
+                // 删除数据集
+                var that = this
+                let url=`${ReqUrl.deleteDatasource}`
+                let paramsData={
+                    dataId:that.currentId
+                }
+                that.closeDialog()
+                axios({
+                    url: url,
+                    method: 'get',
+                    params: paramsData
+                })
+                .then(res=>{
+                    console.log(res)
+
+                    that.getDatasource()
+                })
+            },
+            toggleDatasource(){
+                // 数据库连接测试
+                var that = this
+                let url=`${ReqUrl.toggleDatasource}`
+                that.fieldList =[]
+                let paramsData={
+                    columnNames: [] || null,
+                    dataBase: that.selectDatesource || null,
+                    passWord:that.password,
+                    projectId: that.projectId,
+                    tableName: that.selectTablename || null,
+                    type: "mysql",
+                    uid: 0,
+                    url: that.ipAddress+':'+that.port,
+                    userName: that.userName
+                }
+                axios({
+                    url: url,
+                    method: 'post',
+                    data: paramsData
+                })
+                .then(res=>{
+                    
+                    if(!that.selectDatesource){
+                        // 没有选择库时
+                        that.closesjkDialog()
+                        that.dataBaseList = res.data
+                    } else if(!that.selectTablename){
+                        that.tableNameList = res.data
+                    } else {
+                        
+                        res.data.map(item=>{
+                            let obj = {}
+                            let field,fieldType
+                            field = item.split(',')[0] 
+                            fieldType = item.split(',')[1]
+                            obj.field = field
+                            obj.fieldType = fieldType
+                            obj.checked = false
+                            that.fieldList.push(obj)
+                        })
+                        console.log(that.fieldList)
+                    }
+                    
+                })
+            },
+            checkAll(){
+                // 全选
+                var that = this
+                that.fieldList.filter((item,index)=>{
+                        if(that.isCheckAll){
+                            // item.checked = true
+                            that.$set(that.fieldList,index,{checked:true,field:item.field,fieldType:item.fieldType})
+                        } else{
+                            // item.checked = false
+                            that.$set(that.fieldList,index,{checked:false,field:item.field,fieldType:item.fieldType})
+                        }
+                    
+                })
+                
+            },
+            toggleCheckbox(item,index){
+                console.log(item)
+                // 复选框切换
+                item.checked = !item.checked
+                var that= this
+                var i =0
+                that.fieldList.forEach(item=>{
+                    if(item.checked){
+                        i++
+                    } else {
+                        this.isCheckAll = false
+                    }
+                    
+                })
+                if(i == that.fieldList.length){
+                    that.isCheckAll = true
+                }
+
+            },
+            checkSelect(){
+                // 教研是否选择上传字段
+                let that = this
+                let selectedNum =0
+                this.fieldList.filter(item=>{
+                    that.toMapvalue(item.field,item.fieldType)
+                    if(item.checked){
+                        selectedNum++
+                    } 
+                })
+                console.log(this.mapValue)
+                if(selectedNum>0){
+                    that.closesSelectsjk()
+                } else {
+                    that.$message('请上传需要修改的字段');
+                }
+                
+                
+            },
+            toMapvalue(key, value){
+                // let keyValue = {};
+                this.mapValue[key] = value;
+                return this.mapValue;
+            },
+            confireUpload(){
+                let url  =`${ReqUrl.saveDatasource}`
+                var that = this
+                let paramsData={
+                    dataDesc: "" || null ,
+                    dataId: null,
+                    dataName: that.sjjName || null,
+                    map: that.mapValue || null,
+                    projectId: that.projectId,
+                    userId: 1
+                }
+                if(!this.sjjName){
+                    this.$message('请输入数据集名称');
+                    return
+                }
+                axios({
+                    url: url,
+                    method: 'post',
+                    data: paramsData
+                })
+                .then(res=>{
+                    that.getDatasource()
+                    that.closeDialog()
+                    
+                })
+                
             }
+
+        },
+        created(){
+            this.getDatasource()
+            this.projectId = this.$route.query.projectId
         }
     }
 </script>

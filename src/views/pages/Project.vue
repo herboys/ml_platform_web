@@ -114,7 +114,7 @@
                 <textarea v-model="updateProjectform.desc"></textarea>
 
                 <div class="btn-wrap clearfix">
-                    <button class="btn addBtn fl" @click="updateProject()">添加</button>
+                    <button class="btn addBtn fl" @click="updateProject()">确认</button>
                     <button class="btn backBtn fr" @click="closeDialog">返回</button>
                 </div>
             </div>
@@ -122,6 +122,7 @@
     </div>
 </template>
 <script>
+import * as ReqUrl from '../../api/reqUrl'
 import commonTable from '../components/commonTable.vue'
 import commonHeade from '../components/header.vue'
   import qs from 'qs'
@@ -188,19 +189,20 @@ import commonHeade from '../components/header.vue'
                 addProject(){
                     var that = this
                     var obj = this.addProjectform
+                    let url=`${ReqUrl.addProject}`
                     if(!obj.name || !obj.desc){
                         this.$message('请输入项目名称和项目描述');
                     } else{
                         // this.dialogShow = false
                         this.closeDialog()
                         let paramsData={
-                            'projectDescribe': that.addProjectform.name,
-                            'projectName': that.addProjectform.desc,
+                            'projectDescribe': that.addProjectform.desc,
+                            'projectName': that.addProjectform.name,
                             'userId': that.userId
                         }
                   
                         that.$axios.post(
-                            `api/project/save`,
+                            url,
                             paramsData
                         )
                         .then((res) => {
@@ -231,6 +233,7 @@ import commonHeade from '../components/header.vue'
                 updateProject(){
                     var obj = this.updateProjectform
                     var that=this
+                    let url=`${ReqUrl.updateProject}`
                     if(!obj.name || !obj.desc){
                         this.$message('请输入修改名称和修改描述');
                         
@@ -246,7 +249,7 @@ import commonHeade from '../components/header.vue'
                         }
                   
                         that.$axios.post(
-                            `api/project/update`,
+                            url,
                             paramsData
                         )
                         .then((res) => {
@@ -276,8 +279,9 @@ import commonHeade from '../components/header.vue'
                     let paramData={
                         projectId:this.deleteId
                     }
+                    let url=`${ReqUrl.deleteProject}`
                     this.$axios.get(
-                        `api/project/delete`,
+                        url,
                         {
                             params:paramData,
                         })
@@ -292,8 +296,9 @@ import commonHeade from '../components/header.vue'
                 },
                 getProjeclist(){
                     // 获得项目列表
+                    console.log(ReqUrl)
                     var that = this
-                    
+                    let url=`${ReqUrl.getProjeclist}`
                     var paramData={
                         search:that.searchKey,
                         userId:that.userId,
@@ -301,7 +306,7 @@ import commonHeade from '../components/header.vue'
                         size:that.pageSize
                     }
                     that.$axios.get(
-                        `api/project/list`,
+                        url,
                         {
                             params:paramData,
                         })
@@ -377,9 +382,9 @@ import commonHeade from '../components/header.vue'
                         this.getProjeclist()
                     }
                 },
-                toDataset(){
+                toDataset(item){
                     // 跳转到数据集
-                    this.$router.push({path:'/dataSet'})
+                    this.$router.push({path:'/dataSet',query:{projectId:item.id}})
                 },
                 adddialogShow(){
                     // this.dialogShow = true
