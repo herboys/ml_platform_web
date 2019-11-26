@@ -54,109 +54,39 @@
                             </tr>
                         </thead>
 
-                        <tbody>
-                            <tr class="evenTr" v-for="(item,index) in dataList" :key="index">
-                                <td><span class="pull-icon down"></span></td>
+                        <tbody v-for="(item,index) in dataList" :key="index">
+                            <tr class="evenTr"  >
+                                <td @click="toggleTableshow(item,index)"><span class="pull-icon down" :class="item.isShow?'up':'down'"></span></td>
                                 <td>{{item.bmc}}</td>
-                                <td>756kb</td>
+                                <td>{{item.isShow}}</td>
                                 <td class="notStart">未开始</td>
+                                <!-- <td class="finished">已完成</td> -->
+                                <!-- <td class="unfininshed">未完成</td> -->
                                 <td>-</td>
                                 <td class="handle">
                                     <a class="look" @click="dialogTab">查看</a>
                                     <a class="pretreatment" @click="dialogPretreatment">预处理</a>
+                                    <a title="修改" class="xiugai" @click="updateText(item)"><span class="icon iconfont icon-xiugai" ></span></a>
                                     <a class="del" title="删除" @click="dialogDelete(item)"></a>
                                 </td>
                             </tr>
-                            <!-- <tr data-control="1" >
-                                
-                                <td><span class="pull-icon down"></span></td>
-                                <td>medcine</td>
-                                <td>756kb</td>
-                                <td class="finished">已完成</td>
-                                <td>动态规划</td>
-                                <td class="handle">
-                                    <a class="look">查看</a>
-                                    <a class="pretreatment">预处理</a>
-                                    <a class="del" title="删除" @click="deleteDatasource(),"></a>
-                                </td>
-                            </tr>
+                       
 
                             
-                            <tr name="1" class="sonTr">
-                                
+                            <tr class="sonTr" v-show="item.isShow">
+                                <td></td>
                                 <td>medcine</td>
                                 <td>42kb</td>
                                 <td class="pause">暂停中</td>
                                 <td>决策树</td>
                                 <td class="handle">
                                     <a class="icon icon1" title="查看数据"></a>
-                                    <a class="icon icon2" title="数据可视化"></a>
+                                    <router-link :to="{path:'/visual'}" class="icon icon2" title="数据可视化" ></router-link>
                                     <a class="icon icon3" title="特征工程" @click="dialogtezhenggongcheng"></a>
                                     <a class="icon icon4" title="开始训练" @click="dialogxunliangmoxing"></a>
                                     <a class="icon icon5 shanchu" title="删除" @click="dialogDeleteFB"></a>
                                 </td>
                             </tr>
-
-                            <tr name="1" class="sonTr">
-                                
-                                <td>medcine</td>
-                                <td>756kb</td>
-                                <td class="unfininshed">未完成</td>
-                                <td>-</td>
-                                <td class="handle">
-                                    <a class="icon icon1" title="查看数据"></a>
-                                    <a class="icon icon2" title="数据可视化"></a>
-                                    <a class="icon icon3" title="特征工程"></a>
-                                    <a class="icon icon4" title="开始训练"></a>
-                                    <a class="icon icon5 shanchu" title="删除" @click="dialogDeleteFB"></a>
-                                </td>
-                            </tr>
-                            
-
-                            <tr >
-                                <td><span class="pull-icon down"></span></td>
-                                <td>medcine_c</td>
-                                <td>76kb</td>
-                                <td class="unfininshed">未完成</td>
-                                <td>动态规划</td>
-                                <td class="handle">
-                                    <a class="look">查看</a>
-                                    <a class="pretreatment">预处理</a>
-                                    <a class="del" @click="dialogDelete"></a>
-                                </td>
-                            </tr> -->
-
-                            <!-- <tr data-control="2" >
-                                <td><span class="pull-icon down"></span></td>
-                                <td>medcine_c</td>
-                                <td>76kb</td>
-                                <td class="unfininshed">未完成</td>
-                                <td>动态规划</td>
-                                <td class="handle">
-                                    <a class="look">查看</a>
-                                    <a class="pretreatment">预处理</a>
-                                    <a class="del" title="删除" @click="dialogDelete"></a>
-                                </td>
-                            </tr>
-
-                            <tr name="2" class="sonTr">
-                                <td></td>
-                                <td>medcine</td>
-                                <td>42kb</td>
-                                <td class="pause">暂停中</td>
-
-                                <td>决策树</td>
-                                <td class="handle">
-                                    <a class="icon icon1" title="查看数据"></a>
-                                    <a class="icon icon2" title="数据可视化"></a>
-                                    <a class="icon icon3" title="特征工程"></a>
-                                    <a class="icon icon4" title="开始训练"></a>
-                                    <a class="icon icon5 shanchu" title="删除" @click="dialogDeleteFB"></a>
-                                </td>
-                            </tr> -->
-
-                        
-
                         </tbody>
                     </table>
                 </div>
@@ -401,25 +331,21 @@
             <div class="content alert-box-content">
                 <div class="upload">
                     <el-upload
-                        ref="upload"
                         class="upload-demo"
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        :on-remove="handleRemove"
-                        :limit="3"
-                        :before-upload="beforeUpload"
+                        ref="upload"
+                        :action="uploadUrl"
+                        :on-change="handleChange"
                         :on-success="uploadSuccess"
                         :on-error="uploadError"
                         :show-file-list="false"
-                        :auto-upload="false"
-                        >
-                        <div></div>
-                        <input type="text" class="input" placeholder="只上传原始数据集的csv、 xls、xlsx格式" v-model="filesName" disabled="disabled">
-                        <!-- <el-button size="small" type="primary">点击上传</el-button> -->
+                        :auto-upload="false">
+                        <input type="text" class="input" placeholder="只上传原始数据集的csv、 xls、xlsx格式" v-model="filesName"  disabled>
+                        <!-- <el-button slot="trigger" size="small" type="primary">选取文件</el-button> -->
                     </el-upload>
                 </div>
                 <div class="btn-wrap clearfix">
                     <button class="btn cancelBtn fl" @click="closeDialog">返回</button>
-                    <button class="btn okBtn fr" @click="submitUpload">上传</button>
+                    <button class="btn okBtn fr" type="success" @click="submitUpload">上传</button>
                 </div>
             </div>
         </div>
@@ -431,15 +357,14 @@
             </div>
             <div class="content alert-box-content">
                 <div class="content">
-                    <div><label for="linkName">连接名</label><input type="text " v-model="linkName" name="linkName"></div>
+                    <!-- <div><label for="linkName">连接名</label><input type="text " v-model="linkName" name="linkName"></div> -->
                     <div><label for="ipAddress">主机名或IP地址</label><input type="text " v-model="ipAddress" placeholder=""  name="ipAddress"></div>
                     <div><label for="port">端口</label><input type="text " v-model="port" placeholder=""  name="port"></div>
                     <div><label for="userName">用户名</label><input type="text " v-model="userName" name="userName"></div>
                     <div><label for="password">密码</label><input type="text " placeholder="" v-model="password" name="password"></div>
                     <div><label for="type">数据库类型</label>
-                        <select name="" id="">
-                            <option value="">mysql</option>
-                            <option value=""></option>
+                        <select name="" id="" v-model="selectType">
+                            <option :value="item" v-for="item in typeOption" :key="item">{{item}}</option>
                         </select>
                     </div>
                 </div>
@@ -573,8 +498,8 @@
 
     <!-- 特征工程 -->
         <div class="alert-box" id="alert-box-tezhenggongcheng">
-            <div class="arrow arrow-left" @click="tezhenggongcheng1Fn()"></div>
-            <div class="arrow arrow-right" @click="tezhenggongcheng2Fn()"></div>
+            <div class="arrow arrow-left" :class="tezhenggongcheng1 ?'off' :'on'" @click="tezhenggongcheng1Fn()"></div>
+            <div class="arrow arrow-right " :class="tezhenggongcheng2 ?'off' :'on'" @click="tezhenggongcheng2Fn()"></div>
             <div id="alert-box-tezhenggongcheng1" v-show="tezhenggongcheng1">
                 <div class="title text-c">
                     特征工程1
@@ -692,6 +617,25 @@
                     </div>
                 </div>
             </div>
+            
+        </div>
+        <!-- 修改数据集 -->
+        <div class="alert-box" id="alert-box-reviseNewObject">
+            <div class="title text-c">
+                修改该项目
+                <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
+            </div>
+            <div class="content alert-box-content">
+                <p>项目名称</p>
+                <input type="text" v-model="updateDatasource.name">
+                <!-- <p>项目描述</p>
+                <textarea v-model="updateDatasource.desc"></textarea> -->
+
+                <div class="btn-wrap clearfix">
+                    <button class="btn addBtn fl" @click="toUpdate()">确认</button>
+                    <button class="btn backBtn fr" @click="closeDialog">返回</button>
+                </div>
+            </div>
         </div>
         
     </div>
@@ -726,7 +670,7 @@
                     }
                 ],
                 active:"",
-                 doUpload:'/api/up/file',
+                doUpload:'/api/up/file',
                  pppss:{
                     srid:''
                 },
@@ -737,19 +681,21 @@
                 port:'3306',
                 userName:'root',
                 password:'!Aa123456',
-                tableData: [{
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }],
+                tableData: [
+                    {
+                        date: '2016-05-03',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1518 弄'
+                    }, {
+                        date: '2016-05-02',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1518 弄'
+                    }, {
+                        date: '2016-05-04',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1518 弄'
+                    }
+                ],
                 multipleSelection: [],
                 sjjName:'',
                 dataList:[],
@@ -766,8 +712,19 @@
                     '时间',
                     '数值'
                 ],
+                typeOption:[
+                    'mysql',
+                    'oracle'
+                ],
+                selectType:'mysql',
                 searchKey:'',
                 mapValue:{},
+                updateDatasource: {
+                    name: '',
+                    desc: '',
+                    id:null
+                },
+                uploadUrl:''
  
             }
         },
@@ -781,7 +738,6 @@
         },
         watch:{
             selectDatesource(val){
-                console.log(val)
                 // 库名切换时请求接口切换表名
                 this.toggleDatasource()
             },
@@ -789,7 +745,12 @@
                 // 表名切换时请求接口切换字段列表
                 this.toggleDatasource()
 
-            }
+            },
+            searchKey(val){
+                if(!val){
+                    this.getDatasource()
+                }
+            },
         },
         methods:{
             tezhenggongcheng1Fn(){
@@ -806,7 +767,7 @@
                     title: false,
                     anim: 2,
                     closeBtn: 0,
-                    area: ['630px', "512px"], //宽高
+                    area: ['660px', 1000], //宽高
                     content: $('#alert-box-tezhenggongcheng'),
                 });
             },
@@ -887,7 +848,6 @@
                 });
             },
             dialogDelete(item){
-                console.log(item)
                 this.currentId = item.taId
                 layer.open({
                     type: 1,
@@ -934,6 +894,7 @@
             // belle新加方法
             dialogUpload(){
                 // 上传文件
+                this.filesName = ''
                 layer.open({
                     type: 1,
                     title: false,
@@ -943,47 +904,36 @@
                     content: $('#alert-box-uploadFiles'),
                 });
             },
-            handleRemove(file, fileList) {
-                console.log(file, fileList);
+            submitUpload() {
+                this.$refs.upload.submit();
             },
-            handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-            },
-            beforeUpload(file){
-                console.log(file,'文件');
-                console.log(file.type,'文件');
-                this.filesName = file.name;
-                const extension = file.name.split('.')[1] == 'xls'
+            handleChange(file, fileList){
+                // 选择文件之后获得文件名进行格式判断
+                const extension = file.name.split('.')[1] == 'csv'
                 const extension2 = file.name.split('.')[1] == 'xlsx'
                 const extension3 = file.name.split('.')[1] == 'xlsx'
-                console.log(extension)
-                console.log(extension2)
                 // const isLt2M = file.size / 1024 / 1024 < 5
                 if (!extension && !extension2 && !extension3) {
                     this.$message.warning('上传模板只能是 xls、xlsx、csv格式!')
                     return
+                } else {
+                    this.filesName = file.name;
                 }
-                // if (!isLt2M) {
-                // this.$message.warning('上传模板大小不能超过 5MB!')
-                // return
-                // }
-                // this.fileName = file.name;
-                return false // 返回false不会自动上传
-            },
-            submitUpload(){
                 
-                this.$refs.upload.submit();
             },
             uploadSuccess(){
-                this.$message('成功');
+                
                 this.filesName = ''
                 this.closeDialog()
-
+                this.$message({
+                    message: '上传成功',
+                    type: 'success'
+                });
             },
             uploadError(){
-                this.$message('失败');
                 this.filesName = ''
                 this.closeDialog()
+                this.$message.error('上传失败');
             },
             dialogSjklink(){
                 dialogSjkLayer=layer.open({
@@ -1048,9 +998,10 @@
                     params: paramsData
                 })
                 .then(res=>{
-                    console.log(res)
                     that.dataList = res.data.list
-                    console.log(that.dataList)
+                    that.dataList.map(item=>{
+                        item.isShow = false
+                    })
                 })
             },
             toSearch(){
@@ -1074,7 +1025,6 @@
                     params: paramsData
                 })
                 .then(res=>{
-                    console.log(res)
 
                     that.getDatasource()
                 })
@@ -1090,7 +1040,7 @@
                     passWord:that.password,
                     projectId: that.projectId,
                     tableName: that.selectTablename || null,
-                    type: "mysql",
+                    type: that.selectType,
                     uid: 0,
                     url: that.ipAddress+':'+that.port,
                     userName: that.userName
@@ -1120,7 +1070,6 @@
                             obj.checked = false
                             that.fieldList.push(obj)
                         })
-                        console.log(that.fieldList)
                     }
                     
                 })
@@ -1141,7 +1090,6 @@
                 
             },
             toggleCheckbox(item,index){
-                console.log(item)
                 // 复选框切换
                 item.checked = !item.checked
                 var that= this
@@ -1164,12 +1112,14 @@
                 let that = this
                 let selectedNum =0
                 this.fieldList.filter(item=>{
-                    that.toMapvalue(item.field,item.fieldType)
+                    if(item.field != 'id'){
+                        that.toMapvalue(item.field,item.fieldType)
+                    }
+                    
                     if(item.checked){
                         selectedNum++
                     } 
                 })
-                console.log(this.mapValue)
                 if(selectedNum>0){
                     that.closesSelectsjk()
                 } else {
@@ -1179,7 +1129,6 @@
                 
             },
             toMapvalue(key, value){
-                // let keyValue = {};
                 this.mapValue[key] = value;
                 return this.mapValue;
             },
@@ -1209,12 +1158,70 @@
                     
                 })
                 
+            },
+            updateText(item){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    anim: 2,
+                    closeBtn: 0,
+                    area: ['530px', 1000], //宽高
+                    content: $('#alert-box-reviseNewObject'),
+                });
+                this.updateDatasource.name = item.bmc
+                this.updateDatasource.desc = item.projectDescribe
+                this.updateDatasource.id = item.taId
+                
+            },
+            toUpdate(){
+                let that = this
+                let url  =`${ReqUrl.updateDatasource}`
+                if(!that.updateDatasource.name){
+                    this.$message({
+                        message: '数据集名称不能为空',
+                        type: 'warning'
+                    });
+                    return
+                }
+                let paramsData={
+                    dataDesc: "" || null ,
+                    dataId: that.updateDatasource.id,
+                    dataName: that.updateDatasource.name || null,
+                    projectId: that.projectId,
+                    userId: 1
+                }
+                axios({
+                    url: url,
+                    method: 'post',
+                    data: paramsData
+                })
+                .then(res=>{
+                    that.getDatasource()
+                    that.closeDialog()
+                    
+                })
+            },
+            toggleTableshow(item,index){
+                this.$set(this.dataList,index,{
+                    isShow:!item.isShow,
+                    bmc:item.bmc,
+                    bms:item.bms,
+                    scbz:item.scbz,
+                    scsj:item.scsj,
+                    taId:item.taId,
+                    xgsj:item.xgsj,
+                    xmid:item.xmid,
+                    yhid:item.yhid,
+                    zds:item.zds,
+                })
+                
             }
 
         },
         created(){
             this.getDatasource()
             this.projectId = this.$route.query.projectId
+            this.uploadUrl = `${ReqUrl.saveDataupload}`
         }
     }
 </script>

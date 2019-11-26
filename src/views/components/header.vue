@@ -3,7 +3,7 @@
         <header id="header" class="clearfix">
             <ul class="fl clearfix">
                 <b id="line"></b>
-                <li  class="fl" :class="{active:checkNavIndex==index}" v-for="(item,index) in navList">
+                <li  class="fl" :class="{active:checkNavIndex==index}" v-for="(item,index) in navList" :key="index">
                     <router-link :to="{path:item.path}">{{item.name}}</router-link>
                    <!--<a href="javascript:void(0);">{{item.name}}</a>-->
                 </li>

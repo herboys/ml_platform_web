@@ -296,7 +296,6 @@ import commonHeade from '../components/header.vue'
                 },
                 getProjeclist(){
                     // 获得项目列表
-                    console.log(ReqUrl)
                     var that = this
                     let url=`${ReqUrl.getProjeclist}`
                     var paramData={

@@ -17,3 +17,5 @@ export const toggleDatasource = 'api/dataSource/connectDataSource'
 export const updateDatasource = 'api/dataSource/updateData'
     // 新建保存数据集
 export const saveDatasource = 'api/dataSource/saveData'
+    // 上传文件
+export const saveDataupload = 'api/dataSource/uploading'

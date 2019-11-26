@@ -524,7 +524,10 @@
     line-height: 35px;
     -webkit-appearance: none;
     background-color: transparent;
+    margin-left: 50px;
     border: 0;
+    border-bottom: solid 1px #505ba1;
+    color: #fff;
 }
 
 #alert-box-xunliangmoxing .content .item-list,
@@ -570,7 +573,7 @@
     outline: none;
     color: #fff;
     text-indent: 10px;
-    margin-left: 50px;
+    /* margin-left: 50px; */
     margin-bottom: 40px;
 }
 
@@ -594,6 +597,24 @@
     line-height: 35px;
     padding-right: 15px;
     vertical-align: middle;
+}
+
+#alert-box-sjkLink select {
+    width: 310px;
+    height: 35px;
+    line-height: 35px;
+    -webkit-appearance: none;
+    background-color: #243376;
+    border: 1px solid #505ba1;
+    border-radius: 4px;
+    outline: none;
+    position: relative;
+    background-image: url('../images/dark/dark-icon-other.png');
+    background-repeat: no-repeat;
+    background-position: 280px -218px;
+    color: #fff;
+    text-indent: 10px;
+    margin-left: 50px;
 }
 
 #alert-box-sjkLink input {
@@ -728,6 +749,10 @@
     color: #fff;
     text-indent: 10px;
     margin-bottom: 30px;
+}
+
+#main .shujuji-main .shujuji-table .icon-xiugai {
+    background: none;
 }
 
 #alert-box-sjjName .text {
