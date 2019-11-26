@@ -237,25 +237,211 @@
             </div>
         </div>
 
+
+            <!-- 直方图参数设置弹框  -->
+        <div class="alert-box" id="alert-box-setOption">
+            <div class="title text-c">
+                直方图参数设置
+                <span @click="closeDialog" class="close iconfont icon-cross-fill"></span>
+            </div>
+            <div class="content alert-box-content">
+                <p>x轴（可多选）</p>
+                <input type="text">
+                <p>Y轴</p>
+                <input type="text">
+
+                <div class="btn-wrap">
+                    <button @click="closeDialog" class="btn btnksh">进行可视化</button>
+                </div>
+            </div>
+        </div>
+
+
+<!-- echarts 弹框 -->
+        <div class="alert-box" id="alert-box-echarts">
+            <div class="slider">
+                <div class="slide">
+                    <div class="echarts-item">
+                        <div class="title text-c">
+                            高血压患病人数
+                            <span @click="closeDialog" class="close iconfont icon-cross-fill"></span>
+                        </div>
+                        <div class="content alert-box-content">
+                            <!-- <div class="echarts" id="echarts1"></div> -->
+                            <chart class="echarts" id="echarts1"  ref="echarts1" :initOptions="initOptions"></chart>
+                            <p class="text-c">
+                                <button class="btn btn-download">下载图像1</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="echarts-item">
+                        <div class="title text-c">
+                            高血压患病人数2
+                            <span @click="closeDialog" class="close iconfont icon-cross-fill"></span>
+                        </div>
+                        <div class="content alert-box-content">
+                            <!-- <div class="echarts" id="echarts2"></div> -->
+                            <chart class="echarts" id="echarts2" ref="echarts2" :initOptions="initOptions"></chart>
+                            <p class="text-c">
+                                <button class="btn btn-download">下载图像2</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="echarts-item">
+                        <div class="title text-c">
+                            高血压患病人数3
+                            <span @click="closeDialog" class="close iconfont icon-cross-fill"></span>
+                        </div>
+                        <div class="content alert-box-content">
+                            <!-- <div class="echarts" id="echarts3"></div> -->
+                            <chart class="echarts" id="echarts3" ref="echarts3" :initOptions="initOptions"></chart>
+                            <p class="text-c">
+                                <button class="btn btn-download">下载图像3</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
     </div>
 </template>
 
 <script>
     import inputTimePick from '../components/inputTimePick'
+    import ECharts from 'vue-echarts/components/ECharts.vue'
     export default  {
         data(){
             return {
                 startTime:"",
                 endTime:"",
+                initOptions:{
+                    renderer:"svg"
+                },
+                data1:{
+                    x: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                    y:[3000, 6000, 8000, 4334, 6390, 2330, 4220, 8810, 1240, 5320, 1522, 5000]
+                },
+
             }
         },
-        components:{inputTimePick},
+        components:{inputTimePick,chart:ECharts},
+        mounted(){
+           // this.dialogSetOption();//直方图参数设置弹框 
+
+        //    //echarts 图表弹窗
+        //     this.dialogEchart();
+        //     $('#alert-box-echarts .slider').bxSlider({
+        //         slideWidth: 676,
+        //         infiniteLoop: false,
+        //         hideControlOnEnd: true,
+        //         slideMargin: 0,
+        //         pager: false
+        //     });
+        },
+
+
+        computed:{
+            
+            options:function(xAxisData, ServeData){
+                option = {
+                    color: ['#3398DB'],
+                    legend: {
+                        textStyle: {
+                            color: "#fff",
+                            fontSize: 14
+                        },
+                        itemHeight: 14,
+                        itemWidth: 14,
+                        left: 'center',
+                        top: "20",
+                        data: [{
+                            name: '点击量',
+                            icon: 'rect',
+                        }]
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    grid: {
+                        left: '8%',
+                        right: '6%',
+                        bottom: '6%',
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        data: xAxisData,
+                        axisTick: false,
+                        axisLabel: {
+                            color: '#fff'
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: "#708ec1"
+                            }
+                        },
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        splitNumber: 5,
+                        axisLabel: {
+                            color: '#fff'
+                        },
+                        axisTick: {
+                            show: false,
+                        },
+                        axisLine: {
+                            show: false,
+                        },
+                        splitLine: {
+                            show: false
+                        }
+                    }],
+                    series: [{
+                        name: '点击量',
+                        type: 'bar',
+                        barWidth: '50%',
+                        itemStyle: {
+                            barBorderRadius: 4,
+                            color: '#02b09a' //改变柱状图颜色
+                        },
+                        data: ServeData
+                    }]
+                };
+                return option
+            }
+        },
+
         methods:{
             changeStartTime(time){
                 this.startTime=time;
             },
             changeEndTime(time){
                 this.endTime=time;
+            },
+            dialogEchart(){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    anim: 2,
+                    closeBtn: 0,
+                    area: ['676px', 1000], //宽高
+                    content: $('#alert-box-echarts'),
+                });
             },
             dialogDelete(id){
                 layer.open({
@@ -267,9 +453,21 @@
                     content: $('#alert-box-del'),
                 });
             },
+            dialogSetOption(id){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    anim: 2,
+                    closeBtn: 0,
+                    area: ['510px', 1000], //宽高
+                    content: $('#alert-box-setOption'),
+                });
+            },
             closeDialog(){
                 layer.closeAll();
-            }
+            },
+
+
         }
     }
 </script>
