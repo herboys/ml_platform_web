@@ -467,6 +467,9 @@
                         <span class="icon minus">-</span>
                         </div>
                     </div>
+
+
+
                 </div>
                 
 
@@ -493,6 +496,7 @@
                     特征工程1
                     <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
                 </div>
+                <div class="content-wrap">
                 <div class="content alert-box-content">
                     <div class="item-lists">
                         <div class="item-list clearfix">
@@ -537,6 +541,7 @@
                                 <span class="icon minus">-</span>
                                 </div>
                             </div>
+                       
                         
                         </div>
                         
@@ -546,6 +551,7 @@
                     <div class="btn-wrap text-c">
                         <button class="btn begin" @click="closeDialog">调用更多配方</button>
                     </div>
+                </div>
                 </div>
             </div>
 
@@ -715,7 +721,7 @@
                     title: false,
                     anim: 2,
                     closeBtn: 0,
-                    area: ['630px', "512px"], //宽高
+                    area: ['630px', 'auto'], //宽高
                     content: $('#alert-box-tezhenggongcheng'),
                 });
             },

@@ -50,7 +50,7 @@
                             <td>03:25:12</td>
                             <td class="status finished">已完成</td>
                             <td class="handle">
-                                <a class="look">查看</a>
+                                <a class="look" @click="dialogEchart();">查看</a>
                                 <a @click="dialogDelete" class="del"><span class="iconfont icon-shanchu"></span></a>
                             </td>
                         </tr>
@@ -267,10 +267,9 @@
                             <span @click="closeDialog" class="close iconfont icon-cross-fill"></span>
                         </div>
                         <div class="content alert-box-content">
-                            <!-- <div class="echarts" id="echarts1"></div> -->
-                            <chart class="echarts" id="echarts1"  ref="echarts1" :initOptions="initOptions"></chart>
+                            <chart class="echarts" id="echarts1"></chart>
                             <p class="text-c">
-                                <button class="btn btn-download">下载图像1</button>
+                                <button class="btn btn-download" @click="downloadImgFn($event)">下载图像1</button>
                             </p>
                         </div>
                     </div>
@@ -283,31 +282,13 @@
                             <span @click="closeDialog" class="close iconfont icon-cross-fill"></span>
                         </div>
                         <div class="content alert-box-content">
-                            <!-- <div class="echarts" id="echarts2"></div> -->
-                            <chart class="echarts" id="echarts2" ref="echarts2" :initOptions="initOptions"></chart>
+                            <chart class="echarts" id="echarts2" ref="echarts2"></chart>
                             <p class="text-c">
                                 <button class="btn btn-download">下载图像2</button>
                             </p>
                         </div>
                     </div>
                 </div>
-
-                <div class="slide">
-                    <div class="echarts-item">
-                        <div class="title text-c">
-                            高血压患病人数3
-                            <span @click="closeDialog" class="close iconfont icon-cross-fill"></span>
-                        </div>
-                        <div class="content alert-box-content">
-                            <!-- <div class="echarts" id="echarts3"></div> -->
-                            <chart class="echarts" id="echarts3" ref="echarts3" :initOptions="initOptions"></chart>
-                            <p class="text-c">
-                                <button class="btn btn-download">下载图像3</button>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
         </div>
@@ -329,104 +310,121 @@
                     renderer:"svg"
                 },
                 data1:{
-                    x: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-                    y:[3000, 6000, 8000, 4334, 6390, 2330, 4220, 8810, 1240, 5320, 1522, 5000]
-                },
+                    'x': ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                    'y':[3000, 6000, 8000, 4334, 6390, 2330, 4220, 8810, 1240, 5320, 1522, 5000]
+                }
 
             }
         },
         components:{inputTimePick,chart:ECharts},
         mounted(){
            // this.dialogSetOption();//直方图参数设置弹框 
-
-        //    //echarts 图表弹窗
-        //     this.dialogEchart();
-        //     $('#alert-box-echarts .slider').bxSlider({
-        //         slideWidth: 676,
-        //         infiniteLoop: false,
-        //         hideControlOnEnd: true,
-        //         slideMargin: 0,
-        //         pager: false
-        //     });
-        },
-
-
-        computed:{
             
-            options:function(xAxisData, ServeData){
-                option = {
-                    color: ['#3398DB'],
-                    legend: {
-                        textStyle: {
-                            color: "#fff",
-                            fontSize: 14
-                        },
-                        itemHeight: 14,
-                        itemWidth: 14,
-                        left: 'center',
-                        top: "20",
-                        data: [{
-                            name: '点击量',
-                            icon: 'rect',
-                        }]
-                    },
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: { // 坐标轴指示器，坐标轴触发有效
-                            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-                        }
-                    },
-                    grid: {
-                        left: '8%',
-                        right: '6%',
-                        bottom: '6%',
-                        containLabel: true
-                    },
-                    xAxis: [{
-                        type: 'category',
-                        data: xAxisData,
-                        axisTick: false,
-                        axisLabel: {
-                            color: '#fff'
-                        },
-                        axisLine: {
-                            lineStyle: {
-                                color: "#708ec1"
-                            }
-                        },
-                    }],
-                    yAxis: [{
-                        type: 'value',
-                        splitNumber: 5,
-                        axisLabel: {
-                            color: '#fff'
-                        },
-                        axisTick: {
-                            show: false,
-                        },
-                        axisLine: {
-                            show: false,
-                        },
-                        splitLine: {
-                            show: false
-                        }
-                    }],
-                    series: [{
-                        name: '点击量',
-                        type: 'bar',
-                        barWidth: '50%',
-                        itemStyle: {
-                            barBorderRadius: 4,
-                            color: '#02b09a' //改变柱状图颜色
-                        },
-                        data: ServeData
-                    }]
-                };
-                return option
-            }
         },
 
         methods:{
+
+
+            drawBar(id,xAxisData,yAxisData){
+                // 基于准备好的dom，初始化echarts实例
+                let myChart = this.$echarts.init(document.getElementById(id))
+                // 绘制图表
+                myChart.setOption({
+                    color: ['#3398DB'],
+                        legend: {
+                            textStyle: {
+                                color: "#fff",
+                                fontSize: 14
+                            },
+                            itemHeight: 14,
+                            itemWidth: 14,
+                            left: 'center',
+                            top: "20",
+                            data: [{
+                                name: '点击量',
+                                icon: 'rect',
+                            }]
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                                type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        grid: {
+                            left: '8%',
+                            right: '6%',
+                            bottom: '6%',
+                            containLabel: true
+                        },
+                        xAxis: [{
+                            type: 'category',
+                            data:xAxisData,
+                            axisTick: false,
+                            axisLabel: {
+                                color: '#fff'
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: "#708ec1"
+                                }
+                            },
+                        }],
+                        yAxis: [{
+                            type: 'value',
+                            splitNumber: 5,
+                            axisLabel: {
+                                color: '#fff'
+                            },
+                            axisTick: {
+                                show: false,
+                            },
+                            axisLine: {
+                                show: false,
+                            },
+                            splitLine: {
+                                show: false
+                            }
+                        }],
+                        series: [{
+                            name: '点击量',
+                            type: 'bar',
+                            barWidth: '50%',
+                            itemStyle: {
+                                barBorderRadius: 4,
+                                color: '#02b09a' //改变柱状图颜色
+                            },
+                            data:yAxisData
+                        }]
+                });
+            },
+            downloadImgFn(id){
+                console.log(id)
+                var img = new Image();
+                img.src = echarts.init(document.getElementById(id)).getDataURL({
+                    pixelRatio: 2,
+                    backgroundColor: '#33407a'
+                });
+                var url = img.getAttribute("src");
+                const imgUrl = url;
+                if (window.navigator.msSaveOrOpenBlob) {
+                    let bstr = atob(imgUrl.split(",")[1]);
+                    let n = bstr.length;
+                    let u8arr = new Uint8Array(n);
+                    while (n--) {
+                        u8arr[n] = bstr.charCodeAt(n);
+                    }
+                    let blob = new Blob([u8arr]);
+                    window.navigator.msSaveOrOpenBlob(blob, "chart-download" + "." + "png");
+                } else {
+                    // 这里就按照chrome等新版浏览器来处理
+                    let a = document.createElement("a");
+                    a.href = imgUrl;
+                    a.setAttribute("download", "chart-download");
+                    a.click();
+                }
+            },
+
             changeStartTime(time){
                 this.startTime=time;
             },
@@ -442,6 +440,16 @@
                     area: ['676px', 1000], //宽高
                     content: $('#alert-box-echarts'),
                 });
+
+                $('#alert-box-echarts .slider').bxSlider({
+                    slideWidth: 676,
+                    infiniteLoop: false,
+                    hideControlOnEnd: true,
+                    slideMargin: 0,
+                    pager: false
+                });
+                this.drawBar('echarts1',this.data1.x,this.data1.y);
+
             },
             dialogDelete(id){
                 layer.open({

@@ -564,6 +564,10 @@
     background-position: 0 -136px;
 }
 
+.breadpage {
+    margin-bottom: 15px;
+}
+
 .breadpage span a {
     font-size: 12px;
 }

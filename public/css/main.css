@@ -525,14 +525,14 @@
     width: 25px;
     height: 25px;
     display: inline-block;
-    background-image: url(../images/dark/dark-icon-other.png);
+    /* background-image: url(../images/dark/dark-icon-other.png); */
     background-repeat: no-repeat;
     background-position: 0 -136px;
     vertical-align: -4px;
 }
 
 #main .shujuji-main .shujuji-table .icon {
-    background-image: url(../images/dark/dark-icon-other.png);
+    /* background-image: url(../images/dark/dark-icon-other.png); */
     background-repeat: no-repeat;
     width: 25px;
     height: 25px;
@@ -560,6 +560,10 @@
     background-position: 0 -136px;
 }
 
+.breadpage {
+    margin-bottom: 20px;
+}
+
 .breadpage span a {
     font-size: 12px;
 }
@@ -571,20 +575,4 @@
 .breadpage .dark_bread,
 .breadpage .dark_bread a {
     color: #838fa9;
-}
-
-#main .shujuji-main .shujuji-table td.notStart {
-    color: #00c1a9;
-}
-
-#main .shujuji-main .shujuji-table td.finished {
-    color: #b1c8fe;
-}
-
-#main .shujuji-main .shujuji-table td.unfininshed {
-    color: #8875dd;
-}
-
-#main .shujuji-main .shujuji-table td.pause {
-    color: #17a6d5;
 }
