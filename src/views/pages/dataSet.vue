@@ -66,7 +66,7 @@
                                 <td class="handle">
                                     <a class="look" @click="dialogTab">查看</a>
                                     <a class="pretreatment" @click="dialogPretreatment">预处理</a>
-                                    <a title="修改" class="xiugai" @click="updateText(item)"><span class="icon iconfont icon-xiugai" ></span></a>
+                                    <a title="修改" class="xiugai" @click="updateText(item)"><span class="iconfont icon-xiugai" ></span></a>
                                     <a class="del" title="删除" @click="dialogDelete(item)"></a>
                                 </td>
                             </tr>
@@ -251,7 +251,9 @@
                                 <span class="fl help">帮助</span>
                                 <span class="border-right"></span>
                                 <span class="txt">
+                                        
                                         特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
+                                        
                                 </span>
                             </p>
 
@@ -269,7 +271,9 @@
                                 <span class="fl help">帮助</span>
                                 <span class="border-right"></span>
                                 <span class="txt">
+                                        
                                         特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
+                                        
                                 </span>
                             </p>
 
@@ -289,6 +293,7 @@
                                 <span class="border-right"></span>
                                 <span class="txt">
                                         特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
+                                       
                                 </span>
                             </p>
 
@@ -471,13 +476,6 @@
                         </div>
                         
                     </div>
-<<<<<<< HEAD
-
-
-
-                </div>
-                
-=======
                     <div class="list">
                         <div class="item-list clearfix">
                             <span class="fl name">拆分列数</span>
@@ -488,7 +486,6 @@
                         </div>
                     </div>
                     
->>>>>>> c194a5268ab5d492ae367748dc37af613d4fc467
 
 
                 </div>
@@ -558,7 +555,7 @@
                                 <span class="icon minus">-</span>
                                 </div>
                             </div>
-                       
+        
                         
                         </div>
                         
@@ -817,10 +814,10 @@
                 });
 
 
-                $(".pop").hover(function() {
+                $("#alert-box-shujujiTab .pop").hover(function() {
                     var positionTop = $(this).position().top;
                     var txtHeight = $(this).find(".txt").height();
-                    var alertBoxHeight = $("#alert-box-shujuyuchuli").height();
+                    var alertBoxHeight = $("#alert-box-shujujiTab").height();
                     var dic=document.getElementById("alert-box-shujujiTab").scrollHeight-document.getElementById("alert-box-shujujiTab").clientHeight;
                     if (positionTop + txtHeight > alertBoxHeight) {
                         $(this).find(".txt").css({
@@ -838,29 +835,6 @@
             selected(name){
                 this.active = name;
             },
-<<<<<<< HEAD
-            dialogtezhenggongcheng(){
-                layer.open({
-                    type: 1,
-                    title: false,
-                    anim: 2,
-                    closeBtn: 0,
-                    area: ['630px', 'auto'], //宽高
-                    content: $('#alert-box-tezhenggongcheng'),
-                });
-            },
-            dialogxunliangmoxing(){
-                layer.open({
-                    type: 1,
-                    title: false,
-                    anim: 2,
-                    closeBtn: 0,
-                    area: ['600px', "auto"], //宽高
-                    content: $('#alert-box-xunliangmoxing'),
-                });
-            },
-=======
->>>>>>> c194a5268ab5d492ae367748dc37af613d4fc467
             dialogTab(){
                 layer.open({
                     type: 1,
@@ -1199,7 +1173,7 @@
                     title: false,
                     anim: 2,
                     closeBtn: 0,
-                    area: ['530px', 1000], //宽高
+                    area: ['580px', 1000], //宽高
                     content: $('#alert-box-reviseNewObject'),
                 });
                 this.updateDatasource.name = item.bmc

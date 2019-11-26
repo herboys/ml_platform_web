@@ -524,7 +524,7 @@
 }
 
 #alert-box-uploadFiles .btn-wrap {
-    padding: 20px 15px;
+    padding: 20px 50px;
 }
 
 #alert-box-uploadFiles .btn-wrap .btn {
@@ -598,7 +598,7 @@
     color: #fff;
     text-indent: 10px;
     /* margin-left: 50px; */
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
 }
 
 #alert-box-uploadFiles .el-upload__input {
@@ -673,7 +673,7 @@
     padding: 12px 40px;
     color: #fff;
     background-color: #369bf0;
-    float: right;
+    /* float: right; */
     /* margin: 20px 0; */
 }
 
