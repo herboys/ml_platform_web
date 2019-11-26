@@ -17,6 +17,7 @@
         components:{Header},
         mounted(){
             //this.drawLine();
+            // this.$router.push({path:'/project'})
         },
         methods: {
             drawLine(){
