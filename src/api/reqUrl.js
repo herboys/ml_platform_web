@@ -19,3 +19,5 @@ export const updateDatasource = 'api/dataSource/updateData'
 export const saveDatasource = 'api/dataSource/saveData'
     // 上传文件
 export const saveDataupload = 'api/dataSource/uploading'
+    // 获取预处理各列数据
+export const preProcessing = 'api/transcript/taId'
