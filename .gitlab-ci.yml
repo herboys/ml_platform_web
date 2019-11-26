@@ -7,7 +7,6 @@ deploy_production:
     - ai-test-by-shell
   script:
     - source /root/.bashrc && cd /home/build/ml_platform_web/docker && git pull && ./build.sh
-    - cd /home/build/ml_platform_deploy && docker-compose down && docker-compose up -d && echo "try visit: http://10.1.192.120:8016/"
+    - cd /home/build/ml_platform_deploy && docker-compose down && docker-compose up -d && echo try visit http://10.1.192.120:8016/
   only:
     - master
-
