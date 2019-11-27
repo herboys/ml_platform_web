@@ -620,13 +620,13 @@
 }
 
 .swiperItem {
-    width: 210px;
+    /* width: 210px; */
 }
 
 .swiper-wrap .echarts {
     background-color: #202453;
     height: 156px;
-    width: 210px;
+    width: auto !important;
 }
 
 .swiper-wrap .pageNumber span {

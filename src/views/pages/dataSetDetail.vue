@@ -29,10 +29,7 @@
                             <div class="swiperItem">
                                 <div class="swiper-top">
                                     <div class="echarts">
-                                        <swiper ref="EchartSwiper">
-                                            <swiper-slide>I'm Slide 1</swiper-slide>
-                                            <swiper-slide>I'm Slide 2</swiper-slide>
-                                        </swiper>
+                    
                                     </div>
                                     <div class="pageNumber">
                                         <span></span>
