@@ -884,6 +884,10 @@
     cursor: pointer;
 }
 
+#alert-box-tezhenggongcheng .content .item-list .minus {
+    right: -50px;
+}
+
 #alert-box-xunliangmoxing .content .item-list span.minus,
 #alert-box-tezhenggongcheng .content .item-list span.minus {
     line-height: 15px;

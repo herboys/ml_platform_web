@@ -57,8 +57,8 @@
                         <tbody v-for="(item,index) in dataList" :key="index">
                             <tr class="evenTr"  >
                                 <td @click="toggleTableshow(item,index)"><span class="pull-icon down" :class="item.isShow?'up':'down'"></span></td>
-                                <td>{{item.dataName}}</td>
-                                <td>{{item.isShow}}</td>
+                                <td @dblclick="updateText(item)" ><a href="javascript:void(0)">{{item.dataName}}</a></td>
+                                <td>735kb</td>
                                 <td class="notStart">未开始</td>
                                 <!-- <td class="finished">已完成</td> -->
                                 <!-- <td class="unfininshed">未完成</td> -->
@@ -66,7 +66,7 @@
                                 <td class="handle">
                                     <a class="look" @click="dialogTab">查看</a>
                                     <a class="pretreatment" @click="dialogPretreatment(item)">预处理</a>
-                                    <a title="修改" class="xiugai" @click="updateText(item)"><span class="icon iconfont icon-xiugai" ></span></a>
+                                    <!-- <span title="修改" class="xiugai" @click="updateText(item)"><span class="icon iconfont icon-xiugai" ></span></a> -->
                                     <a class="del" title="删除" @click="dialogDelete(item)"></a>
                                 </td>
                             </tr>
@@ -527,12 +527,13 @@
                             <span class="light">特称组合：</span>
                         </p>
     
-                        <div>
+                        <div v-for="(item,index) in mergeList" >
                             <div class="item-list clearfix">
                                 <span class="fl name">选择需要合并的列</span>
                                 <div class="form-wrap fl clearfix">
                                     <select class="fl select"></select>
-                                    <span class="icon add">+</span>
+                                    <span class="icon add" @click="addMerge" v-show="index ==0">+</span>
+                                    <span class="icon minus" @click="removeMerge" v-show="mergeList.length>1 && index ==0">-</span>
                                 </div>
                             </div>
                             <div class="item-list clearfix">
@@ -544,12 +545,13 @@
                         <p class="t">
                             <span class="light">特征拆分：</span>
                         </p>
-                        <div>
+                        <div v-for="(item,index) in splitList">
                             <div class="item-list clearfix">
                                 <span class="fl name">选择需要拆分的列</span>
                                 <div class="form-wrap fl clearfix">
                                     <select class="fl select"></select>
-                                    <span class="icon add">+</span>
+                                    <span class="icon add" @click="addSplit" v-show="index ==0">+</span>
+                                    <span class="icon minus" @click="removeSplit" v-show="splitList.length>1 && index ==0">-</span>
                                 </div>
                             </div>
 
@@ -558,7 +560,7 @@
                                     <span class="fl name">拆分列数</span>
                                     <div class="form-wrap fl clearfix">
                                     <input type="text" class="fl input" placeholder="请输入拆分列数">
-                                    <span class="icon minus">-</span>
+                                    
                                     </div>
                                 </div>
                             
@@ -696,21 +698,6 @@
                 port:'3306',
                 userName:'root',
                 password:'!Aa123456',
-                tableData: [
-                    {
-                        date: '2016-05-03',
-                        name: '王小虎',
-                        address: '上海市普陀区金沙江路 1518 弄'
-                    }, {
-                        date: '2016-05-02',
-                        name: '王小虎',
-                        address: '上海市普陀区金沙江路 1518 弄'
-                    }, {
-                        date: '2016-05-04',
-                        name: '王小虎',
-                        address: '上海市普陀区金沙江路 1518 弄'
-                    }
-                ],
                 multipleSelection: [],
                 sjjName:'',
                 dataList:[],
@@ -739,7 +726,19 @@
                     desc: '',
                     id:null
                 },
-                uploadUrl:''
+                uploadUrl:'',
+                mergeList:[
+                    {
+                        colmun:'',
+                        name:''
+                    }
+                ],//特征工程合并列
+                splitList:[
+                    {
+                        colmun:'',
+                        name:''
+                    }
+                ] //特征工程拆分列
  
             }
         },
@@ -1241,6 +1240,28 @@
                     dsId:item.dsId
                 })
                 
+            },
+            addMerge(){
+                // 添加合并列
+                let obj={
+                    colmun:'',
+                    name:''
+                }
+                this.mergeList.push(obj)
+            },
+            addSplit(){
+                // 添加拆分列
+                let obj={
+                    colmun:'',
+                    name:''
+                }
+                this.splitList.push(obj)
+            },
+            removeMerge(){
+                this.mergeList.pop()
+            },
+            removeSplit(){
+                this.splitList.pop()
             }
 
         },
