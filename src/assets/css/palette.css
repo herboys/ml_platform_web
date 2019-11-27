@@ -1,6 +1,6 @@
 #palette {
     padding: 20px 24px;
-    width: 230px;
+    width: 315px;
     color: #fff;
     background: rgba(42, 61, 147, 0.8);
     border-radius: 10px;
@@ -81,7 +81,7 @@
 }
 
 #palette .palette-list .content1 .flex3 .p1 {
-    background: #4373ff;
+    background: #394a55;
 }
 
 #palette .palette-list .content1 .flex .p2 {
@@ -103,7 +103,7 @@
 }
 
 #palette .palette-list .content1 .flex3 .p2 {
-    background: #ffffff;
+    background: #595555;
     color: #283684;
 }
 
@@ -180,6 +180,7 @@
 
 #palette .btn-wrap {
     margin-left: 22px;
+    margin-right: 22px;
     font-size: 0;
     margin-top: 32px;
 }
@@ -188,16 +189,18 @@
     font-size: 14px;
     padding: 8px 15px;
     border-radius: 4px;
-    float: left;
+    width: 40%;
 }
 
 #palette .btn-wrap a.cannel-btn {
     color: #3879f2;
     background: #fff;
     margin-right: 22px;
+    float: left;
 }
 
 #palette .btn-wrap a.success-btn {
     color: #fff;
     background: #3879f2;
+    float: right;
 }

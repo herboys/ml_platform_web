@@ -269,7 +269,7 @@
                         <div class="content alert-box-content">
                             <chart class="echarts" id="echarts1"></chart>
                             <p class="text-c">
-                                <button class="btn btn-download" @click="downloadImgFn($event)">下载图像1</button>
+                                <button class="btn btn-download" @click="downloadImgFn('echarts1')">下载图像</button>
                             </p>
                         </div>
                     </div>
@@ -284,7 +284,7 @@
                         <div class="content alert-box-content">
                             <chart class="echarts" id="echarts2" ref="echarts2"></chart>
                             <p class="text-c">
-                                <button class="btn btn-download">下载图像2</button>
+                                <button class="btn btn-download" @click="downloadImgFn('echarts2')">下载图像</button>
                             </p>
                         </div>
                     </div>
@@ -299,8 +299,9 @@
 </template>
 
 <script>
+    const echarts = require('echarts');
     import inputTimePick from '../components/inputTimePick'
-    import ECharts from 'vue-echarts/components/ECharts.vue'
+    import EChartsComponents from 'vue-echarts/components/ECharts.vue'
     export default  {
         data(){
             return {
@@ -316,9 +317,9 @@
 
             }
         },
-        components:{inputTimePick,chart:ECharts},
+        components:{inputTimePick,chart:EChartsComponents},
         mounted(){
-           // this.dialogSetOption();//直方图参数设置弹框 
+           this.dialogSetOption();//直方图参数设置弹框 
             
         },
 
@@ -399,7 +400,7 @@
                 });
             },
             downloadImgFn(id){
-                console.log(id)
+
                 var img = new Image();
                 img.src = echarts.init(document.getElementById(id)).getDataURL({
                     pixelRatio: 2,

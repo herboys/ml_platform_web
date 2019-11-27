@@ -183,7 +183,7 @@ var themeConfig = {
 
 }
 
-var theme = "black",
+var theme = "dark",
     chooseTheme = {};
 
 if (localStorage.getItem('themeRobot')) {
