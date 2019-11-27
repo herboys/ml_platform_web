@@ -10,7 +10,7 @@ tagName=ml_platform_web
 echo "===>step2: build docker image:$tagName"
 cd docker
 rm -r dist  && cp -r ../dist .
-docker build -t $tagName .
+docker build -t $tagName --no-cache  .
 # tagName2=10.1.192.120:5000/$tagName:"$(date +%Y%m%d)"
 tagName2=10.1.192.120:5000/$tagName
 docker tag $tagName $tagName2
