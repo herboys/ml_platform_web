@@ -972,7 +972,7 @@
                 // 选择文件之后获得文件名进行格式判断
                 const extension = file.name.split('.')[1] == 'csv'
                 const extension2 = file.name.split('.')[1] == 'xlsx'
-                const extension3 = file.name.split('.')[1] == 'xlsx'
+                const extension3 = file.name.split('.')[1] == 'xls'
                 // const isLt2M = file.size / 1024 / 1024 < 5
                 if (!extension && !extension2 && !extension3) {
                     this.$message.warning('上传模板只能是 xls、xlsx、csv格式!')
