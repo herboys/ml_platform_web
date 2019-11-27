@@ -1,6 +1,6 @@
 echo "===>step0: update code"
 cd ..
-git pull
+git reset --hard && git pull
 
 echo "===>step1: build web"
 npm install
