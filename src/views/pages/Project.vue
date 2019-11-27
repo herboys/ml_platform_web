@@ -45,27 +45,27 @@
                     </table>
                 </div>
                 <div class="ui-page-sort">
-                        <div class="right-tool">
-                            <span class="span-setting">
-                                    每页条数
-                                    <select class="select-text" v-model="pageSize">
-                                        <option v-for="(item,index) in options" :key="index" :value="item.value"> {{item.value}}</option>
-                                    </select>
-                                </span>
+                    <div class="right-tool">
+                        <span class="span-setting">
+                                每页条数
+                                <select class="select-text" v-model="pageSize">
+                                    <option v-for="(item,index) in options" :key="index" :value="item.value"> {{item.value}}</option>
+                                </select>
+                            </span>
 
-                            <span class="span-number">
-                                     转到
-                                    <input class="input-text" type="text" v-model="page" />
-                                    <a class="go-btn" href="javascript:void(0);" @click="goPage()">GO</a>
-                                </span>
+                        <span class="span-number">
+                                    转到
+                                <input class="input-text" type="text" v-model="page" />
+                                <a class="go-btn" href="javascript:void(0);" @click="goPage()">GO</a>
+                            </span>
 
-                            <span class="span-tool">
-                                    <a class="page-a" href="javascript:void(0);" @click="page = 1,getProjeclist()">首页</a>
-                                    <a class="page-a" href="javascript:void(0);" @click="nextPage">下一页</a>
-                                    <a class="page-a" href="javascript:void(0);" @click="page = maxPage,getProjeclist()">末页</a>
-                                </span>
-                        </div>
+                        <span class="span-tool">
+                                <a class="page-a" href="javascript:void(0);" @click="page = 1,getProjeclist()">首页</a>
+                                <a class="page-a" href="javascript:void(0);" @click="nextPage">下一页</a>
+                                <a class="page-a" href="javascript:void(0);" @click="page = maxPage,getProjeclist()">末页</a>
+                            </span>
                     </div>
+                </div>
 
 
 
@@ -362,6 +362,7 @@ import commonHeade from '../components/header.vue'
                     if(!this.searchKey){
                         this.$message('检索项目名称不能为空');
                     } else {
+                        this.page = 1
                         this.getProjeclist()
                     }
                     
