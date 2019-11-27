@@ -1,5 +1,5 @@
 <template>
-    <chart ref="echarts" class="echarts-line" :initOptions="initOptions" :options="options"></chart>
+    <chart ref="echarts" class="echarts" :initOptions="initOptions" :options="options"></chart>
 </template>
 
 <script>
@@ -39,5 +39,6 @@
 <style scoped>
     .echarts{
         width: 100%;
+        height: 156px;
     }
 </style>
