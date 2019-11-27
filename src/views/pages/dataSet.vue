@@ -927,7 +927,7 @@
                     title: false,
                     anim: 2,
                     closeBtn: 0,
-                    area: ['500px', '250px'], //宽高
+                    area: ['500px', '220px'], //宽高
                     content: $('#alert-box-uploadFiles'),
                 });
             },

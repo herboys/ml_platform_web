@@ -557,6 +557,10 @@
     float: left;
 }
 
+#alert-box-uploadFiles .alert-box-content {
+    margin-top: 20px;
+}
+
 #alert-box-xunliangmoxing .content .item-list,
 #alert-box-tezhenggongcheng .content .item-list {
     margin-bottom: 20px;
