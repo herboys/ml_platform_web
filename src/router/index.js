@@ -6,6 +6,7 @@ import Visual from '../views/pages/Visual'
 import Project from '../views/pages/Project.vue'
 import Explain from '../views/pages/Explain.vue'
 import DataSet from '../views/pages/dataSet.vue'
+import DataSetDetail from '../views/pages/dataSetDetail.vue'
 Vue.use(VueRouter)
 
 const routes = [{
@@ -62,6 +63,14 @@ const routes = [{
                 component: Project,
                 meta: {
                     title: '项目'
+                }
+            },
+            {
+                path: '/DataSetDetail',
+                name: DataSetDetail,
+                component: DataSetDetail,
+                meta: {
+                    title: '数据集详情'
                 }
             }
         ]
