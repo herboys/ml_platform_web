@@ -550,6 +550,7 @@
     -webkit-appearance: none;
     background-color: transparent;
     margin-left: 50px;
+    margin-right: 10px;
     border: 0;
     border-bottom: solid 1px #505ba1;
     color: #fff;
@@ -783,7 +784,7 @@
 }
 
 #main .shujuji-main .shujuji-table .icon-xiugai {
-    background: none;
+    background: none!important;
 }
 
 #alert-box-sjjName .text {
