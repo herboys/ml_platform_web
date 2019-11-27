@@ -596,3 +596,117 @@
 #main .shujuji-main .shujuji-table td.pause {
     color: #17a6d5;
 }
+
+.swiper-wrap .t {
+    font-size: 14px;
+    color: #fff;
+    margin-top: 4px;
+    margin-right: 40px;
+    cursor: pointer;
+}
+
+.swiper-wrap .t i {
+    width: 8px;
+    height: 8px;
+    background-color: #08afc2;
+    border-radius: 50%;
+    float: left;
+    margin-top: 5px;
+    margin-right: 8px;
+}
+
+#main .swiper-wrap .search-wrap {
+    width: auto;
+}
+
+.swiperItem {
+    width: 210px;
+}
+
+.swiper-wrap .echarts {
+    background-color: #202453;
+    height: 156px;
+    width: 210px;
+}
+
+.swiper-wrap .pageNumber span {
+    width: 33.333%;
+    float: left;
+    height: 4px;
+    background-color: #374286;
+}
+
+.swiper-wrap .pageNumber span.on {
+    background-color: #4a59b9;
+}
+
+.swiper-wrap .swiper-ul {
+    border: 1px solid #505ba1;
+    padding: 0 15px;
+    width: 190px;
+    margin: 0 auto;
+}
+
+.swiper-wrap .swiper-ul li {
+    cursor: pointer;
+}
+
+.swiper-wrap .swiper-ul>ul>li {
+    border-bottom: 1px dashed #3a4279;
+    color: #b1c8fe;
+    text-align: center;
+    font-size: 14px;
+    padding: 15px 0;
+}
+
+.swiper-wrap .swiper-ul>ul>li:last-child {
+    border-bottom: none;
+}
+
+.swiper-wrap .swiper-ul>ul>li .icon {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-image: url(../images/dark/dark-icon-other.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    background-position: 0 2px;
+}
+
+.swiper-wrap .swiper-ul>ul>li .icon.down {
+    background-position: 0 2px;
+}
+
+.swiper-wrap .swiper-ul>ul>li .icon.up {
+    background-position: 0 -15px;
+}
+
+.swiper-wrap .swiper-ul>ul>li.p {
+    position: relative;
+}
+
+.swiper-wrap .swiper-ul>ul>li ul.s {
+    position: absolute;
+    top: 40px;
+    left: 30px;
+    padding: 5px 10px;
+    background-color: #323c78;
+    box-shadow: 0 0 10px #363232;
+    border-radius: 5px;
+}
+
+.swiper-wrap .swiper-ul>ul>li ul.s li {
+    padding: 7px 12px;
+    border-bottom: 1px dashed #707384;
+    color: #00cce4;
+    text-align: center;
+    font-size: 14px;
+}
+
+.swiper-wrap .swiper-ul>ul>li ul.s li:last-child {
+    border-bottom: 0;
+}
+
+.swiperList {
+    margin-top: 20px;
+}
