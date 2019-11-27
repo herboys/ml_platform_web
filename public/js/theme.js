@@ -48,7 +48,11 @@ var themeConfig = {
         keshihuatableChecked: 'url(../images/dark/dark-icon-all.png)',
         keshihuaTableHandlePretreatment: "#3f97f1",
         backgroundBgOther: 'url(../images/dark/dark-icon-other.png)',
-        keshihuatabletrsonTr: "#151b3c"
+        keshihuatabletrsonTr: "#151b3c",
+        shujujiTableNotStart: "#00c1a9",
+        shujujiTableFinished: "#b1c8fe",
+        shujujiTableUninished: "#8875dd",
+        shujujiTablePause: "#17a6d5",
     },
     white: {
         index: 2,
@@ -99,7 +103,11 @@ var themeConfig = {
         keshihuatableChecked: 'url(../images/white/white-icon-all.png)',
         keshihuaTableHandlePretreatment: "#333",
         backgroundBgOther: 'url(../images/white/white-icon-other.png)',
-        keshihuatabletrsonTr: "#fff"
+        keshihuatabletrsonTr: "#fff",
+        shujujiTableNotStart: "#00c1a9",
+        shujujiTableFinished: "#b1c8fe",
+        shujujiTableUninished: "#8875dd",
+        shujujiTablePause: "#17a6d5",
     },
     black: {
         index: 3,
@@ -155,11 +163,18 @@ var themeConfig = {
         mainKeshihuaMainSearchWrapTimewrapIcon: "url(../images/black/black-icon-all.png)",
         mainKeshihuamainsearchwrapsearchbtnBgImage: "linear-gradient(0deg, #00a8ff, #00a8ff)",
         mainKeshihuaMainSearchWrapS1: "#ffffff",
+        shujujiTableNotStart: "#00c0ff",
+        shujujiTableFinished: "#b7e2ff",
+        shujujiTableUninished: "#00c0ff",
+        shujujiTablePause: "#00a8ff",
+        backgroundBgOther: 'url(../images/black/black-icon-other.png)',
+
+
+
 
 
         keshihuaTableThColor: "#8b9df9",
         keshihuaTableHandlePretreatment: "#3f97f1",
-        backgroundBgOther: 'url(../images/dark/dark-icon-other.png)',
         keshihuatabletrsonTr: "#151b3c"
 
 
@@ -168,7 +183,7 @@ var themeConfig = {
 
 }
 
-var theme = "dark",
+var theme = "black",
     chooseTheme = {};
 
 if (localStorage.getItem('themeRobot')) {

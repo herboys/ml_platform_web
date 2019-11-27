@@ -251,7 +251,9 @@
                                 <span class="fl help">帮助</span>
                                 <span class="border-right"></span>
                                 <span class="txt">
+                                        
                                         特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
+                                        
                                 </span>
                             </p>
 
@@ -269,7 +271,9 @@
                                 <span class="fl help">帮助</span>
                                 <span class="border-right"></span>
                                 <span class="txt">
+                                        
                                         特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
+                                        
                                 </span>
                             </p>
 
@@ -289,6 +293,7 @@
                                 <span class="border-right"></span>
                                 <span class="txt">
                                         特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
+                                       
                                 </span>
                             </p>
 
@@ -510,6 +515,7 @@
                     特征工程1
                     <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
                 </div>
+                <div class="content-wrap">
                 <div class="content alert-box-content">
                     <div class="item-lists">
                         <div class="item-list clearfix">
@@ -567,6 +573,7 @@
                     <div class="btn-wrap text-c">
                         <button class="btn begin" @click="closeDialog">调用更多配方</button>
                     </div>
+                </div>
                 </div>
             </div>
 
@@ -815,10 +822,10 @@
                 });
 
 
-                $(".pop").hover(function() {
+                $("#alert-box-shujujiTab .pop").hover(function() {
                     var positionTop = $(this).position().top;
                     var txtHeight = $(this).find(".txt").height();
-                    var alertBoxHeight = $("#alert-box-shujuyuchuli").height();
+                    var alertBoxHeight = $("#alert-box-shujujiTab").height();
                     var dic=document.getElementById("alert-box-shujujiTab").scrollHeight-document.getElementById("alert-box-shujujiTab").clientHeight;
                     if (positionTop + txtHeight > alertBoxHeight) {
                         $(this).find(".txt").css({
@@ -1190,7 +1197,7 @@
                     title: false,
                     anim: 2,
                     closeBtn: 0,
-                    area: ['530px', 1000], //宽高
+                    area: ['580px', 1000], //宽高
                     content: $('#alert-box-reviseNewObject'),
                 });
                 this.updateDatasource.name = item.dataName

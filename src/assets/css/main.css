@@ -328,7 +328,7 @@
 }
 
 .keshihua-table td.handle a {
-    margin-right: 5px;
+    margin-right: 12px;
 }
 
 
@@ -562,6 +562,10 @@
 
 #main .shujuji-main .shujuji-table .icon5 {
     background-position: 0 -136px;
+}
+
+.breadpage {
+    margin-bottom: 15px;
 }
 
 .breadpage span a {
