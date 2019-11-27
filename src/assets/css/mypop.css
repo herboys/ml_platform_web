@@ -529,7 +529,8 @@
 
 #alert-box-uploadFiles .btn-wrap .btn {
     font-size: 16px;
-    padding: 12px 40px;
+    padding: 10px 35px;
+    margin-top: 20px;
 }
 
 #alert-box-uploadFiles .btn-wrap .cancelBtn {
@@ -552,6 +553,7 @@
     border: 0;
     border-bottom: solid 1px #505ba1;
     color: #fff;
+    float: left;
 }
 
 #alert-box-xunliangmoxing .content .item-list,
@@ -658,7 +660,7 @@
 
 #alert-box-sjkLink .content {
     width: 650px;
-    margin: 0 auto;
+    margin: 25px auto;
 }
 
 #alert-box-sjkLink .btn-wrap {
@@ -687,7 +689,7 @@
 }
 
 #alert-box-selectSjk select {
-    width: 270px;
+    width: 300px;
     height: 35px;
     line-height: 35px;
     -webkit-appearance: none;
@@ -698,7 +700,7 @@
     position: relative;
     background-image: url(../images/dark/dark-icon-other.png);
     background-repeat: no-repeat;
-    background-position: 230px -218px;
+    background-position: 270px -218px;
     color: #fff;
     text-indent: 10px;
 }
@@ -759,6 +761,11 @@
 
 #alert-box-selectSjk table td:first-child {
     width: 50px;
+}
+
+#alert-box-selectSjk .tableBox {
+    height: 220px;
+    overflow-y: scroll;
 }
 
 #alert-box-sjjName input {

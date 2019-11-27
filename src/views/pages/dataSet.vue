@@ -57,7 +57,7 @@
                         <tbody v-for="(item,index) in dataList" :key="index">
                             <tr class="evenTr"  >
                                 <td @click="toggleTableshow(item,index)"><span class="pull-icon down" :class="item.isShow?'up':'down'"></span></td>
-                                <td>{{item.bmc}}</td>
+                                <td>{{item.dataName}}</td>
                                 <td>{{item.isShow}}</td>
                                 <td class="notStart">未开始</td>
                                 <!-- <td class="finished">已完成</td> -->
@@ -65,8 +65,8 @@
                                 <td>-</td>
                                 <td class="handle">
                                     <a class="look" @click="dialogTab">查看</a>
-                                    <a class="pretreatment" @click="dialogPretreatment">预处理</a>
-                                    <a title="修改" class="xiugai" @click="updateText(item)"><span class="iconfont icon-xiugai" ></span></a>
+                                    <a class="pretreatment" @click="dialogPretreatment(item)">预处理</a>
+                                    <a title="修改" class="xiugai" @click="updateText(item)"><span class="icon iconfont icon-xiugai" ></span></a>
                                     <a class="del" title="删除" @click="dialogDelete(item)"></a>
                                 </td>
                             </tr>
@@ -344,8 +344,10 @@
                         :on-error="uploadError"
                         :show-file-list="false"
                         :auto-upload="false">
-                        <input type="text" class="input" placeholder="只上传原始数据集的csv、 xls、xlsx格式" v-model="filesName"  disabled>
-                        <!-- <el-button slot="trigger" size="small" type="primary">选取文件</el-button> -->
+                        
+                        <input type="text" class="input" placeholder="请上传原始数据集的csv、 xls、xlsx格式" v-model="filesName"  disabled>
+                        <el-button slot="trigger" size="small" type="primary">浏览文件</el-button>
+                        
                     </el-upload>
                 </div>
                 <div class="btn-wrap clearfix">
@@ -399,28 +401,31 @@
                         </select>
                     </div>
                     <div class="text item">选择上传字段并确认字段类型</div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <td><input type="checkbox" @click="isCheckAll = !isCheckAll,checkAll()" :checked="isCheckAll" id="toggleAll"></td>
-                                <td>字段名称</td>
-                                <td>字段类型</td>
-                            </tr>
-                            
-                        </thead>
-                        <tbody>
-                            <tr v-for="(item,index) in fieldList" :key="index">
-                                <td><input type="checkbox" :checked="item.checked"  @click="toggleCheckbox(item,index)"/><span class="toggle"></span></td>
-                                <td>{{item.field}}</td>
-                                <td>
-                                    <select name="" id="" v-model="item.fieldType">
-                                        <option :value="type" v-for="(type,index) in optionList" :key="index">{{type}}</option>
-                                    </select>
-                                    
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="tableBox" >
+                        <table border="0" cellspacing="0" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <td><input type="checkbox" @click="isCheckAll = !isCheckAll,checkAll()" :checked="isCheckAll" id="toggleAll"></td>
+                                    <td>字段名称</td>
+                                    <td>字段类型</td>
+                                </tr>
+                                
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item,index) in fieldList" :key="index">
+                                    <td><input type="checkbox" :checked="item.checked"  @click="toggleCheckbox(item,index)"/><span class="toggle"></span></td>
+                                    <td>{{item.field}}</td>
+                                    <td>
+                                        <select name="" id="" v-model="item.fieldType">
+                                            <option :value="type" v-for="(type,index) in optionList" :key="index">{{type}}</option>
+                                        </select>
+                                        
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
                     
                 </div>
 
@@ -501,7 +506,7 @@
 
 
 
-    <!-- 特征工程 -->
+        <!-- 特征工程 -->
         <div class="alert-box" id="alert-box-tezhenggongcheng">
             <div class="arrow arrow-left" :class="tezhenggongcheng1 ?'off' :'on'" @click="tezhenggongcheng1Fn()"></div>
             <div class="arrow arrow-right " :class="tezhenggongcheng2 ?'off' :'on'" @click="tezhenggongcheng2Fn()"></div>
@@ -522,42 +527,45 @@
                             <span class="light">特称组合：</span>
                         </p>
     
-
-                        <div class="item-list clearfix">
-                            <span class="fl name">选择需要合并的列</span>
-                            <div class="form-wrap fl clearfix">
-                                <select class="fl select"></select>
-                                <span class="icon add">+</span>
+                        <div>
+                            <div class="item-list clearfix">
+                                <span class="fl name">选择需要合并的列</span>
+                                <div class="form-wrap fl clearfix">
+                                    <select class="fl select"></select>
+                                    <span class="icon add">+</span>
+                                </div>
+                            </div>
+                            <div class="item-list clearfix">
+                                <span class="fl name">合并列名称</span>
+                                <input class="fl input" placeholder="请输入合并列的名称" />
                             </div>
                         </div>
-                        <div class="item-list clearfix">
-                            <span class="fl name">合并列名称</span>
-                            <input class="fl input" placeholder="请输入合并列的名称" />
-                        </div>
+                        
 
                         <p class="t">
                             <span class="light">特征拆分：</span>
                         </p>
-
-                        <div class="item-list clearfix">
-                            <span class="fl name">选择需要拆分的列</span>
-                            <div class="form-wrap fl clearfix">
-                                <select class="fl select"></select>
-                                <span class="icon add">+</span>
-                            </div>
-                        </div>
-
-                        <div class="list">
+                        <div>
                             <div class="item-list clearfix">
-                                <span class="fl name">拆分列数</span>
+                                <span class="fl name">选择需要拆分的列</span>
                                 <div class="form-wrap fl clearfix">
-                                <input type="text" class="fl input" placeholder="请输入拆分列数">
-                                <span class="icon minus">-</span>
+                                    <select class="fl select"></select>
+                                    <span class="icon add">+</span>
                                 </div>
                             </div>
-        
-                        
+
+                            <div class="list">
+                                <div class="item-list clearfix">
+                                    <span class="fl name">拆分列数</span>
+                                    <div class="form-wrap fl clearfix">
+                                    <input type="text" class="fl input" placeholder="请输入拆分列数">
+                                    <span class="icon minus">-</span>
+                                    </div>
+                                </div>
+                            
+                            </div>
                         </div>
+                        
                         
 
                     </div>
@@ -845,7 +853,7 @@
                     content: $('#alert-box-shujujiTab'),
                 });
             },
-            dialogPretreatment(){
+            dialogPretreatment(item){
                 layer.open({
                     type: 1,
                     title: false,
@@ -854,9 +862,22 @@
                     area: ['860px', 1000], //宽高
                     content: $('#alert-box-shujuyuchuli'),
                 });
+                let url=`${ReqUrl.preProcessing}`
+                let paramsData={
+                    taId:item.dsId
+                }
+                axios({
+                    url: url,
+                    method: 'get',
+                    params: paramsData
+                })
+                .then(res=>{
+                    console.log(res)
+                })
+
             },
             dialogDelete(item){
-                this.currentId = item.taId
+                this.currentId = item.dsId
                 layer.open({
                     type: 1,
                     title: false,
@@ -908,7 +929,7 @@
                     title: false,
                     anim: 2,
                     closeBtn: 0,
-                    area: ['422px', 1000], //宽高
+                    area: ['500px', '200px'], //宽高
                     content: $('#alert-box-uploadFiles'),
                 });
             },
@@ -961,7 +982,7 @@
                     title: false,
                     anim: 2,
                     closeBtn: 0,
-                    area: ['650px', 1000], //宽高
+                    area: ['600px', 1000], //宽高
                     content: $('#alert-box-selectSjk'),
                 });
             },
@@ -1001,7 +1022,7 @@
                     search:that.searchKey
                 }
                 axios({
-                    url: 'api/dataSource/getData',
+                    url: url,
                     method: 'post',
                     params: paramsData
                 })
@@ -1080,6 +1101,9 @@
                         })
                     }
                     
+                })
+                .catch(error=>{
+                    this.$message.error('测试失败');
                 })
             },
             checkAll(){
@@ -1176,9 +1200,9 @@
                     area: ['580px', 1000], //宽高
                     content: $('#alert-box-reviseNewObject'),
                 });
-                this.updateDatasource.name = item.bmc
-                this.updateDatasource.desc = item.projectDescribe
-                this.updateDatasource.id = item.taId
+                this.updateDatasource.name = item.dataName
+                this.updateDatasource.desc = item.dataDesc
+                this.updateDatasource.id = item.dsId
                 
             },
             toUpdate(){
@@ -1212,15 +1236,10 @@
             toggleTableshow(item,index){
                 this.$set(this.dataList,index,{
                     isShow:!item.isShow,
-                    bmc:item.bmc,
-                    bms:item.bms,
-                    scbz:item.scbz,
-                    scsj:item.scsj,
-                    taId:item.taId,
-                    xgsj:item.xgsj,
-                    xmid:item.xmid,
-                    yhid:item.yhid,
-                    zds:item.zds,
+                    dataDesc:item.dataDesc,
+                    dataName:item.dataName,
+                    dsDesDtos:item.dsDesDtos,
+                    dsId:item.dsId
                 })
                 
             }
