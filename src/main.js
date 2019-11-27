@@ -18,6 +18,13 @@ Vue.prototype.$echarts = echarts
 import axios from './api/ajax'
 
 
+
+//VueSwiper
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+// require styles
+import 'swiper/dist/css/swiper.css'
+Vue.use(VueAwesomeSwiper, /* { default global options } */ )
+
 // 引用全局变量
 import globalVariable from '../src/assets/js/globalVal.js'
 Vue.prototype.GLOBAL = globalVariable
