@@ -36,12 +36,17 @@
                                 <p class="p2"></p>
                                 <i class="check" :class="{checked:theme=='white'}"></i>
                             </div>
+                            <div @click="changeTheme('black')" class="flex flex3 fl">
+                                <p class="p1"></p>
+                                <p class="p2"></p>
+                                <i class="check" :class="{checked:theme=='black'}"></i>
+                            </div>
                         </div>
                     </div>
 
                     <div class="btn-wrap clearfix">
-                        <a @click="cancelTheme" class="cannel-btn">取消</a>
-                        <a @click="sureTheme" class="success-btn">确认</a>
+                        <a @click="cancelTheme" class="cannel-btn text-c">取消</a>
+                        <a @click="sureTheme" class="success-btn text-c">确认</a>
                     </div>
 
                 </div>
@@ -58,6 +63,11 @@
                         <i class="check checked"></i>
                     </div>
                     <div class="flex flex2 fl" @click="themTwo">
+                        <p class="p1"></p>
+                        <p class="p2"></p>
+                        <i class="check"></i>
+                    </div>
+                    <div class="flex flex3 fl">
                         <p class="p1"></p>
                         <p class="p2"></p>
                         <i class="check"></i>

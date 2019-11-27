@@ -376,7 +376,7 @@
                     </div>
                 </div>
 
-                <div class="btn-wrap">
+                <div class="btn-wrap text-c">
                     <!-- <button class="more" @click="closeDialog">调用更多配方</button> -->
                     <button class="btn" @click="toggleDatasource()">测试并进行下一步</button>
                 </div>
@@ -540,7 +540,6 @@
                                 <input class="fl input" placeholder="请输入合并列的名称" />
                             </div>
                         </div>
-                        
 
                         <p class="t">
                             <span class="light">特征拆分：</span>
@@ -929,7 +928,7 @@
                     title: false,
                     anim: 2,
                     closeBtn: 0,
-                    area: ['500px', '200px'], //宽高
+                    area: ['500px', '250px'], //宽高
                     content: $('#alert-box-uploadFiles'),
                 });
             },

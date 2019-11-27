@@ -1,7 +1,8 @@
 <template>
-    <div>
+    <div style="height:100%;">
         <commonHeade @showPalette="togglePalette" :isShow="paletteShow"></commonHeade>
         
+        <div class="wrapbody">
         <section id="main">
             <div class="keshihua-main xiangmu-main">
 
@@ -70,6 +71,7 @@
 
             </div>
         </section>
+        </div>
         <!-- 弹窗删除 -->
         <div class="alert-box" id="alert-box-del">
             <div class="title text-c">
