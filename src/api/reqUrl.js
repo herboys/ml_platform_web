@@ -21,3 +21,7 @@ export const saveDatasource = 'api/dataSource/saveData'
 export const saveDataupload = 'api/dataSource/uploading'
     // 获取预处理各列数据
 export const preProcessing = 'api/transcript/taId'
+    //删除副本
+export const deleteTranscript = 'api/transcript/deleteTranscript'
+    //数据预处理接口
+export const pretreatment = 'api/transcript/pretreatment'
