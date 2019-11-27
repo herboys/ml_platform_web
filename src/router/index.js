@@ -47,18 +47,27 @@ const routes = [{
                 meta: {
                     title: '数据集'
                 },
+            },
+            {
+                path: '/',
+                name: Project,
+                component: Project,
+                meta: {
+                    title: '项目'
+                }
+            },
+            {
+                path: '/project',
+                name: Project,
+                component: Project,
+                meta: {
+                    title: '项目'
+                }
             }
         ]
     },
 
-    {
-        path: '/project',
-        name: Project,
-        component: Project,
-        meta: {
-            title: '项目'
-        }
-    }
+
 ]
 
 const router = new VueRouter({
