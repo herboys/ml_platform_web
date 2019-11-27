@@ -30,7 +30,7 @@
                         <p @click="chooseType"><span>{{chooseTypeTxt}}</span> <i class="icon up-icon"></i></p>
                         <div v-show="isShowChooseType">
                             <ul>
-                                <li @click="chooseThis($event)">以文件方式</li>
+                                <li @click="chooseThis($event)">以文件方式上传</li>
                                 <li @click="chooseThis($event)">以数据库方式上传</li>
                                 <li @click="chooseThis($event)">以大数据环境上传</li>
                                 <li @click="chooseThis($event)">云方式上传</li>
@@ -417,7 +417,7 @@
                             <option :value="item" v-for="(item,index) in dataBaseList" :key="index">{{item}}</option>
                         </select>
                     </div>
-                    <div class="item"><label for="ipAddress">选择表名字</label>
+                    <div class="item"><label for="ipAddress">选择表名</label>
                         <select v-model="selectTablename">
                             <option :value="item" v-for="(item,index) in tableNameList"  :key="index">{{item}}</option>
                         </select>
@@ -930,13 +930,14 @@
             },
             closeDialog(){
                 layer.closeAll();
+                this.chooseTypeTxt ='上传数据集'
             },
             chooseType(){
                 this.isShowChooseType=!this.isShowChooseType;
             },
             chooseThis(e){
                 this.chooseTypeTxt=e.target.innerText;
-                if(this.chooseTypeTxt == '以文件方式'){
+                if(this.chooseTypeTxt == '以文件方式上传'){
                     // 上传文件方法
                     this.dialogUpload()
                 } else if(this.chooseTypeTxt =='以数据库方式上传'){
@@ -1070,7 +1071,8 @@
                 if(!this.searchKey){
                     this.$message('请输入数据集名称');
                 } else {
-                    this.deleteDatasource()
+                    this.page = 1
+                    this.getDatasource()
                 }
             },
             deleteDatasource(){
