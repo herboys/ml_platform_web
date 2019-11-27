@@ -4,7 +4,7 @@ git reset --hard && git pull
 
 echo "===>step1: build web"
 npm install
-npm build
+npm run build
 
 tagName=ml_platform_web
 echo "===>step2: build docker image:$tagName"
