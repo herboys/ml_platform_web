@@ -2,6 +2,8 @@
     <div class="wrapbody">
 
 
+
+
         <section id="main">
 
 
@@ -22,20 +24,21 @@
                 </div>
 
                 <div class="swiperList">
-                    <swiper :options="swiperOption" ref="SwiperWrap">
+                    <swiper :options="swiperOption" class="swiper-wrap-new" ref="SwiperWrap">
                         <!-- slides -->
-                        <swiper-slide>
-                            
+                        <swiper-slide  class="swiper-no-swiping">
+
                             <div class="swiperItem">
                                 <div class="swiper-top">
-                                    <div class="echarts">
-                    
-                                    </div>
-                                    <div class="pageNumber">
-                                        <span></span>
-                                        <span class="on"></span>
-                                        <span></span>
-                                    </div>
+                                    <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart01">
+                                        <swiper-slide>
+                                            <swiper-chart :values="echartsOption"></swiper-chart>
+                                        </swiper-slide>
+                                        <swiper-slide>
+                                            <swiper-chart :values="echartsOption"></swiper-chart>
+                                        </swiper-slide>
+                                        <div class="swiper-pagination" slot="pagination"></div>
+                                    </swiper>
                                 </div>
 
                                 <div class="swiper-rect"></div>
@@ -61,8 +64,8 @@
 
                         </swiper-slide>
 
-                        <swiper-slide>
-                            
+                        <swiper-slide  class="swiper-no-swiping">
+
                             <div class="swiperItem">
                                 <div class="swiper-top">
                                     <div class="echarts">
@@ -98,7 +101,7 @@
 
                         </swiper-slide>
 
-                        <swiper-slide>    
+                        <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
                                     <div class="echarts">
@@ -133,7 +136,7 @@
                             </div>
                         </swiper-slide>
 
-                        <swiper-slide>    
+                        <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
                                     <div class="echarts">
@@ -168,7 +171,7 @@
                             </div>
                         </swiper-slide>
 
-                        <swiper-slide>    
+                        <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
                                     <div class="echarts">
@@ -203,7 +206,7 @@
                             </div>
                         </swiper-slide>
 
-                        <swiper-slide>    
+                        <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
                                     <div class="echarts">
@@ -238,7 +241,7 @@
                             </div>
                         </swiper-slide>
 
-                        <swiper-slide>    
+                        <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
                                     <div class="echarts">
@@ -277,22 +280,9 @@
                     </swiper>
                 </div>
 
-
-
-
-
-
-
-
-
             </div>
         </section>
 
-
-
-
-
-        
     </div>
 </template>
 
@@ -302,15 +292,27 @@
     export default  {
         data(){
             return {
+                swiperInit:false,
                 swiperOption: {
                     slidesPerView: 6,
                     spaceBetween: 16,
+                    on: {
+                        init: ()=>{
+                            this.swiperInit=true;
+                            //this.$refs.swiperEchart01.swiper.init();
+                        }
+                    },
                     navigation: {
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev',
                     },
                 },
                 swiperOptionEchart: {
+                   // init: false,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable:true
+                    }
                 },
                 echartsOption:{
                     title: { text: '在Vue中使用echarts' },
@@ -325,13 +327,13 @@
                         data: [5, 20, 36, 10, 10, 20]
                     }]
                 }
-                
+
             }
         },
         computed: {
-            swiper() {
-                return this.$refs.SwiperWrap.swiper
-            },
+            // swiper() {
+            //     return this.$refs.SwiperWrap.swiper
+            // },
 
         },
         components:{inputTimePick,swiperChart},
@@ -348,6 +350,6 @@
         }
     }
 </script>
-<style scoped>
+<style>
 
 </style>

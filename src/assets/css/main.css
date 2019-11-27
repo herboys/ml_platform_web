@@ -597,7 +597,7 @@
     color: #17a6d5;
 }
 
-.swiper-wrap .t {
+.swiper-wrap-new .t {
     font-size: 14px;
     color: #fff;
     margin-top: 4px;
@@ -605,7 +605,7 @@
     cursor: pointer;
 }
 
-.swiper-wrap .t i {
+.swiper-wrap-new  .t i {
     width: 8px;
     height: 8px;
     background-color: #08afc2;
@@ -615,7 +615,7 @@
     margin-right: 8px;
 }
 
-#main .swiper-wrap .search-wrap {
+#main .swiper-wrap-new  .search-wrap {
     width: auto;
 }
 
@@ -623,35 +623,35 @@
     /* width: 210px; */
 }
 
-.swiper-wrap .echarts {
+.swiper-wrap-new .echarts {
     background-color: #202453;
     height: 156px;
     width: auto !important;
 }
 
-.swiper-wrap .pageNumber span {
+.swiper-wrap-new .pageNumber span {
     width: 33.333%;
     float: left;
     height: 4px;
     background-color: #374286;
 }
 
-.swiper-wrap .pageNumber span.on {
+.swiper-wrap-new  .pageNumber span.on {
     background-color: #4a59b9;
 }
 
-.swiper-wrap .swiper-ul {
+.swiper-wrap-new  .swiper-ul {
     border: 1px solid #505ba1;
     padding: 0 15px;
-    width: 190px;
+    /*width: 190px;*/
     margin: 0 auto;
 }
 
-.swiper-wrap .swiper-ul li {
+.swiper-wrap-new  .swiper-ul li {
     cursor: pointer;
 }
 
-.swiper-wrap .swiper-ul>ul>li {
+.swiper-wrap-new  .swiper-ul>ul>li {
     border-bottom: 1px dashed #3a4279;
     color: #b1c8fe;
     text-align: center;
@@ -659,11 +659,11 @@
     padding: 15px 0;
 }
 
-.swiper-wrap .swiper-ul>ul>li:last-child {
+.swiper-wrap-new  .swiper-ul>ul>li:last-child {
     border-bottom: none;
 }
 
-.swiper-wrap .swiper-ul>ul>li .icon {
+.swiper-wrap-new  .swiper-ul>ul>li .icon {
     display: inline-block;
     width: 10px;
     height: 10px;
@@ -673,19 +673,19 @@
     background-position: 0 2px;
 }
 
-.swiper-wrap .swiper-ul>ul>li .icon.down {
+.swiper-wrap-new  .swiper-ul>ul>li .icon.down {
     background-position: 0 2px;
 }
 
-.swiper-wrap .swiper-ul>ul>li .icon.up {
+.swiper-wrap-new  .swiper-ul>ul>li .icon.up {
     background-position: 0 -15px;
 }
 
-.swiper-wrap .swiper-ul>ul>li.p {
+.swiper-wrap-new  .swiper-ul>ul>li.p {
     position: relative;
 }
 
-.swiper-wrap .swiper-ul>ul>li ul.s {
+.swiper-wrap-new  .swiper-ul>ul>li ul.s {
     position: absolute;
     top: 40px;
     left: 30px;
@@ -695,7 +695,7 @@
     border-radius: 5px;
 }
 
-.swiper-wrap .swiper-ul>ul>li ul.s li {
+.swiper-wrap-new  .swiper-ul>ul>li ul.s li {
     padding: 7px 12px;
     border-bottom: 1px dashed #707384;
     color: #00cce4;
@@ -703,10 +703,36 @@
     font-size: 14px;
 }
 
-.swiper-wrap .swiper-ul>ul>li ul.s li:last-child {
+.swiper-wrap-new .swiper-ul>ul>li ul.s li:last-child {
     border-bottom: 0;
 }
 
 .swiperList {
     margin-top: 20px;
+}
+
+
+.swiper-echarts{
+
+}
+
+.swiper-echarts.swiper-container-horizontal > .swiper-pagination-bullets {
+    bottom:0;
+    display: flex;
+}
+.swiper-echarts.swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet{
+    flex: 1;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    height: 4px;
+    background-color: #374286;
+    opacity: 1;
+}
+.swiper-echarts.swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet:focus{
+    outline: 0;
+}
+
+.swiper-echarts.swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet-active{
+    background:#4a59b9;
 }
