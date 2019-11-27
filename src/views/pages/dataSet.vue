@@ -90,6 +90,28 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="ui-page-sort">
+                    <div class="right-tool">
+                        <span class="span-setting">
+                                每页条数
+                                <select class="select-text" v-model="pageSize">
+                                    <option v-for="(item,index) in options" :key="index" :value="item.value"> {{item.value}}</option>
+                                </select>
+                            </span>
+
+                        <span class="span-number">
+                                    转到
+                                <input class="input-text" type="text" v-model="page" />
+                                <a class="go-btn" href="javascript:void(0);" @click="goPage()">GO</a>
+                            </span>
+
+                        <span class="span-tool">
+                                <a class="page-a" href="javascript:void(0);" @click="page = 1,getDatasource()">首页</a>
+                                <a class="page-a" href="javascript:void(0);" @click="nextPage">下一页</a>
+                                <a class="page-a" href="javascript:void(0);" @click="page = maxPage,getDatasource()">末页</a>
+                            </span>
+                    </div>
+                </div>
 
 
 
@@ -738,7 +760,15 @@
                         colmun:'',
                         name:''
                     }
-                ] //特征工程拆分列
+                ] ,//特征工程拆分列
+                page:1,
+                pageSize:5,
+                maxPage:null,
+                options:[
+                        {value:5},
+                        {value:10},
+                        {value:20},
+                    ],
  
             }
         },
@@ -765,6 +795,9 @@
                     this.getDatasource()
                 }
             },
+            pageSize(val){
+                this.getDatasource()
+            }
         },
         methods:{
             tezhenggongcheng1Fn(){
@@ -1015,8 +1048,8 @@
                 let paramsData={
                     userId:1,
                     projectId:that.projectId,
-                    page:1,
-                    size:5,
+                    page:that.page || 1,
+                    size:that.pageSize,
                     search:that.searchKey
                 }
                 axios({
@@ -1029,6 +1062,8 @@
                     that.dataList.map(item=>{
                         item.isShow = false
                     })
+                    that.total=res.data.count
+                    that.maxPage =Math.ceil(that.total/that.pageSize) 
                 })
             },
             toSearch(){
@@ -1262,7 +1297,24 @@
             },
             removeSplit(){
                 this.splitList.pop()
-            }
+            },
+            nextPage(){
+                if(this.page == this.maxPage){
+                    this.$message('当前是最后一页');
+                } else {
+                    this.page++
+                    this.getDatasource()
+                }
+            },
+            goPage(){
+                // 页面go判断
+                if(this.page >this.maxPage){
+                    this.$message('当前数据一共'+this.maxPage +'页');
+                    return
+                } else {
+                    this.getDatasource()
+                }
+            },
 
         },
         created(){
