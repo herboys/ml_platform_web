@@ -2,6 +2,8 @@
     <div class="wrapbody">
 
 
+
+
         <section id="main">
 
 
@@ -22,20 +24,20 @@
                 </div>
 
                 <div class="swiperList">
-                    <swiper :options="swiperOption" ref="SwiperWrap">
+                    <swiper :options="swiperOption" class="swiper-wrap-new" ref="SwiperWrap">
                         <!-- slides -->
-                        <swiper-slide>
-                            
+                        <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
-                                    <div class="echarts">
-                    
-                                    </div>
-                                    <div class="pageNumber">
-                                        <span></span>
-                                        <span class="on"></span>
-                                        <span></span>
-                                    </div>
+                                    <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart01">
+                                        <swiper-slide>
+                                            <swiper-chart :values="echartsOption"></swiper-chart>
+                                        </swiper-slide>
+                                        <swiper-slide>
+                                            <swiper-chart :values="echartsOption"></swiper-chart>
+                                        </swiper-slide>
+                                        <div class="swiper-pagination" slot="pagination"></div>
+                                    </swiper>
                                 </div>
 
                                 <div class="swiper-rect"></div>
@@ -58,63 +60,27 @@
                                     </ul>
                                 </div>
                             </div>
-
                         </swiper-slide>
 
-                        <swiper-slide>
-                            
+                        <!-- slides -->
+                        <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
-                                    <div class="echarts">
-                                        <!-- <predictedChart></predictedChart> -->
-                                    </div>
-                                    <div class="pageNumber">
-                                        <span></span>
-                                        <span class="on"></span>
-                                        <span></span>
-                                    </div>
+                                    <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart02">
+                                        <swiper-slide>
+                                            <swiper-chart :values="echartsOption"></swiper-chart>
+                                        </swiper-slide>
+                                        <swiper-slide>
+                                            <swiper-chart :values="echartsOption"></swiper-chart>
+                                        </swiper-slide>
+                                        <div class="swiper-pagination" slot="pagination"></div>
+                                    </swiper>
                                 </div>
 
                                 <div class="swiper-rect"></div>
                                 <div class="swiper-ul">
                                     <ul>
-                                        <li>年龄2/li>
-                                        <li class="p">连续型 <i class="icon"></i>
-                                            <ul class="s">
-                                                <li>离散型</li>
-                                                <li>连续型</li>
-                                            </ul>
-                                        </li>
-                                        <li>332332</li>
-                                        <li>0</li>
-                                        <li>45</li>
-                                        <li>9</li>
-                                        <li>97</li>
-                                        <li>2</li>
-                                        <li>12</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                        </swiper-slide>
-
-                        <swiper-slide>    
-                            <div class="swiperItem">
-                                <div class="swiper-top">
-                                    <div class="echarts">
-                                        <!-- <predictedChart></predictedChart> -->
-                                    </div>
-                                    <div class="pageNumber">
-                                        <span></span>
-                                        <span class="on"></span>
-                                        <span></span>
-                                    </div>
-                                </div>
-
-                                <div class="swiper-rect"></div>
-                                <div class="swiper-ul">
-                                    <ul>
-                                        <li>年龄3</li>
+                                        <li>年龄1</li>
                                         <li class="p">连续型 <i class="icon"></i>
                                             <ul class="s">
                                                 <li>离散型</li>
@@ -133,23 +99,61 @@
                             </div>
                         </swiper-slide>
 
-                        <swiper-slide>    
+                        <!-- slides -->
+                        <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
-                                    <div class="echarts">
-                                        <!-- <predictedChart></predictedChart> -->
-                                    </div>
-                                    <div class="pageNumber">
-                                        <span></span>
-                                        <span class="on"></span>
-                                        <span></span>
-                                    </div>
+                                    <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart03">
+                                        <swiper-slide>
+                                            <swiper-chart :values="echartsOption"></swiper-chart>
+                                        </swiper-slide>
+                                        <swiper-slide>
+                                            <swiper-chart :values="echartsOption"></swiper-chart>
+                                        </swiper-slide>
+                                        <div class="swiper-pagination" slot="pagination"></div>
+                                    </swiper>
                                 </div>
 
                                 <div class="swiper-rect"></div>
                                 <div class="swiper-ul">
                                     <ul>
-                                        <li>年龄4</li>
+                                        <li>年龄1</li>
+                                        <li class="p">连续型 <i class="icon"></i>
+                                            <ul class="s">
+                                                <li>离散型</li>
+                                                <li>连续型</li>
+                                            </ul>
+                                        </li>
+                                        <li>332332</li>
+                                        <li>0</li>
+                                        <li>45</li>
+                                        <li>9</li>
+                                        <li>97</li>
+                                        <li>2</li>
+                                        <li>12</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </swiper-slide>
+                        <!-- slides -->
+                        <swiper-slide  class="swiper-no-swiping">
+                            <div class="swiperItem">
+                                <div class="swiper-top">
+                                    <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart04">
+                                        <swiper-slide>
+                                            <swiper-chart :values="echartsOption"></swiper-chart>
+                                        </swiper-slide>
+                                        <swiper-slide>
+                                            <swiper-chart :values="echartsOption"></swiper-chart>
+                                        </swiper-slide>
+                                        <div class="swiper-pagination" slot="pagination"></div>
+                                    </swiper>
+                                </div>
+
+                                <div class="swiper-rect"></div>
+                                <div class="swiper-ul">
+                                    <ul>
+                                        <li>年龄1</li>
                                         <li class="p">连续型 <i class="icon"></i>
                                             <ul class="s">
                                                 <li>离散型</li>
@@ -168,23 +172,22 @@
                             </div>
                         </swiper-slide>
 
-                        <swiper-slide>    
+                        <!-- slides -->
+                        <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
-                                    <div class="echarts">
-                                        <!-- <predictedChart></predictedChart> -->
-                                    </div>
-                                    <div class="pageNumber">
-                                        <span></span>
-                                        <span class="on"></span>
-                                        <span></span>
-                                    </div>
+                                    <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart05">
+                                        <swiper-slide>
+                                            <swiper-chart :values="echartsOptionTreemap"></swiper-chart>
+                                        </swiper-slide>
+                                        <div class="swiper-pagination" slot="pagination"></div>
+                                    </swiper>
                                 </div>
 
                                 <div class="swiper-rect"></div>
                                 <div class="swiper-ul">
                                     <ul>
-                                        <li>年龄5</li>
+                                        <li>年龄1</li>
                                         <li class="p">连续型 <i class="icon"></i>
                                             <ul class="s">
                                                 <li>离散型</li>
@@ -203,23 +206,26 @@
                             </div>
                         </swiper-slide>
 
-                        <swiper-slide>    
+
+                        <!-- slides -->
+                        <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
-                                    <div class="echarts">
-                                        <!-- <predictedChart></predictedChart> -->
-                                    </div>
-                                    <div class="pageNumber">
-                                        <span></span>
-                                        <span class="on"></span>
-                                        <span></span>
-                                    </div>
+                                    <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart06">
+                                        <swiper-slide>
+                                            <swiper-chart :values="echartsOption"></swiper-chart>
+                                        </swiper-slide>
+                                        <swiper-slide>
+                                            <swiper-chart :values="echartsOption"></swiper-chart>
+                                        </swiper-slide>
+                                        <div class="swiper-pagination" slot="pagination"></div>
+                                    </swiper>
                                 </div>
 
                                 <div class="swiper-rect"></div>
                                 <div class="swiper-ul">
                                     <ul>
-                                        <li>年龄6</li>
+                                        <li>年龄1</li>
                                         <li class="p">连续型 <i class="icon"></i>
                                             <ul class="s">
                                                 <li>离散型</li>
@@ -238,23 +244,25 @@
                             </div>
                         </swiper-slide>
 
-                        <swiper-slide>    
+                        <!-- slides -->
+                        <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
-                                    <div class="echarts">
-                                        <!-- <predictedChart></predictedChart> -->
-                                    </div>
-                                    <div class="pageNumber">
-                                        <span></span>
-                                        <span class="on"></span>
-                                        <span></span>
-                                    </div>
+                                    <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart07">
+                                        <swiper-slide>
+                                            <swiper-chart :values="echartsOption"></swiper-chart>
+                                        </swiper-slide>
+                                        <swiper-slide>
+                                            <swiper-chart :values="echartsOption"></swiper-chart>
+                                        </swiper-slide>
+                                        <div class="swiper-pagination" slot="pagination"></div>
+                                    </swiper>
                                 </div>
 
                                 <div class="swiper-rect"></div>
                                 <div class="swiper-ul">
                                     <ul>
-                                        <li>年龄6</li>
+                                        <li>年龄1</li>
                                         <li class="p">连续型 <i class="icon"></i>
                                             <ul class="s">
                                                 <li>离散型</li>
@@ -272,27 +280,17 @@
                                 </div>
                             </div>
                         </swiper-slide>
-                        <div class="swiper-button-prev" slot="button-prev"></div>
-                        <div class="swiper-button-next" slot="button-next"></div>
+                        
+                        
                     </swiper>
+
+                    <div class="swiper-button-prev" slot="button-prev"></div>
+                        <div class="swiper-button-next" slot="button-next"></div>
                 </div>
-
-
-
-
-
-
-
-
 
             </div>
         </section>
 
-
-
-
-
-        
     </div>
 </template>
 
@@ -302,36 +300,121 @@
     export default  {
         data(){
             return {
+                swiperInit:false,
                 swiperOption: {
                     slidesPerView: 6,
-                    spaceBetween: 16,
+                    spaceBetween: 14,
+                    on: {
+                        init: ()=>{
+                            this.swiperInit=true;
+                            //this.$refs.swiperEchart01.swiper.init();
+                        }
+                    },
                     navigation: {
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev',
                     },
                 },
                 swiperOptionEchart: {
+                   // init: false,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable:true
+                    }
                 },
                 echartsOption:{
-                    title: { text: '在Vue中使用echarts' },
+                        color: ['#3398DB'],
+                        tooltip : {
+                            trigger: 'axis',
+                            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '8%',
+                            bottom: '6%',
+                            top:'12%',
+                            containLabel: true
+                        },
+                        xAxis : [
+                            {
+                                type : 'category',
+                                data : ['0201', '0308', '0323', '0330', '0408', '0418', '0528'],
+                                axisTick: {
+                                    alignWithLabel: true
+                                },
+                                axisLabel: {
+                                    color: '#fff',
+                                    fontSize:10
+                                },
+                                axisTick: {
+                                    show: false,
+                                },
+                                axisLine: {
+                                    lineStyle: {
+                                        color: "#708ec1"
+                                    }
+                                },
+                            }
+                        ],
+                        yAxis: [{
+                            type: 'value',
+                            splitNumber: 5,
+                            axisLabel: {
+                                color: '#fff',
+                                fontSize:10
+                            },
+                            axisTick: {
+                                show: false,
+                            },
+                            axisLine: {
+                                show: false,
+                            },
+                            splitLine: {
+                                show: false
+                            }
+                        }],
+                        series : [
+                            {
+                                type:'bar',
+                                barWidth: '50%',
+                                data:[10, 52, 200, 334, 390, 330, 220]
+                            }
+                        ]
+                },
+                echartsOptionTreemap:{
+                    color: ["#287ae9", "#0f8b91", "#876acc"],
+                    width:'80%',
+                    height:'80%',
                     tooltip: {},
-                    xAxis: {
-                        data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-                    },
-                    yAxis: {},
                     series: [{
-                        name: '销量',
-                        type: 'bar',
-                        data: [5, 20, 36, 10, 10, 20]
+                        type: 'treemap',
+                        roam: false, //是否开启拖拽漫游（移动和缩放）
+                        nodeClick: false, //点击节点后的行为,false无反应
+                        upperLabel: false,
+                        breadcrumb: {
+                            show: false
+                        },
+                        data: [{
+                            name: 'male',            // First tree
+                            value: 65
+                        }, {
+                            name: 'male',            // Second tree
+                            value: 20
+                        },{
+                            name: 'male',            // Second tree
+                            value: 15
+                        }]
                     }]
                 }
-                
+
             }
         },
         computed: {
-            swiper() {
-                return this.$refs.SwiperWrap.swiper
-            },
+            // swiper() {
+            //     return this.$refs.SwiperWrap.swiper
+            // },
 
         },
         components:{inputTimePick,swiperChart},
@@ -348,6 +431,6 @@
         }
     }
 </script>
-<style scoped>
+<style>
 
 </style>
