@@ -1,12 +1,6 @@
 <template>
     <div class="wrapbody">
-
-
-
-
         <section id="main">
-
-
             <div class="breadpage">
                 <span class="light_bread"><a href="">数据集</a></span>
                 <span class="dark_bread"> > </span>
