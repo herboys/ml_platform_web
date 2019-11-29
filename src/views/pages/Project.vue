@@ -386,7 +386,8 @@ import commonHeade from '../components/header.vue'
                 },
                 toDataset(item){
                     // 跳转到数据集
-                    this.$router.push({path:'/dataSet',query:{projectId:item.id}})
+                    // this.$router.push({path:'/dataSet',query:{projectId:item.id}})
+                    this.$router.push({path:'/projectDetail',query:{projectId:item.id}})
                 },
                 adddialogShow(){
                     // this.dialogShow = true

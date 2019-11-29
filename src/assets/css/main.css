@@ -307,8 +307,12 @@
     padding: 13px 0;
 }
 
+.keshihua-table td .dblclick {
+    cursor: pointer;
+}
+
 .keshihua-table td a {
-    color: #b7e2ff !important;
+    color: #b1c8fe !important;
 }
 
 .keshihua-table td {
@@ -379,6 +383,14 @@
 .keshihua-table th input:checked+span {
     /* background-image: url(../images/white/white-icon-all.png); */
     background-position: 0 -68px;
+}
+
+.keshihua-table tr td:nth-child(1) {
+    width: 200px;
+}
+
+.keshihua-table tr td:last-child {
+    width: 400px;
 }
 
 
