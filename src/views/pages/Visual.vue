@@ -450,6 +450,7 @@
                     pager: false
                 });
                 this.drawBar('echarts1',this.data1.x,this.data1.y);
+                this.drawBar('echarts2',this.data1.x,this.data1.y);
 
             },
             dialogDelete(id){
