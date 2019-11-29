@@ -80,7 +80,7 @@
                                 <td class="pause">暂停中</td>
                                 <td>决策树</td>
                                 <td class="handle">
-                                    <a class="icon icon1" title="查看数据"></a>
+                                    <a class="icon icon1" title="查看数据" @click="dialogTab"></a>
                                     <router-link :to="{path:'/visual'}" class="icon icon2" title="数据可视化" ></router-link>
                                     <a class="icon icon3" title="特征工程" @click="dialogtezhenggongcheng"></a>
                                     <a class="icon icon4" title="开始训练" @click="dialogxunliangmoxing"></a>
@@ -875,14 +875,15 @@
                 this.active = name;
             },
             dialogTab(){
-                layer.open({
-                    type: 1,
-                    title: false,
-                    anim: 2,
-                    closeBtn: 0,
-                    area: ['860px', 1000], //宽高
-                    content: $('#alert-box-shujujiTab'),
-                });
+                this.$router.push({path:'/DataSetDetail'})
+                // layer.open({
+                //     type: 1,
+                //     title: false,
+                //     anim: 2,
+                //     closeBtn: 0,
+                //     area: ['860px', 1000], //宽高
+                //     content: $('#alert-box-shujujiTab'),
+                // });
             },
             dialogPretreatment(item){
                 layer.open({

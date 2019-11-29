@@ -1,32 +1,44 @@
 <template>
-    <chart :initOptions="initOptions" :options="options"></chart>
+    <chart ref="echarts" class="echarts" :initOptions="initOptions" :options="options"></chart>
 </template>
 
 <script>
-  import ECharts from 'vue-echarts/components/ECharts.vue'
+    import ECharts from 'vue-echarts/components/ECharts.vue'
 
-  export default {
-    name:"chart",
-    data (){
-      return{
-        initOptions:{
-            renderer:"svg"
+    export default {
+        name:"chart01",
+        data (){
+            return{
+                initOptions:{
+                    renderer:"svg"
+                }
+            }
+        },
+        props:['values','color'],
+        computed:{
+            theme:function(){
+                return this.$store.state.theme
+            },
+            options:function(){
+                console.log(this.values);
+                return this.values;
+            }
+        },
+        mounted(){
+           /* var that=this;
+            window.onresize=function(){
+                that.$refs.echarts.chart.resize();
+            }*/
+        },
+        components:{
+            chart:ECharts
         }
-      }
-    },
-    props:['options'],
-    computed:{
-        options:function(){
-        }
-    },
-    components:{
-      chart:ECharts
     }
-  }
 </script>
 
 <style scoped>
     .echarts{
         width: 100%;
+        height: 156px;
     }
 </style>
