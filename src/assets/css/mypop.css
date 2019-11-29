@@ -37,7 +37,8 @@
 #alert-box-shujuyuchuli .title,
 #alert-box-shujujiTab .title,
 #alert-box-xunliangmoxing .title,
-#alert-box-tezhenggongcheng .title {
+#alert-box-tezhenggongcheng .title,
+#alert-box-addNewTask .title {
     background: rgba(59, 73, 140, 0.6);
 }
 
@@ -48,7 +49,8 @@
 
 #alert-box-setOption .content p,
 #alert-box-addNewObject .content p,
-#alert-box-reviseNewObject .content p {
+#alert-box-reviseNewObject .content p,
+#alert-box-addNewTask .content p {
     font-size: 16px;
     color: #b1c8fe;
     margin-bottom: 15px;
@@ -56,7 +58,8 @@
 
 #alert-box-setOption .content input,
 #alert-box-addNewObject .content input,
-#alert-box-reviseNewObject .content input {
+#alert-box-reviseNewObject .content input,
+#alert-box-addNewTask .content input {
     width: 100%;
     height: 36px;
     line-height: 36px;
@@ -169,7 +172,8 @@
 }
 
 #alert-box-addNewObject .content,
-#alert-box-reviseNewObject .content {
+#alert-box-reviseNewObject .content,
+#alert-box-addNewTask .content {
     padding: 25px 58px;
 }
 
@@ -189,24 +193,28 @@
 }
 
 #alert-box-addNewObject .btn-wrap,
-#alert-box-reviseNewObject .btn-wrap {
+#alert-box-reviseNewObject .btn-wrap,
+#alert-box-addNewTask .btn-wrap {
     padding: 0 15px;
 }
 
 #alert-box-addNewObject .btn-wrap .btn,
-#alert-box-reviseNewObject .btn-wrap .btn {
+#alert-box-reviseNewObject .btn-wrap .btn,
+#alert-box-addNewTask .btn-wrap .btn {
     font-size: 16px;
     padding: 12px 80px;
 }
 
 #alert-box-addNewObject .btn-wrap .addBtn,
-#alert-box-reviseNewObject .btn-wrap .addBtn {
+#alert-box-reviseNewObject .btn-wrap .addBtn,
+#alert-box-addNewTask .btn-wrap .addBtn {
     color: #fff;
     background-color: #369bf0;
 }
 
 #alert-box-addNewObject .btn-wrap .backBtn,
-#alert-box-reviseNewObject .btn-wrap .backBtn {
+#alert-box-reviseNewObject .btn-wrap .backBtn,
+#alert-box-addNewTask .btn-wrap .backBtn {
     color: #a9b2dd;
     background-color: #3e498b;
 }
@@ -693,7 +701,8 @@
     margin: 0 auto;
 }
 
-#alert-box-selectSjk select {
+#alert-box-selectSjk select,
+#alert-box-addNewTask select {
     width: 300px;
     height: 35px;
     line-height: 35px;
@@ -1023,4 +1032,20 @@
 
 #alert-box-tezhenggongcheng2 .content .item-list .pop:hover .help {
     color: #fff;
+}
+
+
+/* 新增任务弹框 */
+
+#alert-box-addNewTask select {
+    width: 100%;
+    background-position: 400px -218px;
+}
+
+#alert-box-addNewTask .btn-wrap {
+    margin-top: 20px;
+}
+
+#alert-box-addNewTask td a {
+    color: #b1c8fe !important;
 }

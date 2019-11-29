@@ -57,7 +57,7 @@
                         <tbody v-for="(item,index) in dataList" :key="index">
                             <tr class="evenTr"  >
                                 <td @click="toggleTableshow(item,index)"><span class="pull-icon down" :class="item.isShow?'up':'down'"></span></td>
-                                <td @dblclick="updateText(item)" ><a href="javascript:void(0)">{{item.dataName}}</a></td>
+                                <td @dblclick="updateText(item)" ><span class="dblclick">{{item.dataName}}</span> </td>
                                 <td>735kb</td>
                                 <td class="notStart">未开始</td>
                                 <!-- <td class="finished">已完成</td> -->

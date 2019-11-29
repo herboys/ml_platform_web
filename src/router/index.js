@@ -4,6 +4,7 @@ import Login from '../views/pages/Login.vue'
 import Home from '../views/pages/Home'
 import Visual from '../views/pages/Visual'
 import Project from '../views/pages/Project.vue'
+import projectDetail from '../views/pages/projectDetail.vue'
 import Explain from '../views/pages/Explain.vue'
 import DataSet from '../views/pages/dataSet.vue'
 import DataSetDetail from '../views/pages/dataSetDetail.vue'
@@ -63,6 +64,14 @@ const routes = [{
                 component: Project,
                 meta: {
                     title: '项目'
+                }
+            },
+            {
+                path: '/projectDetail',
+                name: projectDetail,
+                component: projectDetail,
+                meta: {
+                    title: '项目详情'
                 }
             },
             {
