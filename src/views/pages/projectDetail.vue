@@ -31,15 +31,26 @@
                                 <td>{{item.projectDescribe}}</td>
                                 <td>未开始</td>
                                 <td class="handle">
-                                    <a title="数据集" class="wenjian" @click="toDataset(item)"><span class=" iconfont icon-wenjian"></span></a>
+                                    <!-- <span title="数据集" class="wenjian" @click="toDataset(item)"><span class=" iconfont icon-wenjian"></span></a> -->
 
-                                    <a title="修改" class="xiugai" @click="updateText(item)"><span class="icon iconfont icon-xiugai" ></span></a>
-                                    <a href="javascript:void(0)" @click="dialogPretreatment(item)">数据预处理</a>
-                                    <a href="javascript:void(0)" class="icon icon3" title="特征工程" @click="dialogtezhenggongcheng"></a>
-                                    <a href="javascript:void(0)" class="icon icon4" title="开始训练" @click="dialogxunliangmoxing"></a>
-                                    <a href="javascript:void(0)">评估</a>
-                                    <a href="javascript:void(0)">解释</a>
-                                    <a title="删除" class="shanchu" @click="deleteProject(item.id)"><span class="iconfont icon-shanchu"></span></a>
+                                    <!-- <span title="修改" class="xiugai" @click="updateText(item)"><span class="icon iconfont icon-xiugai" ></span></a> -->
+                                    <a href="javascript:void(0)" class="lookicon" >查看数据</a>
+                                    <a href="javascript:void(0)" class="pretreatmenticon" @click="dialogPretreatment(item)">数据预处理</a>
+                                    <a class="engineeringicon" @click="dialogtezhenggongcheng">特征工程</a>
+                                    <a class="trainicon" @click="dialogxunliangmoxing">训练</a>
+                                    <a class="assessmenticon">评估</a>
+                                    <router-link :to="{path:'/explain'}" class="explainicon">解释</router-link>
+                                    <!-- <a class="explainicon">解释</a> -->
+                                    <a class="moreicon" @click="toggleShow(item,index)">
+                                        <ul class="moreicon-ul" v-show="item.isShow">
+                                            <!-- <li class="lookicon">查看数据</li> -->
+                                            <li class="visualicon" @click="toVisual">数据可视化</li>
+                                            <li class="deployModelicon">部署模型</li>
+                                            <li class="deployModelicon">调用模型</li>
+                                            <li class="delicon">删除</li>
+                                        </ul>
+                                    </a>
+                                    <!-- <span title="删除" class="shanchu" @click="deleteProject(item.id)"><span class="iconfont icon-shanchu"></span></a> -->
                                 </td>
                             </tr>
 
@@ -600,6 +611,7 @@ import commonHeade from '../components/header.vue'
                                 that.projectList = res.data.list
                                 that.projectList.map(item=>{
                                     item.checked = false
+                                    item.isShow = false
                                 })
                             }
                             that.total=res.data.count
@@ -726,6 +738,15 @@ import commonHeade from '../components/header.vue'
                     this.tezhenggongcheng2=true;
                     this.tezhenggongcheng1=false;
                 },
+                toggleShow(item,index){
+                    // item.isShow = !item.isShow 
+                    
+                    this.$set(this.projectList,index,{checked:item.checked,projectDescribe:item.projectDescribe,projectName:item.projectName,userId:item.userId,isShow:!item.isShow})
+                    console.log(item)
+                },
+                toVisual(){
+                    this.$router.push({path:'/DataSetDetail'})
+                }
 
             },
             created(){

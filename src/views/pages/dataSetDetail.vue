@@ -1,12 +1,6 @@
 <template>
     <div class="wrapbody">
-
-
-
-
         <section id="main">
-
-
             <div class="breadpage">
                 <span class="light_bread"><a href="">数据集</a></span>
                 <span class="dark_bread"> > </span>
@@ -24,6 +18,7 @@
                 </div>
 
                 <div class="swiperList">
+
                     <swiper :options="swiperOption" class="swiper-wrap-new" ref="SwiperWrap">
                         <!-- slides -->
                         <swiper-slide  class="swiper-no-swiping">
@@ -330,6 +325,12 @@
                                 type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                             }
                         },
+                        legend:{
+                            name:"name",
+                            textStyle:{
+                                color:"#FFF"
+                            }
+                        },
                         grid: {
                             left: '3%',
                             right: '8%',
@@ -377,6 +378,7 @@
                         }],
                         series : [
                             {
+                                name:"name",
                                 type:'bar',
                                 barWidth: '50%',
                                 data:[10, 52, 200, 334, 390, 330, 220]
