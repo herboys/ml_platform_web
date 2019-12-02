@@ -10,7 +10,7 @@
                     <span class="s1 fl">项目名称：</span>
                     <input type="text" class="fl input input1" v-model="searchKey" placeholder="请输入检索项目名称" />
 
-                    <a class="search-btn" href="javascript:void(0)" @click="searchProject">检索数据集<span class="icon iconfont icon-sousuo"></span> </a>
+                    <a class="search-btn" href="javascript:void(0)" @click="searchTask">检索数据集<span class="icon iconfont icon-sousuo"></span> </a>
                     <a class="search-btn addNewObject" @click="adddialogShow"> <span class="icon iconfont icon-zengjia" ></span> 新建任务</a>
                 </div>
                 <!-- <commonTable></commonTable> -->
@@ -26,14 +26,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item,index) in projectList" :key="index">
-                                <td>{{item.projectName}}</td>
-                                <td>{{item.projectDescribe}}</td>
+                            <tr v-for="(item,index) in taskList" :key="index">
+                                <td>{{item.rwmc}}</td>
+                                <td>{{item.sjjName}}</td>
                                 <td>未开始</td>
                                 <td class="handle">
-                                    <!-- <span title="数据集" class="wenjian" @click="toDataset(item)"><span class=" iconfont icon-wenjian"></span></a> -->
-
-                                    <!-- <span title="修改" class="xiugai" @click="updateText(item)"><span class="icon iconfont icon-xiugai" ></span></a> -->
                                     <a href="javascript:void(0)" class="lookicon" >查看数据</a>
                                     <a href="javascript:void(0)" class="pretreatmenticon" @click="dialogPretreatment(item)">数据预处理</a>
                                     <a class="engineeringicon" @click="dialogtezhenggongcheng">特征工程</a>
@@ -47,10 +44,9 @@
                                             <li class="visualicon" @click="toVisual">数据可视化</li>
                                             <li class="deployModelicon">部署模型</li>
                                             <li class="deployModelicon">调用模型</li>
-                                            <li class="delicon">删除</li>
+                                            <li class="delicon" @click="deleteTask(item.miId)">删除</li>
                                         </ul>
                                     </a>
-                                    <!-- <span title="删除" class="shanchu" @click="deleteProject(item.id)"><span class="iconfont icon-shanchu"></span></a> -->
                                 </td>
                             </tr>
 
@@ -73,9 +69,9 @@
                             </span>
 
                         <span class="span-tool">
-                                <a class="page-a" href="javascript:void(0);" @click="page = 1,getProjeclist()">首页</a>
+                                <a class="page-a" href="javascript:void(0);" @click="page = 1,getTasklist()">首页</a>
                                 <a class="page-a" href="javascript:void(0);" @click="nextPage">下一页</a>
-                                <a class="page-a" href="javascript:void(0);" @click="page = maxPage,getProjeclist()">末页</a>
+                                <a class="page-a" href="javascript:void(0);" @click="page = maxPage,getTasklist()">末页</a>
                             </span>
                     </div>
                 </div>
@@ -106,10 +102,12 @@
             </div>
             <div class="content alert-box-content">
                 <p>任务名称</p>
-                <input type="text" v-model="addProjectform.name">
+                <input type="text" v-model="addTaskform.name" placeholder="">
+                <!-- <p>任务描述</p>
+                <textarea v-model="addTaskform.desc"></textarea> -->
                 <p>请选择链接数据集</p>
-                <select name="" id="" >
-                        <option :value="item" v-for="item in 5" :key="item">{{item}}</option>
+                <select name="" id="" v-model="addTaskform.selectDataid">
+                        <option :value="item.taId" v-for="item in dataList" :key="item.taId" >{{item.bmc}}</option>
                 </select>
 
                 <div class="btn-wrap clearfix">
@@ -118,24 +116,7 @@
                 </div>
             </div>
         </div>
-        <!-- 修改项目 -->
-        <div class="alert-box" id="alert-box-reviseNewObject">
-            <div class="title text-c">
-                修改该项目
-                <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
-            </div>
-            <div class="content alert-box-content">
-                <p>项目名称</p>
-                <input type="text" v-model="updateProjectform.name">
-                <p>项目描述</p>
-                <textarea v-model="updateProjectform.desc"></textarea>
-
-                <div class="btn-wrap clearfix">
-                    <button class="btn addBtn fl" @click="updateProject()">确认</button>
-                    <button class="btn backBtn fr" @click="closeDialog">返回</button>
-                </div>
-            </div>
-        </div>
+ 
         <!-- 数据预处理 -->
         <div class="alert-box" id="alert-box-shujuyuchuli">
             <div class="title text-c">
@@ -166,7 +147,7 @@
                                 <p>目标列</p>
                                 <div class="select">
                                     <select>
-                                        <option value=""></option>
+                                        <option value="" v-for="item in preProcesscolmun.targetColumn" :key="item">{{item}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -175,7 +156,7 @@
                                 <p>分组列</p>
                                 <div class="select">
                                     <select>
-                                        <option value=""></option>
+                                        <option value="" v-for="item in preProcesscolmun.groupColumn" :key="item">{{item}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -185,7 +166,10 @@
 
                     <div class="content-item1 content-item3 clearfix">
                         <p class="name">缺失值填充：</p>
-                        <div class="choose-wrap">
+                        <div class="choose-wrap" v-for="item in preProcesscolmun.deficiencyColumn" :key="item">
+                            <label><input type="checkbox"><i class="icon"></i><span>{{item}}</span></label>
+                        </div>
+                        <!-- <div class="choose-wrap" >
                             <label><input type="checkbox"><i class="icon"></i><span>调用该列平均值去填充该缺失值</span></label>
                         </div>
                         <div class="choose-wrap">
@@ -202,7 +186,7 @@
                         </div>
                         <div class="choose-wrap">
                             <label><input type="checkbox"><i class="icon"></i><span>输入自定义值定义去填充缺失值</span></label>
-                        </div>
+                        </div> -->
                     </div>
 
 
@@ -420,10 +404,10 @@ import commonHeade from '../components/header.vue'
                     paletteShow:false,
                     dialogShow: false,
                     dialogupShow:false,
-                    addProjectform: {
+                    addTaskform: {
                         name: '',
                         desc: '',
-                        
+                        selectDataid:null
                     },
                     formLabelWidth: '100%',
                     customWidth:'600px',
@@ -433,7 +417,7 @@ import commonHeade from '../components/header.vue'
                         id:null
                     },
                     formLabelWidth: '100%',
-                    projectList:[],
+                    taskList:[],
                     newList:[],
                     searchKey:'',
                     page:1,
@@ -462,6 +446,9 @@ import commonHeade from '../components/header.vue'
                     tezhenggongcheng1:true,
                     tezhenggongcheng2:false,
                     tezhenggongcheng:true,
+                    projectId:null,
+                    dataList:[],
+                    preProcesscolmun:{}
                 }
             },
             components:{
@@ -472,27 +459,28 @@ import commonHeade from '../components/header.vue'
             watch:{
                 searchKey(val){
                     if(!val){
-                        this.getProjeclist()
+                        this.getTasklist()
                     }
                 },
                 pageSize(val){
-                    this.getProjeclist()
-                }
+                    this.getTasklist()
+                },
             },
             methods: {
                 addTask(){
                     var that = this
-                    var obj = this.addProjectform
-                    let url=`${ReqUrl.addProject}`
-                    if(!obj.name || !obj.desc){
-                        this.$message('请输入项目名称和项目描述');
+                    var obj = this.addTaskform
+                    let url=`${ReqUrl.newTask}`
+                    if(!obj.name){
+                        this.$message('请输入任务名称');
                     } else{
                         // this.dialogShow = false
                         this.closeDialog()
                         let paramsData={
-                            'projectDescribe': that.addProjectform.desc,
-                            'projectName': that.addProjectform.name,
-                            'userId': that.userId
+                            prId: that.projectId,
+                            rwmc: that.addTaskform.name,
+                            rwms: that.addTaskform.desc,
+                            taId:that.addTaskform.selectDataid
                         }
                   
                         that.$axios.post(
@@ -500,9 +488,10 @@ import commonHeade from '../components/header.vue'
                             paramsData
                         )
                         .then((res) => {
-                            that.addProjectform.name =''
-                            that.addProjectform.desc = ''
-                            that.getProjeclist()
+                            that.addTaskform.name =''
+                            that.addTaskform.desc = ''
+                            that.addTaskform.selectDataid =null
+                            that.getTasklist()
                           
                         })
                     }
@@ -510,52 +499,8 @@ import commonHeade from '../components/header.vue'
                 togglePalette(val){
                     this.paletteShow = val
                 },
-                updateText(item){
-                    // this.dialogupShow = true
-                    layer.open({
-                        type: 1,
-                        title: false,
-                        anim: 2,
-                        closeBtn: 0,
-                        area: ['860px', 1000], //宽高
-                        content: $('#alert-box-reviseNewObject'),
-                    });
-                    this.updateProjectform.name = item.projectName
-                    this.updateProjectform.desc = item.projectDescribe
-                    this.updateProjectform.id = item.id
-                },
-                updateProject(){
-                    var obj = this.updateProjectform
-                    var that=this
-                    let url=`${ReqUrl.updateProject}`
-                    if(!obj.name || !obj.desc){
-                        this.$message('请输入修改名称和修改描述');
-                        
-                  
-                    } else{
-                        // this.dialogupShow = false
-                        this.closeDialog()
-                        let paramsData={
-                            "id": that.updateProjectform.id,
-                            "projectDescribe": that.updateProjectform.desc,
-                            "projectName": that.updateProjectform.name,
-                            "userId": that.userId
-                        }
-                  
-                        that.$axios.post(
-                            url,
-                            paramsData
-                        )
-                        .then((res) => {
-                            that.updateProjectform.name =''
-                            that.updateProjectform.desc = ''
-                            that.updateProjectform.id =null
-                            that.getProjeclist()
-                          
-                        })
-                    }
-                },
-                deleteProject(id){
+                
+                deleteTask(id){
                     let that = this
                     this.deleteId = id
                     
@@ -571,59 +516,69 @@ import commonHeade from '../components/header.vue'
                 confireDelete(){
                     // 确认删除
                     let paramData={
-                        projectId:this.deleteId
+                        miId:this.deleteId
                     }
-                    let url=`${ReqUrl.deleteProject}`
-                    this.$axios.get(
-                        url,
-                        {
-                            params:paramData,
-                        })
-                        .then((res) => {
-                            this.getProjeclist()
-                            this.closeDialog()
-                        })
+                    let url=`${ReqUrl.deleteTask}`
+                    axios({
+                        url: url,
+                        method: 'get',
+                        params: paramData
+                    })
+                    .then(res=>{
+                        this.getTasklist()
+                        this.closeDialog()
                         this.$message({
                             type: 'success',
                             message: '删除成功!'
                         });
+                    })
+                 
+                        
                 },
-                getProjeclist(){
+                getTasklist(){
                     // 获得项目列表
                     var that = this
-                    let url=`${ReqUrl.getProjeclist}`
+                    let url=`${ReqUrl.taskList}`
                     var paramData={
                         search:that.searchKey,
                         userId:that.userId,
                         page:that.page || 1,
-                        size:that.pageSize
+                        size:that.pageSize,
+                        projectId:that.projectId
                     }
-                    that.$axios.get(
-                        url,
-                        {
-                            params:paramData,
-                        })
-                        .then((res) => {
-                            if(res.data=='获取为空'){
-                                that.projectList =[]
-                                that.$message('抱歉，没有找到对应数据');
-                            } else {
-                                that.projectList = res.data.list
-                                that.projectList.map(item=>{
-                                    item.checked = false
-                                    item.isShow = false
+                    axios({
+                        url: url,
+                        method: 'post',
+                        params: paramData
+                    })
+                    .then(res=>{
+                        if(res.data=='获取为空'){
+                            that.taskList =[]
+                            that.$message('抱歉，没有找到对应数据');
+                        } else {
+                            that.taskList = res.data.tasks
+                            that.taskList.map(item=>{
+                                that.dataList.forEach(name=>{
+                                    if(item.taId == name.taId){
+                                        item.sjjName = name.bmc
+                                    }
                                 })
-                            }
-                            that.total=res.data.count
-                            that.maxPage =Math.ceil(that.total/that.pageSize) 
-                        })
+                                // item.checked = false
+                                // item.isShow = false
+                            })
+                            
+                        }
+                        that.total=res.data.count
+                        that.maxPage =Math.ceil(that.total/that.pageSize) 
+                    })
+                 
                 },
-                searchProject(){
+                searchTask(){
                     if(!this.searchKey){
                         this.$message('检索项目名称不能为空');
                     } else {
                         this.page = 1
-                        this.getProjeclist()
+                        this.getTasklist()
                     }
                     
                 },
@@ -632,7 +587,7 @@ import commonHeade from '../components/header.vue'
                         this.$message('当前是最后一页');
                     } else {
                         this.page++
-                        this.getProjeclist()
+                        this.getTasklist()
                     }
                 },
                 goPage(){
@@ -641,12 +596,8 @@ import commonHeade from '../components/header.vue'
                         this.$message('当前数据一共'+this.maxPage +'页');
                         return
                     } else {
-                        this.getProjeclist()
+                        this.getTasklist()
                     }
-                },
-                toDataset(item){
-                    // 跳转到数据集
-                    this.$router.push({path:'/dataSet',query:{projectId:item.id}})
                 },
                 adddialogShow(){
                     // this.dialogShow = true
@@ -669,12 +620,13 @@ import commonHeade from '../components/header.vue'
                         title: false,
                         anim: 2,
                         closeBtn: 0,
-                        area: ['860px', 1000], //宽高
+                        area: ['860px', '600px'], //宽高
                         content: $('#alert-box-shujuyuchuli'),
                     });
                     let url=`${ReqUrl.preProcessing}`
                     let paramsData={
-                        taId:item.dsId
+                        // taId:item.dsId
+                        taId:24
                     }
                     axios({
                         url: url,
@@ -682,7 +634,8 @@ import commonHeade from '../components/header.vue'
                         params: paramsData
                     })
                     .then(res=>{
-                        console.log(res)
+                        this.preProcesscolmun = res.data
+                        console.log(this.preProcesscolmun)
                     })
 
                 },
@@ -741,17 +694,59 @@ import commonHeade from '../components/header.vue'
                 toggleShow(item,index){
                     // item.isShow = !item.isShow 
                     
-                    this.$set(this.projectList,index,{checked:item.checked,projectDescribe:item.projectDescribe,projectName:item.projectName,userId:item.userId,isShow:!item.isShow})
+                    this.$set(this.taskList,index,{
+                        checked:item.checked,
+                        miId: item.miId,
+                        prId: item.prId,
+                        rwbz: item.rwbz,
+                        rwmc: item.rwmc,
+                        rwms: item.rwms,
+                        scbz: item.scbz,
+                        scsj: item.scsj,
+                        taId: item.taId,
+                        tzzcs: item.tzzcs,
+                        xgsj: item.xgsj,
+                        yclcs: item.yclcs,
+                        yhid: item.yhid,
+                        zxtz: item.zxtz,
+                        zxtzms: item.zxtzms,
+                        sjjName:item.sjjName,
+                        isShow:!item.isShow
+                    })
                     console.log(item)
                 },
                 toVisual(){
                     this.$router.push({path:'/DataSetDetail'})
-                }
+                },
+                getDatasource(){
+                    // 获取数据集列表
+                    var that = this
+                    let url=`${ReqUrl.getDatasoure}`
+                    let paramsData={
+                        userId:1,
+                        projectId:that.projectId,
+                        page:1,
+                    }
+                    axios({
+                        url: url,
+                        method: 'post',
+                        params: paramsData
+                    })
+                    .then(res=>{
+                        that.dataList = res.data.list
+                        console.log(that.dataList)
+                        that.getTasklist()
+                        // that.total=res.data.count
+                        // that.maxPage =Math.ceil(that.total/that.pageSize) 
+                    })
+                },
 
             },
             created(){
-                this.getProjeclist()
-              
+                this.projectId = this.$route.query.projectId
+                
+                this.getDatasource()
+                
             }
     }
 </script>

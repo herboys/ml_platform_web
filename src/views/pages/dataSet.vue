@@ -84,7 +84,7 @@
                         <tbody v-for="(item,index) in dataList" :key="index">
                             <tr class="evenTr"  >
                                 <td @click="toggleTableshow(item,index)"><span class="pull-icon down" :class="item.isShow?'up':'down'"></span></td>
-                                <td @dblclick="updateText(item)" ><span class="dblclick">{{item.dataName}}</span> </td>
+                                <td @dblclick="updateText(item)" ><span class="dblclick">{{item.bmc}}</span> </td>
                                 <td>735kb</td>
                                 <td class="notStart">未开始</td>
                                 <!-- <td class="finished">已完成</td> -->
@@ -101,8 +101,8 @@
                                     <a class="trainicon">训练</a>
                                     <a class="engineeringicon">特征工程</a>
                                     <a class="explainicon">解释</a>
-                                    <a class="moreicon">
-                                        <ul class="moreicon-ul">
+                                    <a class="moreicon" @click="toggleListshow(item,index)">
+                                        <ul class="moreicon-ul" v-show="item.isShowlist">
                                             <li class="lookicon">查看</li>
                                             <li class="visualicon">可视化</li>
                                             <li class="deployModelicon">部署模型</li>
@@ -1112,6 +1112,7 @@
                     that.dataList = res.data.list
                     that.dataList.map(item=>{
                         item.isShow = false
+                        item.isShowlist =false
                     })
                     that.total=res.data.count
                     that.maxPage =Math.ceil(that.total/that.pageSize) 
@@ -1321,12 +1322,31 @@
             toggleTableshow(item,index){
                 this.$set(this.dataList,index,{
                     isShow:!item.isShow,
-                    dataDesc:item.dataDesc,
-                    dataName:item.dataName,
-                    dsDesDtos:item.dsDesDtos,
-                    dsId:item.dsId
+                    bmc: item.bmc,
+                    bms: item.bms,
+                    scbz: item.scbz,
+                    scsj: item.scsj,
+                    taId: item.taId,
+                    xgsj: item.xgsj,
+                    yhid: item.yhid,
+                    zds: item.zds,
+                    isShowlist: item.isShowlist
                 })
                 
+            },
+            toggleListshow(item,index){
+                this.$set(this.dataList,index,{
+                    isShow:item.isShow,
+                    bmc: item.bmc,
+                    bms: item.bms,
+                    scbz: item.scbz,
+                    scsj: item.scsj,
+                    taId: item.taId,
+                    xgsj: item.xgsj,
+                    yhid: item.yhid,
+                    zds: item.zds,
+                    isShowlist: !item.isShowlist
+                })
             },
             addMerge(){
                 // 添加合并列

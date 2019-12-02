@@ -24,4 +24,13 @@ export const preProcessing = 'api/transcript/taId'
     //删除副本
 export const deleteTranscript = 'api/transcript/deleteTranscript'
     //数据预处理接口
-export const pretreatment = 'api/transcript/pretreatment'
+    // export const pretreatment = 'api/transcript/pretreatment'
+
+// 获取任务页面数据集
+export const taskList = 'api/task/getPageTask'
+    // 新建任务
+export const newTask = 'api/task/newTask'
+    // 删除任务
+export const deleteTask = 'api/task/deleteTask'
+    // 预处理接口
+export const pretreatment = 'api/task/pretreatment'

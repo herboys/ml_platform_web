@@ -178,7 +178,8 @@
 }
 
 #alert-box-addNewObject .content textarea,
-#alert-box-reviseNewObject .content textarea {
+#alert-box-reviseNewObject .content textarea,
+#alert-box-addNewTask .content textarea {
     width: 100%;
     padding: 15px;
     height: 200px;
