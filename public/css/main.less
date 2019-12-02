@@ -173,7 +173,9 @@ color: @fff333  !important;
     background-position: center;
     background-repeat: no-repeat;
 }
-
+.swiper-button-prev, .swiper-button-next{
+    z-index: 9;
+}
 .swiper-button-prev, .swiper-container-rtl .swiper-button-next{
     background-image: url(../images/public/arrow-left-off.png) !important;
 }
@@ -181,16 +183,16 @@ color: @fff333  !important;
     background-image: url(../images/public/arrow-right-off.png) !important;
 }
 .swiper-button-prev, .swiper-button-next{
-    top: 250px !important;
+    top: 70px !important;
 }
 .swiper-button-prev, .swiper-button-next:focus{
     outline: none;
 }
 .swiper-button-next, .swiper-container-rtl .swiper-button-prev{
-    right: 85px !important;
+    right: -30px !important;
 }
 .swiper-button-prev, .swiper-container-rtl .swiper-button-next{
-    left: 85px !important;
+    left: -30px !important;
 }
 
 #main .shujuji-table tr td.handle a.lookicon,#main .shujuji-table tr td.handle a.pretreatmenticon,#main .shujuji-table tr td.handle a.updateicon,#main .shujuji-table tr td.handle a.visualicon,#main .shujuji-table tr td.handle a.moreicon{

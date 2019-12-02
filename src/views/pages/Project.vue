@@ -6,13 +6,31 @@
         <section id="main">
             <div class="keshihua-main xiangmu-main">
 
-                <div class="search-wrap clearfix">
+                <!-- <div class="search-wrap clearfix">
                     <span class="s1 fl">项目名称：</span>
                     <input type="text" class="fl input input1" v-model="searchKey" placeholder="请输入检索项目名称" />
 
                     <a class="search-btn" href="javascript:void(0)" @click="searchProject">检索项目<span class="icon iconfont icon-sousuo"></span> </a>
                     <a class="search-btn addNewObject" @click="adddialogShow"> <span class="icon iconfont icon-zengjia" ></span> 新建项目</a>
+                </div> -->
+
+
+                <div class="search-wrap clearfix">
+                    <span class="s1 fl">项目名称：</span>
+                    <input type="text" class="fl input input1" v-model="searchKey" placeholder="请输入检索项目名称" />
+
+                    <span class="s1 fl">时间选择：</span>
+                    <input-time-pick @done="changeStartTime" class-name-user="aaa"></input-time-pick>
+                    <span class="fl line">-</span>
+                    <input-time-pick @done="changeEndTime"></input-time-pick>
+                    <a class="search-btn" href="javascript:void(0)" @click="searchProject">检索项目<span class="icon iconfont icon-sousuo"></span> </a>
+                    <a class="search-btn addNewObject" @click="adddialogShow"> <span class="icon iconfont icon-zengjia" ></span> 新建项目</a>
+
+
+
                 </div>
+
+
                 <!-- <commonTable></commonTable> -->
                 <div class="table">
                     <table class="keshihua-table" id="tableContent">
@@ -127,6 +145,7 @@
 import * as ReqUrl from '../../api/reqUrl'
 import commonTable from '../components/commonTable.vue'
 import commonHeade from '../components/header.vue'
+import inputTimePick from '../components/inputTimePick'
   import qs from 'qs'
   const parseForm = qs.stringify
   function packup (data = {}) {
@@ -188,6 +207,12 @@ import commonHeade from '../components/header.vue'
                 }
             },
             methods: {
+                changeStartTime(time){
+                    this.startTime=time;
+                },
+                changeEndTime(time){
+                    this.endTime=time;
+                },
                 addProject(){
                     var that = this
                     var obj = this.addProjectform
@@ -406,7 +431,8 @@ import commonHeade from '../components/header.vue'
             created(){
                 this.getProjeclist()
               
-            }
+            },
+            components:{inputTimePick},
     }
 </script>
 
