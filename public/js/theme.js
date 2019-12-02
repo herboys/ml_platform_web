@@ -53,6 +53,7 @@ var themeConfig = {
         shujujiTableFinished: "#b1c8fe",
         shujujiTableUninished: "#8875dd",
         shujujiTablePause: "#17a6d5",
+        shujujiTableIconColor: "#B2C9FC",
     },
     white: {
         index: 2,
@@ -108,6 +109,7 @@ var themeConfig = {
         shujujiTableFinished: "#b1c8fe",
         shujujiTableUninished: "#8875dd",
         shujujiTablePause: "#17a6d5",
+        shujujiTableIconColor: "#333",
     },
     black: {
         index: 3,
@@ -175,7 +177,8 @@ var themeConfig = {
 
         keshihuaTableThColor: "#8b9df9",
         keshihuaTableHandlePretreatment: "#3f97f1",
-        keshihuatabletrsonTr: "#151b3c"
+        keshihuatabletrsonTr: "#151b3c",
+        shujujiTableIconColor: "#B2C9FC",
 
 
 

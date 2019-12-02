@@ -1,10 +1,6 @@
 <template>
     <div class="wrapbody">
-
-
         <section id="main">
-
-
             <div class="breadpage">
                 <span class="light_bread"><a href="">数据集</a></span>
                 <span class="dark_bread"> > </span>
@@ -54,20 +50,66 @@
                             </tr>
                         </thead>
 
+                        <!-- <tbody>
+                            <tr class="evenTr">
+                                <td><span class="pull-icon down"></span></td>
+                                <td>item.dataName</td>
+                                <td>item.isShow</td>
+                                <td class="notStart">未开始</td>
+                                <td class="finished">已完成</td>
+                                <td class="unfininshed">未完成</td>
+                                <td>-</td>
+                                <td class="handle">
+                                    <a class="lookicon" @click="dialogTab">查看</a>
+                                    <a class="pretreatmenticon" @click="dialogPretreatment(item)">预处理</a>
+                                    <a class="updateicon">更新数据</a>
+                                    <a class="visualicon">可视化</a>
+                                    <a class="moreicon">
+                                        <ul class="moreicon-ul">
+                                            <li class="lookicon">查看</li>
+                                            <li class="visualicon">可视化</li>
+                                            <li class="deployModelicon">部署模型</li>
+                                            <li class="delicon">删除</li>
+                                        </ul>
+                                    </a>
+                                    <a title="修改" class="xiugai" @click="updateText(item)"><span class="iconfont icon-xiugai" ></span></a>
+                                    <a class="del" title="删除" @click="dialogDelete(item)"></a>
+                                </td>
+
+
+
+                            </tr>
+                        </tbody> -->
+
                         <tbody v-for="(item,index) in dataList" :key="index">
                             <tr class="evenTr"  >
                                 <td @click="toggleTableshow(item,index)"><span class="pull-icon down" :class="item.isShow?'up':'down'"></span></td>
-                                <td @dblclick="updateText(item)" ><span class="dblclick">{{item.dataName}}</span> </td>
+                                <td @dblclick="updateText(item)" ><span class="dblclick">{{item.bmc}}</span> </td>
                                 <td>735kb</td>
                                 <td class="notStart">未开始</td>
                                 <!-- <td class="finished">已完成</td> -->
                                 <!-- <td class="unfininshed">未完成</td> -->
                                 <td>-</td>
                                 <td class="handle">
-                                    <a class="look" @click="dialogTab">查看</a>
-                                    <a class="pretreatment" @click="dialogPretreatment(item)">预处理</a>
-                                    <!-- <span title="修改" class="xiugai" @click="updateText(item)"><span class="icon iconfont icon-xiugai" ></span></a> -->
-                                    <a class="del" title="删除" @click="dialogDelete(item)"></a>
+                                    <!-- <a class="icon icon1" title="查看数据"></a>
+                                    <router-link :to="{path:'/visual'}" class="icon icon2" title="数据可视化" ></router-link>
+                                    <a class="icon icon3" title="特征工程" @click="dialogtezhenggongcheng"></a>
+                                    <a class="icon icon4" title="开始训练" @click="dialogxunliangmoxing"></a>
+                                    <a class="icon icon5 shanchu" title="删除" @click="dialogDeleteFB"></a> -->
+
+                                    <a class="assessmenticon">评估</a>
+                                    <a class="trainicon">训练</a>
+                                    <a class="engineeringicon">特征工程</a>
+                                    <a class="explainicon">解释</a>
+                                    <a class="moreicon" @click="toggleListshow(item,index)">
+                                        <ul class="moreicon-ul" v-show="item.isShowlist">
+                                            <li class="lookicon">查看</li>
+                                            <li class="visualicon">可视化</li>
+                                            <li class="deployModelicon">部署模型</li>
+                                            <li class="delicon">删除</li>
+                                        </ul>
+                                    </a>
+
                                 </td>
                             </tr>
                        
@@ -80,11 +122,18 @@
                                 <td class="pause">暂停中</td>
                                 <td>决策树</td>
                                 <td class="handle">
-                                    <a class="icon icon1" title="查看数据" @click="dialogTab"></a>
+                                    <!-- <a class="icon icon1" title="查看数据"></a>
                                     <router-link :to="{path:'/visual'}" class="icon icon2" title="数据可视化" ></router-link>
                                     <a class="icon icon3" title="特征工程" @click="dialogtezhenggongcheng"></a>
                                     <a class="icon icon4" title="开始训练" @click="dialogxunliangmoxing"></a>
-                                    <a class="icon icon5 shanchu" title="删除" @click="dialogDeleteFB"></a>
+                                    <a class="icon icon5 shanchu" title="删除" @click="dialogDeleteFB"></a> -->
+
+                                    <a class="assessmenticon">评估</a>
+                                    <a class="trainicon">训练</a>
+                                    <a class="engineeringicon">特征工程</a>
+                                    <a class="explainicon">解释</a>
+                                    <a class="moreicon" style="visibility: hidden;">占位</a>
+
                                 </td>
                             </tr>
                         </tbody>
@@ -1063,6 +1112,7 @@
                     that.dataList = res.data.list
                     that.dataList.map(item=>{
                         item.isShow = false
+                        item.isShowlist =false
                     })
                     that.total=res.data.count
                     that.maxPage =Math.ceil(that.total/that.pageSize) 
@@ -1272,12 +1322,31 @@
             toggleTableshow(item,index){
                 this.$set(this.dataList,index,{
                     isShow:!item.isShow,
-                    dataDesc:item.dataDesc,
-                    dataName:item.dataName,
-                    dsDesDtos:item.dsDesDtos,
-                    dsId:item.dsId
+                    bmc: item.bmc,
+                    bms: item.bms,
+                    scbz: item.scbz,
+                    scsj: item.scsj,
+                    taId: item.taId,
+                    xgsj: item.xgsj,
+                    yhid: item.yhid,
+                    zds: item.zds,
+                    isShowlist: item.isShowlist
                 })
                 
+            },
+            toggleListshow(item,index){
+                this.$set(this.dataList,index,{
+                    isShow:item.isShow,
+                    bmc: item.bmc,
+                    bms: item.bms,
+                    scbz: item.scbz,
+                    scsj: item.scsj,
+                    taId: item.taId,
+                    xgsj: item.xgsj,
+                    yhid: item.yhid,
+                    zds: item.zds,
+                    isShowlist: !item.isShowlist
+                })
             },
             addMerge(){
                 // 添加合并列

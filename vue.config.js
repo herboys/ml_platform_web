@@ -14,7 +14,7 @@ module.exports = {
         proxy: {
             // 配置多个代理(配置一个 proxy: 'http://localhost:4000' )
             "/api": {
-                target: "http://10.1.192.118:9191/rest-boot",
+                target: "http://10.1.192.120:9191/rest-boot",
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
