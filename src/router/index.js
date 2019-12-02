@@ -7,6 +7,8 @@ import Project from '../views/pages/Project.vue'
 import Explain from '../views/pages/Explain.vue'
 import DataSet from '../views/pages/dataSet.vue'
 import DataSetDetail from '../views/pages/dataSetDetail.vue'
+import VisualTwoLevel from '../views/pages/VisualTwoLevel.vue'
+
 Vue.use(VueRouter)
 
 const routes = [{
@@ -71,6 +73,14 @@ const routes = [{
                 component: DataSetDetail,
                 meta: {
                     title: '数据集详情'
+                }
+            },
+            {
+                path: '/VisualTwoLevel',
+                name: VisualTwoLevel,
+                component: VisualTwoLevel,
+                meta: {
+                    title: '可视化二级页面'
                 }
             }
         ]

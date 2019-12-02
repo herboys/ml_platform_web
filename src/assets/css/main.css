@@ -708,11 +708,16 @@
 .swiper-wrap-new .swiper-ul>ul>li ul.s {
     position: absolute;
     top: 40px;
-    left: 30px;
+    left: 50%;
+    transform: translateX(-50%);
     padding: 5px 10px;
     background-color: #323c78;
     box-shadow: 0 0 10px #363232;
     border-radius: 5px;
+}
+
+.swiper-wrap-new .swiper-slide-active .swiper-ul>ul>li ul.s {
+    width: 80%;
 }
 
 .swiper-wrap-new .swiper-ul>ul>li ul.s li {
@@ -746,6 +751,11 @@
     text-align: center;
     font-size: 14px;
     padding: 15px 0 14px;
+}
+
+.swiper-container .swiper-slide-active .swiper-ul {
+    width: 72%;
+    float: right;
 }
 
 .swiper-echarts.swiper-container-horizontal>.swiper-pagination-bullets {

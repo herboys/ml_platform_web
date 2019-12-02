@@ -1015,3 +1015,10 @@
 #alert-box-tezhenggongcheng2 .content .item-list .pop:hover .help {
     color: #fff;
 }
+
+.alert-box .more-pf {
+    font-size: 14px;
+    color: #00E2FA;
+    line-height: 36px;
+    opacity: 0.8;
+}
