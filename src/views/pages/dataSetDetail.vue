@@ -12,13 +12,23 @@
                 <div class="search-wrap clearfix">
                     <span class="fl t"><i></i>共64条数据</span>
                     <span class="s1 fl">数据集名称：</span>
-                    <input type="text" class="fl input input1" placeholder="请输入数据集名称"/>
+                    <input type="text" class="fl input input1" style="width:410px;" placeholder="请输入数据集名称"/>
                     <a class="search-btn">查询<i class="icon"></i></a>
-                    <span class="fr t">查看具体数据</span>
+                    <span class="fr t t2">查看具体数据</span>
                 </div>
 
                 <div class="swiperList">
-
+                    <ul class="ul-zd">
+                        <li>字段名</li>
+                        <li>字段类型</li>
+                        <li>行数</li>
+                        <li>缺失行数</li>
+                        <li>平均值</li>
+                        <li>最小值</li>
+                        <li>最大值</li>
+                        <li>标准差</li>
+                        <li>唯一值</li>
+                    </ul>
                     <swiper :options="swiperOption" class="swiper-wrap-new" ref="SwiperWrap">
                         <!-- slides -->
                         <swiper-slide  class="swiper-no-swiping">
@@ -280,7 +290,7 @@
                     </swiper>
 
                     <div class="swiper-button-prev" slot="button-prev"></div>
-                        <div class="swiper-button-next" slot="button-next"></div>
+                    <div class="swiper-button-next" slot="button-next"></div>
                 </div>
 
             </div>
@@ -378,7 +388,7 @@
                         }],
                         series : [
                             {
-                                name:"name",
+                                //name:"name",
                                 type:'bar',
                                 barWidth: '50%',
                                 data:[10, 52, 200, 334, 390, 330, 220]

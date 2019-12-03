@@ -621,6 +621,22 @@
     cursor: pointer;
 }
 
+.swiper-wrap .t2 {
+    font-size: 14px;
+    color: #fff;
+    margin-top: 4px;
+    margin-right: 40px;
+    cursor: pointer;
+    position: relative;
+    font-size: 13px;
+    border-radius: 12px;
+    line-height: 27px;
+    height: 27px;
+    padding: 0px 15px;
+    background-image: -webkit-gradient(linear, left top, right top, from(#36a7f2), to(#3388f0));
+    background-image: linear-gradient(to right, #36a7f2, #3388f0);
+}
+
 .swiper-wrap .t i {
     width: 8px;
     height: 8px;
@@ -657,10 +673,14 @@
 }
 
 .swiper-wrap-new .swiper-ul {
-    border: 1px solid #505ba1;
-    padding: 0 15px;
-    /*width: 190px;*/
+    padding: 0 12px;
     margin: 0 auto;
+}
+
+.swiper-wrap-new .swiper-ul ul {
+    border: 1px solid #505ba1;
+    margin: 0 auto;
+    background-color: #262c5f;
 }
 
 .swiper-wrap-new .swiper-ul li {
@@ -704,11 +724,16 @@
 .swiper-wrap-new .swiper-ul>ul>li ul.s {
     position: absolute;
     top: 40px;
-    left: 30px;
+    left: 50%;
+    transform: translateX(-50%);
     padding: 5px 10px;
     background-color: #323c78;
     box-shadow: 0 0 10px #363232;
     border-radius: 5px;
+}
+
+.swiper-wrap-new .swiper-slide-active .swiper-ul>ul>li ul.s {
+    width: 80%;
 }
 
 .swiper-wrap-new .swiper-ul>ul>li ul.s li {
@@ -725,9 +750,29 @@
 
 .swiperList {
     margin-top: 20px;
+    position: relative;
 }
 
-.swiper-echarts {}
+.swiperList .ul-zd {
+    position: absolute;
+    z-index: 99;
+    left: 0;
+    top: 170px;
+    color: #fff;
+    font-size: 14px;
+    background-color: #1c2146;
+}
+
+.swiperList .ul-zd li {
+    text-align: center;
+    font-size: 14px;
+    padding: 15px 0 14px;
+}
+
+.swiper-container .swiper-slide-active .swiper-ul {
+    width: 72%;
+    float: right;
+}
 
 .swiper-echarts.swiper-container-horizontal>.swiper-pagination-bullets {
     bottom: 0;
