@@ -1,6 +1,6 @@
 <template>
     <div style="height:100%;">
-        <commonHeade @showPalette="togglePalette" :isShow="paletteShow"></commonHeade>
+        <!-- <commonHeade @showPalette="togglePalette" :isShow="paletteShow"></commonHeade> -->
         
         <div class="wrapbody">
         <section id="main">
@@ -31,7 +31,6 @@
                 </div>
 
 
-                <!-- <commonTable></commonTable> -->
                 <div class="table">
                     <table class="keshihua-table" id="tableContent">
                         <thead>
@@ -143,7 +142,6 @@
 </template>
 <script>
 import * as ReqUrl from '../../api/reqUrl'
-import commonTable from '../components/commonTable.vue'
 import commonHeade from '../components/header.vue'
 import inputTimePick from '../components/inputTimePick'
   import qs from 'qs'
@@ -192,7 +190,7 @@ import inputTimePick from '../components/inputTimePick'
                 }
             },
             components:{
-                commonHeade,commonTable
+                commonHeade
             },
             mounted(){
             },
