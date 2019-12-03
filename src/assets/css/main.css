@@ -780,3 +780,7 @@
 .swiper-echarts.swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet-active {
     background: #4a59b9;
 }
+
+#main .main-body-assess {
+    background-image: none !important;
+}
