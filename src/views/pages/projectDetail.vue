@@ -7,10 +7,10 @@
             <div class="keshihua-main xiangmu-main shujuji-main">
 
                 <div class="search-wrap clearfix">
-                    <span class="s1 fl">项目名称：</span>
-                    <input type="text" class="fl input input1" v-model="searchKey" placeholder="请输入检索项目名称" />
+                    <span class="s1 fl">任务名称：</span>
+                    <input type="text" class="fl input input1" v-model="searchKey" placeholder="请输入检索任务名称" />
 
-                    <a class="search-btn" href="javascript:void(0)" @click="searchTask">检索数据集<span class="icon iconfont icon-sousuo"></span> </a>
+                    <a class="search-btn" href="javascript:void(0)" @click="searchTask">检索任务<span class="icon iconfont icon-sousuo"></span> </a>
                     <a class="search-btn addNewObject" @click="adddialogShow"> <span class="icon iconfont icon-zengjia" ></span> 新建任务</a>
                 </div>
                 <!-- <commonTable></commonTable> -->

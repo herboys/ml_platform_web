@@ -200,6 +200,7 @@
         <!-- 数据预处理 -->
         <div class="alert-box" id="alert-box-shujuyuchuli">
             <div class="title text-c">
+                <span class="fl more-pf">调用更多配方</span>
                 数据预处理1
                 <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
             </div>

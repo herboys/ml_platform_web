@@ -1035,18 +1035,9 @@
     color: #fff;
 }
 
-
-/* 新增任务弹框 */
-
-#alert-box-addNewTask select {
-    width: 100%;
-    background-position: 400px -218px;
-}
-
-#alert-box-addNewTask .btn-wrap {
-    margin-top: 20px;
-}
-
-#alert-box-addNewTask td a {
-    color: #b1c8fe !important;
+.alert-box .more-pf {
+    font-size: 14px;
+    color: #00E2FA;
+    line-height: 36px;
+    opacity: 0.8;
 }
