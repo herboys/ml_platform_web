@@ -348,7 +348,7 @@
                                     borderWidth: 1
                                 },
                                 data: [
-                                    {value: 60},
+                                    {value: 40},
                                     {value: 40},
                                     {value: 20},
                                     {value: 80},
@@ -410,6 +410,21 @@
                     },{
                         data: [520, 232, 401, 634, 990, 330, 1020],
                         type: 'line',
+                    },{
+                        data: [820, 932, 901, 934, 1290, 1330, 1320],
+                        type: 'bar',
+                        itemStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(
+                                    0, 0, 0, 1,       //4个参数用于配置渐变色的起止位置, 这4个参数依次对应右/下/左/上四个方位. 而0 0 0 1则代表渐变色从正上方开始
+                                    [
+                                        {offset: 0, color: '#3398DB'},
+                                        {offset: 1, color: '#1E214E'}
+                                    ]                //数组, 用于配置颜色的渐变过程. 每一项为一个对象, 包含offset和color两个参数. offset的范围是0 ~ 1, 用于表示位置
+                                )
+                            }
+                        },
+                        barWidth:'15%'
                     }]
                 },
                 echartsHeatMapOption:(function(){
