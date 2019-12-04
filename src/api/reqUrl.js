@@ -36,3 +36,7 @@ export const deleteTask = 'api/task/deleteTask'
 export const pretreatment = 'api/task/pretreatment'
     // 获取特征工程
 export const getCharacteristic = 'api/task/getCharacteristic'
+    // 查看数据
+export const taskDetail = 'api/task/details'
+    // 保存特征工程
+export const saveCharacteristic = 'api/task/saveCharacteristic'

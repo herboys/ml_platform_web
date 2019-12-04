@@ -11,6 +11,7 @@ import DataSetDetail from '../views/pages/dataSetDetail.vue'
 import VisualTwoLevel from '../views/pages/VisualTwoLevel.vue'
 import VisualTwoLevelStaticState from '../views/pages/VisualTwoLevelStaticState.vue'
 import assess from '../views/pages/assess.vue'
+import specialData from '../views/pages/specificData.vue'
 Vue.use(VueRouter)
 
 const routes = [{
@@ -107,6 +108,14 @@ const routes = [{
                 component: assess,
                 meta: {
                     title: '评估'
+                }
+            },
+            {
+                path: '/specialData',
+                name: specialData,
+                component: specialData,
+                meta: {
+                    title: '查看具体数据'
                 }
             }
         ]
