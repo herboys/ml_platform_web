@@ -796,3 +796,12 @@
 .swiper-echarts.swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet-active {
     background: #4a59b9;
 }
+
+.el-radio__input.is-checked .el-radio__inner {
+    border-color: #4a59b9;
+    background: #4a59b9;
+}
+
+#main .main-body-assess {
+    background-image: none !important;
+}

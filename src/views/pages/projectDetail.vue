@@ -31,12 +31,13 @@
                                 <td>{{item.sjjName}}</td>
                                 <td>未开始</td>
                                 <td class="handle">
-                                    <a href="javascript:void(0)" class="lookicon" >查看数据</a>
+                                    <!-- <a href="javascript:void(0)" class="lookicon" ></a> -->
+                                    <router-link :to="{path:'/DataSetDetail'}" class="lookicon">查看数据</router-link>
                                     <a href="javascript:void(0)" class="pretreatmenticon" @click="dialogPretreatment(item)">数据预处理</a>
-                                    <a class="engineeringicon" @click="dialogtezhenggongcheng">特征工程</a>
-                                    <a class="trainicon" @click="dialogxunliangmoxing">训练</a>
-                                    <a class="assessmenticon">评估</a>
-                                    <router-link :to="{path:'/explain'}" class="explainicon">解释</router-link>
+                                    <a class="engineeringicon" @click="dialogtezhenggongcheng(item)" :class="!item.yclcs?'gray':''" >特征工程</a>
+                                    <a class="trainicon" @click="dialogxunliangmoxing" :class="!item.yclcs?'gray':''" >训练</a>
+                                    <a class="assessmenticon" :class="!item.yclcs?'gray':''" >评估</a>
+                                    <router-link :to="{path:'/explain'}" class="explainicon" :class="!item.yclcs?'gray':''" >解释</router-link>
                                     <!-- <a class="explainicon">解释</a> -->
                                     <a class="moreicon" @click="toggleShow(item,index)">
                                         <ul class="moreicon-ul" v-show="item.isShow">
@@ -129,13 +130,17 @@
                     <div class="content-item1 clearfix">
                         <p class="name">模型类型：</p>
                         <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>分类模型</span></label>
+                            <!-- <label><input type="radio" ><i class="icon"></i><span>分类模型</span></label> -->
+                             <el-radio v-model="selectType" label="分类模型">分类模型</el-radio>
+  
                         </div>
                         <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>归类模型</span></label>
+                            <!-- <label><input type="radio"><i class="icon"></i><span>归类模型</span></label> -->
+                            <el-radio v-model="selectType" label="归类模型">归类模型</el-radio>
                         </div>
                         <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>聚类模型</span></label>
+                            <!-- <label><input type="radio" ><i class="icon"></i><span>聚类模型</span></label> -->
+                            <el-radio v-model="selectType" label="聚类模型">聚类模型</el-radio>
                         </div>
                     </div>
 
@@ -146,17 +151,17 @@
                             <div class="select-wrap-half fl">
                                 <p>目标列</p>
                                 <div class="select">
-                                    <select>
-                                        <option value="" v-for="item in preProcesscolmun.targetColumn" :key="item">{{item}}</option>
+                                    <select v-model="selectTarget">
+                                        <option :value="item" v-for="item in preProcesscolmun.targetColumn" :key="item">{{item}}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="select-wrap-half fl">
                                 <p>分组列</p>
-                                <div class="select">
-                                    <select>
-                                        <option value="" v-for="item in preProcesscolmun.groupColumn" :key="item">{{item}}</option>
+                                <div class="select" >
+                                    <select v-model="selectGroup">
+                                        <option :value="item" v-for="item in preProcesscolmun.groupColumn" :key="item">{{item}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -166,27 +171,10 @@
 
                     <div class="content-item1 content-item3 clearfix">
                         <p class="name">缺失值填充：</p>
-                        <div class="choose-wrap" v-for="item in preProcesscolmun.deficiencyColumn" :key="item">
-                            <label><input type="checkbox"><i class="icon"></i><span>{{item}}</span></label>
+                        <div class="choose-wrap" v-for="item in preProcesscolmun.deficiencyColumn" :key="item.name">
+                            <label><input type="checkbox" :checked="item.checked" v-model="item.checked"><i class="icon"></i><span>{{item.name}}</span></label>
                         </div>
-                        <!-- <div class="choose-wrap" >
-                            <label><input type="checkbox"><i class="icon"></i><span>调用该列平均值去填充该缺失值</span></label>
-                        </div>
-                        <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>调用该列中位位数去填充该缺</span></label>
-                        </div>
-                        <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>调用该列众数去填充该缺失值</span></label>
-                        </div>
-                        <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>调用前一个非缺失值去填充该缺失值</span></label>
-                        </div>
-                        <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>调用后一个非缺失值去填充该缺失值</span></label>
-                        </div>
-                        <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>输入自定义值定义去填充缺失值</span></label>
-                        </div> -->
+           
                     </div>
 
 
@@ -195,7 +183,7 @@
 
                 <div class="btn-wrap">
                     <button class="more" @click="closeDialog">调用更多配方</button>
-                    <button class="dev" @click="closeDialog">生成副本</button>
+                    <button class="dev" @click="toPretreatment">生成副本</button>
                 </div>
             </div>
         </div>
@@ -267,7 +255,9 @@
                     <div class="item-lists">
                         <div class="item-list clearfix">
                             <span class="fl name">选择剔除类<b class="sm">(可多选)</b></span>
-                            <select class="fl select"></select>
+                            <select class="fl select" v-model="selectEliminate">
+                                <option :value="item" v-for="(item,index) in tcgcList" :key="index">{{item}}</option>
+                            </select>
                         </div>
 
                         <p class="t">
@@ -278,14 +268,16 @@
                             <div class="item-list clearfix">
                                 <span class="fl name">选择需要合并的列</span>
                                 <div class="form-wrap fl clearfix">
-                                    <select class="fl select"></select>
+                                    <select class="fl select" v-model="item.selectColmun">
+                                        <option :value="name" v-for="name in item.selectList" :key="name">{{name}}</option>
+                                    </select>
                                     <span class="icon add" @click="addMerge" v-show="index ==0">+</span>
                                     <span class="icon minus" @click="removeMerge" v-show="mergeList.length>1 && index ==0">-</span>
                                 </div>
                             </div>
                             <div class="item-list clearfix">
                                 <span class="fl name">合并列名称</span>
-                                <input class="fl input" placeholder="请输入合并列的名称" />
+                                <input class="fl input" v-model="item.colmunName" placeholder="请输入合并列的名称" />
                             </div>
                         </div>
 
@@ -296,7 +288,9 @@
                             <div class="item-list clearfix">
                                 <span class="fl name">选择需要拆分的列</span>
                                 <div class="form-wrap fl clearfix">
-                                    <select class="fl select"></select>
+                                    <select class="fl select" v-model="item.selectColmun">
+                                        <option :value="name" v-for="name in item.selectList" :key="name">{{name}}</option>
+                                    </select>
                                     <span class="icon add" @click="addSplit" v-show="index ==0">+</span>
                                     <span class="icon minus" @click="removeSplit" v-show="splitList.length>1 && index ==0">-</span>
                                 </div>
@@ -306,7 +300,7 @@
                                 <div class="item-list clearfix">
                                     <span class="fl name">拆分列数</span>
                                     <div class="form-wrap fl clearfix">
-                                    <input type="text" class="fl input" placeholder="请输入拆分列数">
+                                    <input type="number" class="fl input" v-model="item.colmunNUmber" placeholder="请输入拆分列数">
                                     
                                     </div>
                                 </div>
@@ -318,9 +312,9 @@
 
                     </div>
                     
-                    <div class="btn-wrap text-c">
+                    <!-- <div class="btn-wrap text-c">
                         <button class="btn begin" @click="closeDialog">调用更多配方</button>
-                    </div>
+                    </div> -->
                 </div>
                 </div>
             </div>
@@ -433,14 +427,14 @@ import commonHeade from '../components/header.vue'
                     deleteId:null,
                     mergeList:[
                         {
-                            colmun:'',
-                            name:''
+                            selectColmun:'',
+                            colmunName:''
                         }
                     ],//特征工程合并列
                     splitList:[
                         {
-                            colmun:'',
-                            name:''
+                            selectColmun:'',
+                            colmunNUmber:''
                         }
                     ] ,//特征工程拆分列
                     tezhenggongcheng1:true,
@@ -448,7 +442,21 @@ import commonHeade from '../components/header.vue'
                     tezhenggongcheng:true,
                     projectId:null,
                     dataList:[],
-                    preProcesscolmun:{}
+                    preProcesscolmun:{},//获取预处理对象
+                    selectType:'分类模型',
+                    selectTarget:'',//选中的目标列
+                    selectGroup:'',//选中的分组列
+                    selectMiid:null,//选中的任务id
+                    selectTzgc:null,//选中的特征工程tagid
+                    tcgcList:[],//特征工程列表
+                    selectEliminate:'',//剔除类
+                    tcgcValue:{
+                        jwAlgorithm:'',//降维算法
+                        Regularization:'',//正则化
+                        algorithm:'',//降维数
+                        vernacular:'' //白化
+                    },//最后传的特征工程list
+
                 }
             },
             components:{
@@ -465,6 +473,12 @@ import commonHeade from '../components/header.vue'
                 pageSize(val){
                     this.getTasklist()
                 },
+                selectType(val){
+                    console.log(val)
+                },
+                selectEliminate(val){
+                    console.log(val)
+                }
             },
             methods: {
                 addTask(){
@@ -623,6 +637,7 @@ import commonHeade from '../components/header.vue'
                         area: ['860px', '600px'], //宽高
                         content: $('#alert-box-shujuyuchuli'),
                     });
+                    this.selectMiid = item.miId
                     let url=`${ReqUrl.preProcessing}`
                     let paramsData={
                         // taId:item.dsId
@@ -635,11 +650,25 @@ import commonHeade from '../components/header.vue'
                     })
                     .then(res=>{
                         this.preProcesscolmun = res.data
-                        console.log(this.preProcesscolmun)
+                        var arr = []
+                        this.preProcesscolmun.deficiencyColumn.forEach(item=>{
+                            var obj={}
+                            obj.name = item
+                            obj.checked = false
+                            arr.push(obj)
+
+                        })
+                        this.preProcesscolmun.deficiencyColumn = arr
+                        console.log(this.preProcesscolmun.deficiencyColumn)
                     })
 
                 },
-                dialogtezhenggongcheng(){
+                dialogtezhenggongcheng(item){
+                    
+                    if(!item.yclcs){
+                        this.$message('请先进行预处理')
+                        return
+                    }
                     // 特征工程
                     layer.open({
                         type: 1,
@@ -649,6 +678,52 @@ import commonHeade from '../components/header.vue'
                         area: ['660px', 1000], //宽高
                         content: $('#alert-box-tezhenggongcheng'),
                     });
+                    if(this.selectMiid != item.miId){
+                        this.selectEliminate = ''
+                        this.mergeList=[]
+                        this.splitList=[]
+                        this.mergeList.push(
+                            {
+                                selectColmun:'',
+                                colmunName:'',
+                                selectList:this.tcgcList
+                            }
+                        )
+                        this.splitList.push(
+                            {
+                                selectColmun:'',
+                                colmunNUmber:'',
+                                selectList:this.tcgcList
+                            }
+                        )
+                    }
+                    this.selectMiid = item.miId
+                    this.selectTzgc = item.taId
+                    let url=`${ReqUrl.getCharacteristic}`
+                    let paramsData={
+                        userId:1,
+                        taId:this.selectTzgc
+                    }
+             
+                    axios({
+                        url: url,
+                        method: 'get',
+                        params: paramsData,
+                    })
+                    .then(res=>{
+                        console.log(res)
+                        this.tcgcList = res.data
+                        this.mergeList.map(item=>{
+                            item.selectList = res.data
+                        })
+                        this.splitList.map(item=>{
+                            item.selectList = res.data
+                        })
+                        console.log(this.mergeList)
+                        console.log(this.splitList)
+                       
+                    })
+
                 },
                 dialogxunliangmoxing(){
                     // 模型训练
@@ -664,16 +739,18 @@ import commonHeade from '../components/header.vue'
                 addMerge(){
                     // 添加合并列
                     let obj={
-                        colmun:'',
-                        name:''
+                        selectColmun:'',
+                        colmunName:'',
+                        selectList:this.tcgcList
                     }
                     this.mergeList.push(obj)
                 },
                 addSplit(){
                     // 添加拆分列
                     let obj={
-                        colmun:'',
-                        name:''
+                        selectColmun:'',
+                        colmunNUmber:'',
+                        selectList:this.tcgcList
                     }
                     this.splitList.push(obj)
                 },
@@ -688,6 +765,18 @@ import commonHeade from '../components/header.vue'
                     this.tezhenggongcheng2=false;
                 },
                 tezhenggongcheng2Fn(){
+                    
+                    console.log(this.selectEliminate)
+                    console.log(this.mergeList)
+                    console.log(this.splitList)
+                    this.mergeList.forEach((item,index)=>{
+                      
+                    })
+                    this.splitList.forEach(item=>{
+
+                    })
+                    
+                    // return
                     this.tezhenggongcheng2=true;
                     this.tezhenggongcheng1=false;
                 },
@@ -740,6 +829,46 @@ import commonHeade from '../components/header.vue'
                         // that.maxPage =Math.ceil(that.total/that.pageSize) 
                     })
                 },
+                toPretreatment(){
+                    // 预处理接口
+                    const missKey ={}
+                    this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
+                        if(item.checked){
+                            missKey[index] = item.name;
+                        }
+                    })
+                    if(!this.selectGroup){
+                        this.$message('请选择分组列')
+                        return
+                    } else if(!this.selectTarget){
+                        this.$message('请选择目标列')
+                        return
+                    } else if (!missKey){
+                        this.$message('请选择缺失列')
+                        return
+                    }
+                    let url=`${ReqUrl.pretreatment}`
+                    let paramsData={
+                        userId:1,
+                        groupColumn: this.selectGroup,
+                        missingColumn: missKey,
+                        modelType: this.selectType,
+                        targetColumn: this.selectTarget
+                    }
+             
+                    axios({
+                        url: url,
+                        method: 'post',
+                        params: {miId:this.selectMiid},
+                        data:paramsData
+                    })
+                    .then(res=>{
+                        console.log(res)
+                        this.getTasklist()
+                        this.closeDialog()
+                    })
+                    
+                }
 
             },
             created(){

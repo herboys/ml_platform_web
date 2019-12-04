@@ -34,3 +34,5 @@ export const newTask = 'api/task/newTask'
 export const deleteTask = 'api/task/deleteTask'
     // 预处理接口
 export const pretreatment = 'api/task/pretreatment'
+    // 获取特征工程
+export const getCharacteristic = 'api/task/getCharacteristic'

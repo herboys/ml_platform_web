@@ -9,7 +9,8 @@ import Explain from '../views/pages/Explain.vue'
 import DataSet from '../views/pages/dataSet.vue'
 import DataSetDetail from '../views/pages/dataSetDetail.vue'
 import VisualTwoLevel from '../views/pages/VisualTwoLevel.vue'
-
+import VisualTwoLevelStaticState from '../views/pages/VisualTwoLevelStaticState.vue'
+import assess from '../views/pages/assess.vue'
 Vue.use(VueRouter)
 
 const routes = [{
@@ -90,6 +91,22 @@ const routes = [{
                 component: VisualTwoLevel,
                 meta: {
                     title: '可视化二级页面'
+                }
+            },
+            {
+                path: '/VisualTwoLevelStaticState',
+                name: VisualTwoLevelStaticState,
+                component: VisualTwoLevelStaticState,
+                meta: {
+                    title: '可视化二级页面'
+                }
+            },
+            {
+                path: '/assess',
+                name: assess,
+                component: assess,
+                meta: {
+                    title: '评估'
                 }
             }
         ]

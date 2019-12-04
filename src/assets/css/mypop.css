@@ -199,6 +199,10 @@
     padding: 0 15px;
 }
 
+#alert-box-addNewTask .btn-wrap {
+    margin: 20px 0;
+}
+
 #alert-box-addNewObject .btn-wrap .btn,
 #alert-box-reviseNewObject .btn-wrap .btn,
 #alert-box-addNewTask .btn-wrap .btn {
@@ -224,6 +228,11 @@
 #alert-box-shujujiTab .content,
 #alert-box-xunliangmoxing .content {
     padding: 26px 67px;
+}
+
+#alert-box-addNewTask select {
+    width: 100%!important;
+    background-position: 410px -218px!important;
 }
 
 #alert-box-xunliangmoxing .content {
