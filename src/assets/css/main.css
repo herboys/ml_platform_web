@@ -801,3 +801,7 @@
     border-color: #4a59b9;
     background: #4a59b9;
 }
+
+#main .main-body-assess {
+    background-image: none !important;
+}
