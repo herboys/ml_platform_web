@@ -268,14 +268,16 @@
                             <div class="item-list clearfix">
                                 <span class="fl name">选择需要合并的列</span>
                                 <div class="form-wrap fl clearfix">
-                                    <select class="fl select"></select>
+                                    <select class="fl select" v-model="item.selectColmun">
+                                        <option :value="name" v-for="name in item.selectList" :key="name">{{name}}</option>
+                                    </select>
                                     <span class="icon add" @click="addMerge" v-show="index ==0">+</span>
                                     <span class="icon minus" @click="removeMerge" v-show="mergeList.length>1 && index ==0">-</span>
                                 </div>
                             </div>
                             <div class="item-list clearfix">
                                 <span class="fl name">合并列名称</span>
-                                <input class="fl input" placeholder="请输入合并列的名称" />
+                                <input class="fl input" v-model="item.colmunName" placeholder="请输入合并列的名称" />
                             </div>
                         </div>
 
@@ -286,7 +288,9 @@
                             <div class="item-list clearfix">
                                 <span class="fl name">选择需要拆分的列</span>
                                 <div class="form-wrap fl clearfix">
-                                    <select class="fl select"></select>
+                                    <select class="fl select" v-model="item.selectColmun">
+                                        <option :value="name" v-for="name in item.selectList" :key="name">{{name}}</option>
+                                    </select>
                                     <span class="icon add" @click="addSplit" v-show="index ==0">+</span>
                                     <span class="icon minus" @click="removeSplit" v-show="splitList.length>1 && index ==0">-</span>
                                 </div>
@@ -296,7 +300,7 @@
                                 <div class="item-list clearfix">
                                     <span class="fl name">拆分列数</span>
                                     <div class="form-wrap fl clearfix">
-                                    <input type="text" class="fl input" placeholder="请输入拆分列数">
+                                    <input type="number" class="fl input" v-model="item.colmunNUmber" placeholder="请输入拆分列数">
                                     
                                     </div>
                                 </div>
@@ -308,9 +312,9 @@
 
                     </div>
                     
-                    <div class="btn-wrap text-c">
+                    <!-- <div class="btn-wrap text-c">
                         <button class="btn begin" @click="closeDialog">调用更多配方</button>
-                    </div>
+                    </div> -->
                 </div>
                 </div>
             </div>
@@ -423,14 +427,14 @@ import commonHeade from '../components/header.vue'
                     deleteId:null,
                     mergeList:[
                         {
-                            colmun:'',
-                            name:''
+                            selectColmun:'',
+                            colmunName:''
                         }
                     ],//特征工程合并列
                     splitList:[
                         {
-                            colmun:'',
-                            name:''
+                            selectColmun:'',
+                            colmunNUmber:''
                         }
                     ] ,//特征工程拆分列
                     tezhenggongcheng1:true,
@@ -442,10 +446,16 @@ import commonHeade from '../components/header.vue'
                     selectType:'分类模型',
                     selectTarget:'',//选中的目标列
                     selectGroup:'',//选中的分组列
-                    selectPretreatment:null,//选中的预处理id
+                    selectMiid:null,//选中的任务id
                     selectTzgc:null,//选中的特征工程tagid
                     tcgcList:[],//特征工程列表
                     selectEliminate:'',//剔除类
+                    tcgcValue:{
+                        jwAlgorithm:'',//降维算法
+                        Regularization:'',//正则化
+                        algorithm:'',//降维数
+                        vernacular:'' //白化
+                    },//最后传的特征工程list
 
                 }
             },
@@ -464,6 +474,9 @@ import commonHeade from '../components/header.vue'
                     this.getTasklist()
                 },
                 selectType(val){
+                    console.log(val)
+                },
+                selectEliminate(val){
                     console.log(val)
                 }
             },
@@ -624,7 +637,7 @@ import commonHeade from '../components/header.vue'
                         area: ['860px', '600px'], //宽高
                         content: $('#alert-box-shujuyuchuli'),
                     });
-                    this.selectPretreatment = item.miId
+                    this.selectMiid = item.miId
                     let url=`${ReqUrl.preProcessing}`
                     let paramsData={
                         // taId:item.dsId
@@ -651,6 +664,11 @@ import commonHeade from '../components/header.vue'
 
                 },
                 dialogtezhenggongcheng(item){
+                    
+                    if(!item.yclcs){
+                        this.$message('请先进行预处理')
+                        return
+                    }
                     // 特征工程
                     layer.open({
                         type: 1,
@@ -660,11 +678,31 @@ import commonHeade from '../components/header.vue'
                         area: ['660px', 1000], //宽高
                         content: $('#alert-box-tezhenggongcheng'),
                     });
-                    // this.selectTzgc = item.taId
+                    if(this.selectMiid != item.miId){
+                        this.selectEliminate = ''
+                        this.mergeList=[]
+                        this.splitList=[]
+                        this.mergeList.push(
+                            {
+                                selectColmun:'',
+                                colmunName:'',
+                                selectList:this.tcgcList
+                            }
+                        )
+                        this.splitList.push(
+                            {
+                                selectColmun:'',
+                                colmunNUmber:'',
+                                selectList:this.tcgcList
+                            }
+                        )
+                    }
+                    this.selectMiid = item.miId
+                    this.selectTzgc = item.taId
                     let url=`${ReqUrl.getCharacteristic}`
                     let paramsData={
                         userId:1,
-                        taId:item.taId
+                        taId:this.selectTzgc
                     }
              
                     axios({
@@ -675,8 +713,15 @@ import commonHeade from '../components/header.vue'
                     .then(res=>{
                         console.log(res)
                         this.tcgcList = res.data
-                        // this.getTasklist()
-                        // this.closeDialog()
+                        this.mergeList.map(item=>{
+                            item.selectList = res.data
+                        })
+                        this.splitList.map(item=>{
+                            item.selectList = res.data
+                        })
+                        console.log(this.mergeList)
+                        console.log(this.splitList)
+                       
                     })
 
                 },
@@ -694,16 +739,18 @@ import commonHeade from '../components/header.vue'
                 addMerge(){
                     // 添加合并列
                     let obj={
-                        colmun:'',
-                        name:''
+                        selectColmun:'',
+                        colmunName:'',
+                        selectList:this.tcgcList
                     }
                     this.mergeList.push(obj)
                 },
                 addSplit(){
                     // 添加拆分列
                     let obj={
-                        colmun:'',
-                        name:''
+                        selectColmun:'',
+                        colmunNUmber:'',
+                        selectList:this.tcgcList
                     }
                     this.splitList.push(obj)
                 },
@@ -718,6 +765,18 @@ import commonHeade from '../components/header.vue'
                     this.tezhenggongcheng2=false;
                 },
                 tezhenggongcheng2Fn(){
+                    
+                    console.log(this.selectEliminate)
+                    console.log(this.mergeList)
+                    console.log(this.splitList)
+                    this.mergeList.forEach((item,index)=>{
+                      
+                    })
+                    this.splitList.forEach(item=>{
+
+                    })
+                    
+                    // return
                     this.tezhenggongcheng2=true;
                     this.tezhenggongcheng1=false;
                 },
@@ -784,7 +843,7 @@ import commonHeade from '../components/header.vue'
                     } else if(!this.selectTarget){
                         this.$message('请选择目标列')
                         return
-                    } else if (!missKey[1]){
+                    } else if (!missKey){
                         this.$message('请选择缺失列')
                         return
                     }
@@ -800,7 +859,7 @@ import commonHeade from '../components/header.vue'
                     axios({
                         url: url,
                         method: 'post',
-                        params: {miId:this.selectPretreatment},
+                        params: {miId:this.selectMiid},
                         data:paramsData
                     })
                     .then(res=>{
