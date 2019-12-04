@@ -31,18 +31,17 @@
                                 <td>{{item.sjjName}}</td>
                                 <td>未开始</td>
                                 <td class="handle">
-                                    <!-- <a href="javascript:void(0)" class="lookicon" ></a> -->
-                                    <router-link :to="{path:'/DataSetDetail'}" class="lookicon">查看数据</router-link>
+                                    <a href="javascript:void(0)" class="lookicon" @click="toLink('detail',item)">查看数据</a>
                                     <a href="javascript:void(0)" class="pretreatmenticon" @click="dialogPretreatment(item)">数据预处理</a>
                                     <a class="engineeringicon" @click="dialogtezhenggongcheng(item)" :class="!item.yclcs?'gray':''" >特征工程</a>
-                                    <a class="trainicon" @click="dialogxunliangmoxing" :class="!item.yclcs?'gray':''" >训练</a>
-                                    <a class="assessmenticon" :class="!item.yclcs?'gray':''" >评估</a>
-                                    <router-link :to="{path:'/explain'}" class="explainicon" :class="!item.yclcs?'gray':''" >解释</router-link>
+                                    <a class="trainicon" @click="dialogxunliangmoxing" :class="!item.yclcs?'gray':''"  >训练</a>
+                                    <a class="assessmenticon" :class="!item.yclcs?'gray':''" @click="toLink('pg')">评估</a>
+                                    <router-link :to="{path:'/explain'}" class="explainicon" :class="!item.yclcs?'gray':''"  @click="toLink('js')">解释</router-link>
                                     <!-- <a class="explainicon">解释</a> -->
                                     <a class="moreicon" @click="toggleShow(item,index)">
                                         <ul class="moreicon-ul" v-show="item.isShow">
                                             <!-- <li class="lookicon">查看数据</li> -->
-                                            <li class="visualicon" @click="toVisual">数据可视化</li>
+                                            <li class="visualicon" @click="toLink('visual')">数据可视化</li>
                                             <li class="deployModelicon">部署模型</li>
                                             <li class="deployModelicon">调用模型</li>
                                             <li class="delicon" @click="deleteTask(item.miId)">删除</li>
@@ -307,9 +306,6 @@
                             
                             </div>
                         </div>
-                        
-                        
-
                     </div>
                     
                     <!-- <div class="btn-wrap text-c">
@@ -334,15 +330,19 @@
 
                         <div class="item-list clearfix">
                             <span class="fl name">降维算法</span>
-                            <select class="fl select"></select>
+                            <select class="fl select" v-model="arithmetic">
+                                <option :value="item.value" v-for="item in arithmeticOption" :key="item.value">{{item.value}}</option>
+                            </select>
                         </div>
                         <div class="item-list clearfix">
                             <span class="fl name">正则化</span>
-                            <select class="fl select"></select>
+                            <select class="fl select" v-model="regex">
+                                <option :value="item.value" v-for="item in regexOption" :key="item.value">{{item.value}}</option>
+                            </select>
                         </div>
                         <div class="item-list clearfix">
                             <span class="fl name">降维数</span>
-                            <input class="fl input" placeholder="请输入LDA降维时降到的维数" />
+                            <input class="fl input" type="number" v-model="jiangwei" placeholder="请输入LDA降维时降到的维数" />
                         </div>
 
                         <p class="t">
@@ -350,11 +350,13 @@
                         </p>
                         <div class="item-list clearfix">
                             <span class="fl name">主成分个数</span>
-                            <input class="fl input" placeholder="请输入拆分的列数" />
+                            <input class="fl input" type="number" v-model="number" placeholder="请输入拆分的列数" />
                         </div>
                         <div class="item-list clearfix">
                             <span class="fl name">白化</span>
-                            <select class="fl select"></select>
+                            <select class="fl select" v-model="baihua">
+                                <option :value="item.value" v-for="item in baihuaOption" :key="item.value">{{item.value}}</option>
+                            </select>
                             <p class="fl pop">
                                 <span class="wenhao fl">
                                     <i class="icon iconfont icon-qm"></i>
@@ -362,7 +364,8 @@
                                 <span class="fl help">帮助</span>
                                 <span class="border-right"></span>
                                 <span class="txt">
-                                        特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
+                                    白化的目的是去除输入数据的冗余信息。由于很多相邻特征之间具有很强的相关性，所以用于训练时的输入是比较冗余的；白化的目的就是降低输入的冗余性。
+                                        <!-- 特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。 -->
                            
                                 </span>
                             </p>
@@ -371,7 +374,7 @@
                     
                     <div class="btn-wrap text-c">
                         <button class="btn esc" @click="closeDialog">调用更多配方</button>
-                        <button class="btn begin" @click="closeDialog">保存</button>
+                        <button class="btn begin" @click="saveCharacteristic">保存</button>
                     </div>
                 </div>
             </div>
@@ -450,21 +453,45 @@ import commonHeade from '../components/header.vue'
                     selectTzgc:null,//选中的特征工程tagid
                     tcgcList:[],//特征工程列表
                     selectEliminate:'',//剔除类
-                    tcgcValue:{
-                        jwAlgorithm:'',//降维算法
-                        Regularization:'',//正则化
-                        algorithm:'',//降维数
-                        vernacular:'' //白化
-                    },//最后传的特征工程list
-
+                    arithmetic:'',//降维算法
+                    regex:'',//正则化
+                    jiangwei:'',//降维数
+                    baihua:'', //白化
+                    number:null,//拆分个数
+                    arithmeticOption:[
+                        {value:'奇异分解值-svd'},
+                        {value:'特征分解-eigen'},
+                        {value:'最小二程-lsrq'}
+                    ],
+                    regexOption:[
+                        {value:'自动'},
+                        {value:'否'}
+                    ],
+                    baihuaOption:[
+                        {value:'是'},
+                        {value:'否'},
+                    ]
                 }
             },
             components:{
                 commonHeade,commonTable
             },
-            mounted(){
-            },
             watch:{
+                arithmetic(val){
+                    console.log(val,'降维算法')
+                },
+                regex(val){
+                    console.log(val,'正则化')
+                },
+                jiangwei(val){
+                    console.log(val,'降维数')
+                },
+                baihua(val){
+                    console.log(val,'白话')
+                },
+                number(val){
+                    console.log(val,'拆分个数')
+                },
                 searchKey(val){
                     if(!val){
                         this.getTasklist()
@@ -478,7 +505,7 @@ import commonHeade from '../components/header.vue'
                 },
                 selectEliminate(val){
                     console.log(val)
-                }
+                },
             },
             methods: {
                 addTask(){
@@ -804,9 +831,6 @@ import commonHeade from '../components/header.vue'
                     })
                     console.log(item)
                 },
-                toVisual(){
-                    this.$router.push({path:'/DataSetDetail'})
-                },
                 getDatasource(){
                     // 获取数据集列表
                     var that = this
@@ -864,10 +888,62 @@ import commonHeade from '../components/header.vue'
                     })
                     .then(res=>{
                         console.log(res)
+                        this.$message({
+                            message: res.data,
+                            type: 'success'
+                        });
                         this.getTasklist()
                         this.closeDialog()
                     })
                     
+                },
+                toLink(type,item){
+                    // 路由跳转
+                    if(type == 'detail') {
+                        this.$router.push({path:'/DataSetDetail',query:{taId:item.taId}})
+                    } else if(type == 'pg'){
+                        this.$router.push({path:'/assess'})
+                    } else if(type == 'js'){
+                        this.$router.push({path:'/explain'})
+                    } else if(type == 'visual'){
+                        this.$router.push({path:'/VisualTwoLevel'})
+                    } 
+
+                },
+                saveCharacteristic(){
+                    // 保存特征工程
+                    var that = this
+                    let url=`${ReqUrl.saveCharacteristic}`
+                    const targetObj = {}
+                    targetObj.selectEliminate = that.selectEliminate//剔除类
+                    targetObj.arithmetic = that.arithmetic//降维算法
+                    targetObj.regex = that.regex//正则化
+                    targetObj.jiangwei = that.jiangwei//降维数
+                    targetObj.baihua = that.baihua//白化
+                    targetObj.number = that.number//拆分个数
+                    targetObj.mergeList = that.mergeList//特征组合
+                    targetObj.splitList = that.splitList //特征拆分
+                    console.log(targetObj)
+                    console.log(JSON.stringify(targetObj))
+                    console.log(parseForm(targetObj))
+                    var paramData={
+                        miId:that.selectMiid,
+                        tzgc:parseForm(targetObj)
+                    }
+                    axios({
+                        url: url,
+                        method: 'post',
+                        params: paramData,
+                    })
+                    .then(res=>{
+                        console.log(res)
+                        that.getDatasource()
+                        that.$message({
+                            message: res.data,
+                            type: 'success'
+                        });
+                        that.closeDialog()
+                    })
                 }
 
             },

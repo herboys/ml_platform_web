@@ -20,7 +20,7 @@
                 return this.$store.state.theme
             },
             options:function(){
-                console.log(this.values);
+                // console.log(this.values);
                 return this.values;
             }
         },

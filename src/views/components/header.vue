@@ -147,7 +147,7 @@
                             },
                             {
                                 name:'评估',
-                                path:'',
+                                path:'/assess',
                             },
                             {
                                 name:'解释',
