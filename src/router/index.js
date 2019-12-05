@@ -10,8 +10,18 @@ import DataSet from '../views/pages/dataSet.vue'
 import DataSetDetail from '../views/pages/dataSetDetail.vue'
 import VisualTwoLevel from '../views/pages/VisualTwoLevel.vue'
 import VisualTwoLevelStaticState from '../views/pages/VisualTwoLevelStaticState.vue'
-import assess from '../views/pages/assess.vue'
+import assess from '../views/pages/assess.vue' <<
+<< << < HEAD
+import assessDetail from '../views/pages/assessDetail.vue' ===
+=== =
+
+import specialData from '../views/pages/specificData.vue'
+
+
 import assessDetail from '../views/pages/assessDetail.vue'
+
+>>>
+>>> > 5176 a7bd5543d00d373f9a4c13351cd541e62511
 Vue.use(VueRouter)
 
 const routes = [{
@@ -108,6 +118,14 @@ const routes = [{
                 component: assess,
                 meta: {
                     title: '评估'
+                }
+            },
+            {
+                path: '/specialData',
+                name: specialData,
+                component: specialData,
+                meta: {
+                    title: '查看具体数据'
                 }
             },
             {

@@ -14,7 +14,7 @@
                     <span class="s1 fl">数据集名称：</span>
                     <input type="text" class="fl input input1" style="width:410px;" placeholder="请输入数据集名称"/>
                     <a class="search-btn">查询<i class="icon"></i></a>
-                    <span class="fr t t2">查看具体数据</span>
+                    <span class="fr t t2" @click="toLink">查看具体数据</span>
                 </div>
 
                 <div class="swiperList">
@@ -31,7 +31,7 @@
                     </ul>
                     <swiper :options="swiperOption" class="swiper-wrap-new" ref="SwiperWrap">
                         <!-- slides -->
-                        <swiper-slide  class="swiper-no-swiping">
+                        <swiper-slide  class="swiper-no-swiping" v-for="(item,index) in dataList" :key="item.fildeName">
                             <div class="swiperItem">
                                 <div class="swiper-top">
                                     <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart01">
@@ -48,27 +48,30 @@
                                 <div class="swiper-rect"></div>
                                 <div class="swiper-ul">
                                     <ul>
-                                        <li>年龄1</li>
-                                        <li class="p">连续型 <i class="icon"></i>
-                                            <ul class="s">
-                                                <li>离散型</li>
-                                                <li>连续型</li>
+                                        <li>{{item.fildeName}}</li>
+                                        <li class="p" @click="toggleShow(item)">{{item.type | filterType}} <i class="icon"></i>
+                                            <!-- <select name="" id="" v-model="item.type">
+                                                <option :value="name.type" v-for="name in optionlist" >{{name.text}}</option>
+                                            </select> -->
+                                            <ul class="s" v-show="item.isShowtype">
+                                                <li v-for="name in optionlist" @click="item.type = name.type">{{name.text}}</li>
+                                                <!-- <li>连续型</li> -->
                                             </ul>
                                         </li>
-                                        <li>332332</li>
-                                        <li>0</li>
-                                        <li>45</li>
-                                        <li>9</li>
-                                        <li>97</li>
-                                        <li>2</li>
-                                        <li>12</li>
+                                        <li>{{item.count}}</li>
+                                        <li>{{item.miss_column}}</li>
+                                        <li>r</li>
+                                        <li>{{item.min}}</li>
+                                        <li>{{item.max}}</li>
+                                        <li>{{item.std}}</li>
+                                        <li>{{item.unique}}</li>
                                     </ul>
                                 </div>
                             </div>
                         </swiper-slide>
 
                         <!-- slides -->
-                        <swiper-slide  class="swiper-no-swiping">
+                        <!-- <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
                                     <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart02">
@@ -102,10 +105,10 @@
                                     </ul>
                                 </div>
                             </div>
-                        </swiper-slide>
+                        </swiper-slide> -->
 
                         <!-- slides -->
-                        <swiper-slide  class="swiper-no-swiping">
+                        <!-- <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
                                     <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart03">
@@ -139,9 +142,9 @@
                                     </ul>
                                 </div>
                             </div>
-                        </swiper-slide>
+                        </swiper-slide> -->
                         <!-- slides -->
-                        <swiper-slide  class="swiper-no-swiping">
+                        <!-- <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
                                     <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart04">
@@ -175,10 +178,10 @@
                                     </ul>
                                 </div>
                             </div>
-                        </swiper-slide>
+                        </swiper-slide> -->
 
                         <!-- slides -->
-                        <swiper-slide  class="swiper-no-swiping">
+                        <!-- <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
                                     <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart05">
@@ -209,11 +212,11 @@
                                     </ul>
                                 </div>
                             </div>
-                        </swiper-slide>
+                        </swiper-slide> -->
 
 
                         <!-- slides -->
-                        <swiper-slide  class="swiper-no-swiping">
+                        <!-- <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
                                     <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart06">
@@ -247,10 +250,10 @@
                                     </ul>
                                 </div>
                             </div>
-                        </swiper-slide>
+                        </swiper-slide> -->
 
                         <!-- slides -->
-                        <swiper-slide  class="swiper-no-swiping">
+                        <!-- <swiper-slide  class="swiper-no-swiping">
                             <div class="swiperItem">
                                 <div class="swiper-top">
                                     <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart07">
@@ -284,7 +287,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </swiper-slide>
+                        </swiper-slide> -->
                         
                         
                     </swiper>
@@ -300,6 +303,7 @@
 </template>
 
 <script>
+    import * as ReqUrl from '../../api/reqUrl'
     import swiperChart from '../components/swiperChart'
     import inputTimePick from '../components/inputTimePick'
     export default  {
@@ -419,10 +423,33 @@
                             value: 15
                         }]
                     }]
-                }
+                },
+                taId:null,
+                dataList:[],
+                optionlist:[
+                    {
+                        type:'object',
+                        text:'字符串'
+                    },
+                    {
+                        type:'int64',
+                        text:'数值'
+                    },
+                    {
+                        type:'float64',
+                        text:'数值'
+                    },
+                ]
 
             }
         },
+        filters:{
+            filterType(val){
+                if(val == 'object') return '离散型'
+                else return '连续型'
+            }
+        },
+        
         computed: {
             // swiper() {
             //     return this.$refs.SwiperWrap.swiper
@@ -437,8 +464,75 @@
 
         },
         methods:{
+            toggleShow(item){
+                item.isShowtype = !item.isShowtype
+                console.log(item)
+                // this.updateColumns(item)
+            },
+            toLink(){
+                this.$router.push({path:'/specialData',query:{taId:this.taId}})
+            },
+            getData(){
+                const that = this
+                let paramData={
+                    taId:24
+                }
+                let url=`${ReqUrl.taskDetail}`
+                axios({
+                    url: url,
+                    method: 'get',
+                    params: paramData
+                })
+                .then(res=>{
+                    const dataArry= res.data
+                    console.log(dataArry)
+                    if(dataArry && dataArry.columns[0]){
+                        dataArry.columns.forEach((item,index)=>{
+                            var obj = {}
+                            obj.fildeName = item
+                            obj.isShowtype = false
+                            that.dataList.push(obj)
+                        })
+                    }
+                    that.dataList.map((item,index)=>{
+                        if(dataArry && dataArry.index[0]){
+                            dataArry.index.forEach((key,keyindex)=>{
+                                item[key] = dataArry.data[keyindex][index]
+                            })
+                        }
+                        
+                    })
+                    console.log(that.dataList)
+                    
+                    
+                    
+                    console.log(that.dataList)
+                    
+                    
+                })
+            },
+            updateColumns(){
+                // 更新各列数据类型
+                const that = this
+                let paramData={
+                    columnMap: {},
+                    taId: 0
+                }
+                let url=`${ReqUrl.updateColumns}`
+                axios({
+                    url: url,
+                    method: 'post',
+                    params: paramData
+                })
+                .then(res=>{
+                 
+                    
+                })
+            }
         },
         created(){
+            this.taId = this.$route.query.taId
+            this.getData()
 
         }
     }
