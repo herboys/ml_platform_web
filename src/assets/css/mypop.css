@@ -282,10 +282,43 @@
     margin-bottom: 18px;
 }
 
+#alert-box-shujuyuchuli .content-item1 .half-left {
+    height: 160px;
+    width: 300px;
+    overflow: auto;
+    padding: 10px;
+    background-color: #2a3774;
+    border: 1px solid #5567c5;
+}
+
+#alert-box-shujuyuchuli .content-item1 .w1 {
+    background-color: #32407a;
+    overflow: hidden;
+    padding: 18px 40px;
+    position: relative;
+}
+
+#alert-box-shujuyuchuli .content-item1 .w1 .pop-arrow {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url(../images/public/pop-arrow.png);
+    width: 22px;
+    height: 18px;
+}
+
 #alert-box-shujuyuchuli .content-item1 .choose-wrap {
     width: 206px;
     float: left;
     padding-left: 70px;
+}
+
+#alert-box-shujuyuchuli .content-item1 .half-left .choose-wrap {
+    margin-bottom: 10px;
+    width: 100%;
+    float: none;
+    padding-left: 0;
 }
 
 #alert-box-shujuyuchuli .content-item1 .choose-wrap label {
@@ -299,7 +332,29 @@
     vertical-align: middle;
 }
 
-#alert-box-shujuyuchuli .content-item1 .choose-wrap .icon {
+#alert-box-shujuyuchuli .content-item1 .choose-wrap .radio {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    background-image: url(../images/dark/dark-icon-all.png);
+    background-position: -58px -32px;
+    vertical-align: middle;
+}
+
+#alert-box-shujuyuchuli .content-item1 .choose-wrap input[type='radio'] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    opacity: 0;
+}
+
+#alert-box-shujuyuchuli .content-item1 .choose-wrap .radioInput:checked+i {
+    background-position: -58px -68px;
+}
+
+#alert-box-shujuyuchuli .content-item1 .choose-wrap .check {
     width: 16px;
     height: 16px;
     display: inline-block;
@@ -317,8 +372,8 @@
     opacity: 0;
 }
 
-#alert-box-shujuyuchuli .content-item1 .choose-wrap input:checked+i {
-    background-position: 0 -68px;
+#alert-box-shujuyuchuli .content-item1 .choose-wrap .checkInput:checked+i {
+    background-position: 0px -68px;
 }
 
 #alert-box-shujuyuchuli .content .content-item1,
@@ -363,10 +418,11 @@
     text-indent: 10px;
 }
 
-#alert-box-shujuyuchuli .content-item3 .choose-wrap {
+
+/* #alert-box-shujuyuchuli .content-item3 .choose-wrap {
     width: 50%;
     padding-bottom: 18px;
-}
+} */
 
 #alert-box-shujuyuchuli .btn-wrap {
     text-align: center;

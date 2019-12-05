@@ -207,7 +207,7 @@
             <div class="content alert-box-content">
                 <div class="content-item">
 
-                    <div class="content-item1 clearfix">
+                    <!-- <div class="content-item1 clearfix">
                         <p class="name">模型类型：</p>
                         <div class="choose-wrap">
                             <label><input type="checkbox"><i class="icon"></i><span>分类模型</span></label>
@@ -217,6 +217,20 @@
                         </div>
                         <div class="choose-wrap">
                             <label><input type="checkbox"><i class="icon"></i><span>聚类模型</span></label>
+                        </div>
+                    </div> -->
+
+
+                    <div class="content-item1 clearfix">
+                        <p class="name">模型类型：</p>
+                        <div class="choose-wrap">
+                            <label><input type="radio" class="radioInput" name="radio"><i class="icon radio"></i><span>分类模型</span></label>
+                        </div>
+                        <div class="choose-wrap">
+                            <label><input type="radio" class="radioInput" name="radio"><i class="icon radio"></i><span>归类模型</span></label>
+                        </div>
+                        <div class="choose-wrap">
+                            <label><input type="radio" class="radioInput" name="radio"><i class="icon radio"></i><span>聚类模型</span></label>
                         </div>
                     </div>
 
@@ -247,23 +261,72 @@
 
                     <div class="content-item1 content-item3 clearfix">
                         <p class="name">缺失值填充：</p>
-                        <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>调用该列平均值去填充该缺失值</span></label>
+                        <!-- <div class="choose-wrap">
+                            <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用该列平均值去填充该缺失值</span></label>
                         </div>
                         <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>调用该列中位位数去填充该缺</span></label>
+                            <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用该列中位位数去填充该缺</span></label>
                         </div>
                         <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>调用该列众数去填充该缺失值</span></label>
+                            <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用该列众数去填充该缺失值</span></label>
                         </div>
                         <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>调用前一个非缺失值去填充该缺失值</span></label>
+                            <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用前一个非缺失值去填充该缺失值</span></label>
                         </div>
                         <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>调用后一个非缺失值去填充该缺失值</span></label>
+                            <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用后一个非缺失值去填充该缺失值</span></label>
                         </div>
                         <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>输入自定义值定义去填充缺失值</span></label>
+                            <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>输入自定义值定义去填充缺失值</span></label>
+                        </div> -->
+                        <div class="w1">
+                            <span class="fl" style="width:300px;font-size:14px;color:#b1c8fe;margin-bottom:10px;">选择填充方式</span>
+                            <span class="fr" style="width:300px;font-size:14px;color:#b1c8fe;margin-bottom:10px;">选择该填充方式应用字段（可多选）</span>
+                            
+                            <div class="half-left fr">
+                                <div class="choose-wrap">
+                                    <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用该列平均值去填充该缺失值</span></label>
+                                </div>
+                                <div class="choose-wrap">
+                                    <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用该列中位位数去填充该缺</span></label>
+                                </div>
+                                <div class="choose-wrap">
+                                    <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用该列众数去填充该缺失值</span></label>
+                                </div>
+                                <div class="choose-wrap">
+                                    <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用前一个非缺失值去填充该缺失值</span></label>
+                                </div>
+                                <div class="choose-wrap">
+                                    <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用后一个非缺失值去填充该缺失值</span></label>
+                                </div>
+                                <div class="choose-wrap">
+                                    <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>输入自定义值定义去填充缺失值</span></label>
+                                </div>
+                            </div>
+                            <div class="half-left fl">
+                                <div class="choose-wrap">
+                                    <label><input type="radio" name="radio2" class="radioInput"><i class="icon radio"></i><span>调用该列平均值去填充该缺失值</span></label>
+                                </div>
+                                <div class="choose-wrap">
+                                    <label><input type="radio" name="radio2" class="radioInput"><i class="icon radio"></i><span>调用该列平均值去填充该缺失值</span></label>
+                                </div>
+                                <div class="choose-wrap">
+                                    <label><input type="radio" name="radio2" class="radioInput"><i class="icon radio"></i><span>调用该列平均值去填充该缺失值</span></label>
+                                </div>
+                                <div class="choose-wrap">
+                                    <label><input type="radio" name="radio2" class="radioInput"><i class="icon radio"></i><span>调用该列平均值去填充该缺失值</span></label>
+                                </div>
+                                <div class="choose-wrap">
+                                    <label><input type="radio" name="radio2" class="radioInput"><i class="icon radio"></i><span>调用该列平均值去填充该缺失值</span></label>
+                                </div>
+                                <div class="choose-wrap">
+                                    <label><input type="radio" name="radio2" class="radioInput"><i class="icon radio"></i><span>调用该列平均值去填充该缺失值</span></label>
+                                </div>
+                            </div>
+                            <span class="pop-arrow"></span>
+                            <div class="btn-wrap">
+                                <button class="more" style="margin-top:15px;color:#fff">重 置</button>
+                            </div>
                         </div>
                     </div>
 
@@ -829,6 +892,7 @@
         mounted(){
             this.init();
             this.active=this.tabList[1]["name"];
+            this.dialogPretreatment();
         },
         watch:{
             selectDatesource(val){
