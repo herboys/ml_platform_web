@@ -200,6 +200,16 @@ import inputTimePick from '../components/inputTimePick'
                         this.getProjeclist()
                     }
                 },
+                startTime(val){
+                    if(!val){
+                        this.getProjeclist()
+                    }
+                },
+                endTime(val){
+                    if(!val){
+                        this.getProjeclist()
+                    }
+                },
                 pageSize(val){
                     this.getProjeclist()
                 }
@@ -207,9 +217,15 @@ import inputTimePick from '../components/inputTimePick'
             methods: {
                 changeStartTime(time){
                     this.startTime=time;
+                    if(!time){
+                        this.getProjeclist()
+                    }
                 },
                 changeEndTime(time){
                     this.endTime=time;
+                    if(!time){
+                        this.getProjeclist()
+                    }
                 },
                 addProject(){
                     var that = this
@@ -322,12 +338,21 @@ import inputTimePick from '../components/inputTimePick'
                 getProjeclist(){
                     // 获得项目列表
                     var that = this
+                    var date = new Date();
+                    var today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
+                    let endTime
+                    if(that.startTime){
+                        endTime = that.endTime || today
+                    }
+                    
                     let url=`${ReqUrl.getProjeclist}`
                     var paramData={
                         search:that.searchKey,
                         userId:that.userId,
                         page:that.page || 1,
-                        size:that.pageSize
+                        size:that.pageSize,
+                        start:that.startTime,
+                        end:endTime
                     }
                     that.$axios.get(
                         url,
@@ -382,7 +407,7 @@ import inputTimePick from '../components/inputTimePick'
                     
                 },
                 searchProject(){
-                    if(!this.searchKey){
+                    if(!this.searchKey && !this.startTime && !this.endTime){
                         this.$message('检索项目名称不能为空');
                     } else {
                         this.page = 1

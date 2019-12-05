@@ -1852,8 +1852,9 @@
 </script>
 <style scoped>
     .echart-item{
-        width: 33.33%;
-        margin-bottom: 21px;
+        margin-right:1.5%;
+        width: 30%;
+        margin-bottom: 40px;
         position: relative;
     }
     .echart-item .title{

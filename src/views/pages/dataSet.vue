@@ -1063,9 +1063,15 @@
             },
             changeStartTime(time){
                 this.startTime=time;
+                if(!time){
+                    this.getDatasource()
+                }
             },
             changeEndTime(time){
                 this.endTime=time;
+                if(!time){
+                    this.getDatasource()
+                }
             },
             // belle新加方法
             dialogUpload(){
@@ -1160,13 +1166,21 @@
             getDatasource(){
                 // 获取数据集列表
                 var that = this
+                var date = new Date();
+                var today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
+                let endTime
+                if(that.startTime){
+                    endTime = that.endTime || today
+                }
                 let url=`${ReqUrl.getDatasoure}`
                 let paramsData={
                     userId:1,
                     projectId:that.projectId,
                     page:that.page || 1,
                     size:that.pageSize,
-                    search:that.searchKey
+                    search:that.searchKey,
+                    start:that.startTime,
+                    end:endTime
                 }
                 axios({
                     url: url,
@@ -1184,8 +1198,8 @@
                 })
             },
             toSearch(){
-                if(!this.searchKey){
-                    this.$message('请输入数据集名称');
+                if(!this.searchKey && !this.startTime && !this.endTime){
+                    this.$message('请输入数据集名称或者查询时间');
                 } else {
                     this.page = 1
                     this.getDatasource()

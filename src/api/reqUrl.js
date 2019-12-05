@@ -42,3 +42,5 @@ export const taskDetail = 'api/task/details'
 export const saveCharacteristic = 'api/task/saveCharacteristic'
     // 更新各列的数据类型
 export const updateColumns = 'api/task/updateColumns'
+    // 查看具体数据
+export const getSpecificData = 'api/task/getSpecificData'
