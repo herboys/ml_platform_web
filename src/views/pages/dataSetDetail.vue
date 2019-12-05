@@ -6,15 +6,14 @@
                 <span class="dark_bread"> > </span>
                 <span class="dark_bread"><a href="">数据集详情</a></span>
             </div>
-
             <div class="keshihua-main shujuji-main swiper-wrap">
 
                 <div class="search-wrap clearfix">
                     <span class="fl t"><i></i>共64条数据</span>
-                    <span class="s1 fl">数据集名称：</span>
-                    <input type="text" class="fl input input1" style="width:410px;" placeholder="请输入数据集名称"/>
-                    <a class="search-btn">查询<i class="icon"></i></a>
-                    <span class="fr t t2" @click="toLink">查看具体数据</span>
+                    <span class="s1 fl">字段名称：</span>
+                    <input type="text" v-model="searchKey" class="fl input input1" style="width:410px;" placeholder="请输入搜索字段名称"/>
+                    <a class="search-btn" @click="toSearch">查询<i class="icon"></i></a>
+                    <span class="fr t t2" @click="toLook">查看具体数据</span>
                 </div>
 
                 <div class="swiperList">
@@ -31,7 +30,7 @@
                     </ul>
                     <swiper :options="swiperOption" class="swiper-wrap-new" ref="SwiperWrap">
                         <!-- slides -->
-                        <swiper-slide  class="swiper-no-swiping" v-for="(item,index) in dataList" :key="item.fildeName">
+                        <swiper-slide  class="swiper-no-swiping" v-for="(item,index) in dataList" :key="index">
                             <div class="swiperItem">
                                 <div class="swiper-top">
                                     <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart01">
@@ -49,12 +48,12 @@
                                 <div class="swiper-ul">
                                     <ul>
                                         <li>{{item.fildeName}}</li>
-                                        <li class="p" @click="toggleShow(item)">{{item.type | filterType}} <i class="icon"></i>
+                                        <li class="p" @click="toggleShow(item)">{{item.type}} <i class="icon"></i>
                                             <!-- <select name="" id="" v-model="item.type">
                                                 <option :value="name.type" v-for="name in optionlist" >{{name.text}}</option>
                                             </select> -->
                                             <ul class="s" v-show="item.isShowtype">
-                                                <li v-for="name in optionlist" @click="item.type = name.type">{{name.text}}</li>
+                                                <li v-for="name in optionlist" @click="updateColumns(item,name)">{{name.text}}</li>
                                                 <!-- <li>连续型</li> -->
                                             </ul>
                                         </li>
@@ -297,6 +296,83 @@
                 </div>
 
             </div>
+            <div class="alert-box" id="alert-box-lookData">
+                <div class="title text-c">
+                    <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
+                </div>
+                <div class="content alert-box-content">
+                    <div class="table">
+                        <table class="keshihua-table shujuji-table" id="tableContent">
+                            <thead>
+                                <tr>
+                                    <th>姓名</th>
+                                    <th>性别</th>
+                                    <th>年龄</th>
+                                    <th>收缩压</th>
+                                    <th>血糖值</th>
+                                    <th>吸烟年限</th>
+                                    <th>酗酒年限</th>
+                                    <th>是否患慢性病</th>
+                                </tr>
+                            </thead>
+                            <tbody v-for="(item,index) in 10" :key="index">
+                                <tr class="evenTr"  >
+                                    <!-- <td><span class="pull-icon down" :class="item.isShow?'up':'down'"></span></td> -->
+                                    <td  ><span class="dblclick">徐</span> </td>
+                                    <td>男</td>
+                                    <td class="notStart">12</td>
+                                    <td>-</td>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>否</td>
+                                </tr>
+                        
+
+                                
+                                <tr class="sonTr" v-show="item.isShow">
+                                    <td></td>
+                                    <td>medcine</td>
+                                    <td>42kb</td>
+                                    <td class="pause">暂停中</td>
+                                    <td>决策树</td>
+                                    <td class="handle">
+
+                                        <a class="assessmenticon">评估</a>
+                                        <a class="trainicon">训练</a>
+                                        <a class="engineeringicon">特征工程</a>
+                                        <a class="explainicon">解释</a>
+                                        <a class="moreicon" style="visibility: hidden;">占位</a>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="ui-page-sort">
+                        <div class="right-tool">
+                            <span class="span-setting">
+                                    每页条数
+                                    <select class="select-text" v-model="pageSize">
+                                        <option v-for="(item,index) in options" :key="index" :value="item.value"> {{item.value}}</option>
+                                    </select>
+                                </span>
+
+                            <span class="span-number">
+                                        转到
+                                    <input class="input-text" type="text" v-model="page" />
+                                    <a class="go-btn" href="javascript:void(0);" @click="goPage()">GO</a>
+                                </span>
+
+                            <span class="span-tool">
+                                    <a class="page-a" href="javascript:void(0);" @click="page = 1,getSpecificData()">首页</a>
+                                    <a class="page-a" href="javascript:void(0);" @click="nextPage">下一页</a>
+                                    <a class="page-a" href="javascript:void(0);" @click="page = maxPage,getSpecificData()">末页</a>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
     </div>
@@ -428,18 +504,27 @@
                 dataList:[],
                 optionlist:[
                     {
-                        type:'object',
                         text:'字符串'
                     },
                     {
-                        type:'int64',
                         text:'数值'
                     },
                     {
-                        type:'float64',
-                        text:'数值'
+                        text:'时间'
                     },
-                ]
+                ],
+                searchKey:'',
+                originalData:[],
+                page:1,
+                pageSize:5,
+                maxPage:null,
+                options:[
+                    {value:5},
+                    {value:10},
+                    {value:20},
+                ],
+                specificData:[]
+ 
 
             }
         },
@@ -451,9 +536,6 @@
         },
         
         computed: {
-            // swiper() {
-            //     return this.$refs.SwiperWrap.swiper
-            // },
 
         },
         components:{inputTimePick,swiperChart},
@@ -461,16 +543,40 @@
 
         },
         watch:{
-
+            searchKey(val){
+                if(val){
+                    // this.dataList= this.dataList.filter((value)=>{  //过滤数组元素
+                    //     return value.fildeName.includes(val); //如果包含字符返回true
+                    // });
+                } else {
+                    this.dataList = this.originalData
+                }
+            }
         },
         methods:{
+            toSearch(){
+                if(!this.searchKey){
+                    this.$message('搜索列名称不能为空')
+                } else {
+                    this.dataList= this.dataList.filter((value)=>{  //过滤数组元素
+                        return value.fildeName.includes(this.searchKey); //如果包含字符返回true
+                    });
+                }
+            },
             toggleShow(item){
                 item.isShowtype = !item.isShowtype
                 console.log(item)
                 // this.updateColumns(item)
             },
-            toLink(){
-                this.$router.push({path:'/specialData',query:{taId:this.taId}})
+            toLook(){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    anim: 2,
+                    closeBtn: 0,
+                    area: ['1000px', '650px'], //宽高
+                    content: $('#alert-box-lookData'),
+                });
             },
             getData(){
                 const that = this
@@ -502,30 +608,91 @@
                         }
                         
                     })
-                    console.log(that.dataList)
-                    
-                    
-                    
+                    that.originalData = that.dataList
                     console.log(that.dataList)
                     
                     
                 })
             },
-            updateColumns(){
+            nextPage(){
+                if(this.page == this.maxPage){
+                    this.$message('当前是最后一页');
+                } else {
+                    this.page++
+                    this.getDatasource()
+                }
+            },
+            goPage(){
+                // 页面go判断
+                if(this.page >this.maxPage){
+                    this.$message('当前数据一共'+this.maxPage +'页');
+                    return
+                } else {
+                    this.getDatasource()
+                }
+            },
+            closeDialog(){
+                layer.closeAll();
+            },
+            updateColumns(item,name){
                 // 更新各列数据类型
                 const that = this
+                let obj = {}
+                obj[item.fildeName] = name.text
                 let paramData={
-                    columnMap: {},
-                    taId: 0
+                    columnMap: obj,
+                    taId: 24
                 }
                 let url=`${ReqUrl.updateColumns}`
+                if(item.type != name.type){
+                    item.type = name.type
+                    axios({
+                        url: url,
+                        method: 'post',
+                        data: paramData
+                    })
+                    .then(res=>{
+                    
+                        console.log(res)
+                        this.getData()
+                    })
+                }
+                
+                
+            },
+            getSpecificData(){
+                const that = this
+                let paramData={
+                    taId:24,
+                    page:this.page,
+                    size:this.pageSize
+                }
+                let url=`${ReqUrl.getSpecificData}`
                 axios({
                     url: url,
-                    method: 'post',
+                    method: 'get',
                     params: paramData
                 })
                 .then(res=>{
-                 
+                    const dataArry= res.data
+                    console.log(dataArry)
+                    if(dataArry && dataArry.columns[0]){
+                        dataArry.columns.forEach((item,index)=>{
+                            var obj = {}
+                            obj.fildeName = item
+                            that.specificData.push(obj)
+                        })
+                    }
+                    that.specificData.map((item,index)=>{
+                        if(dataArry && dataArry.index[0]){
+                            dataArry.index.forEach((key,keyindex)=>{
+                                item[key] = dataArry.data[keyindex][index]
+                            })
+                        }
+                        
+                    })
+                    console.log(that.specificData)
+                    
                     
                 })
             }

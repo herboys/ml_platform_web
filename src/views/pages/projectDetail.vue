@@ -4,12 +4,20 @@
         
         <div class="wrapbody">
         <section id="main">
+            
             <div class="keshihua-main xiangmu-main shujuji-main">
-
+                <div class="breadpage">
+                    <span class="light_bread"><router-link :to="{path:'/project'}">项目</router-link></span>
+                    <span class="dark_bread"> > </span>
+                    <span class="dark_bread"><router-link :to="{path:'/'}">项目详情</router-link></span>
+                </div>
                 <div class="search-wrap clearfix">
                     <span class="s1 fl">任务名称：</span>
                     <input type="text" class="fl input input1" v-model="searchKey" placeholder="请输入检索任务名称" />
-
+                    <span class="s1 fl">时间选择：</span>
+                    <input-time-pick @done="changeStartTime" class-name-user="aaa"></input-time-pick>
+                    <span class="fl line">-</span>
+                    <input-time-pick @done="changeEndTime"></input-time-pick>
                     <a class="search-btn" href="javascript:void(0)" @click="searchTask">检索任务<span class="icon iconfont icon-sousuo"></span> </a>
                     <a class="search-btn addNewObject" @click="adddialogShow"> <span class="icon iconfont icon-zengjia" ></span> 新建任务</a>
                 </div>
@@ -109,7 +117,7 @@
                 <select name="" id="" v-model="addTaskform.selectDataid">
                         <option :value="item.taId" v-for="item in dataList" :key="item.taId" >{{item.bmc}}</option>
                 </select>
-
+                <p class="tips" v-show="!dataList[0]">数据源中没有需要的数据? <router-link :to="{path:'/dataSet',}">点击前往上传数据集</router-link></p>
                 <div class="btn-wrap clearfix">
                     <button class="btn addBtn fl" @click="addTask()">新增</button>
                     <button class="btn backBtn fr" @click="closeDialog">返回</button>
@@ -145,7 +153,7 @@
 
 
                     <div class="content-item2 clearfix">
-                        <p class="name">目标列：</p>
+                        <!-- <p class="name">目标列：</p> -->
                         <div class="select-wrap clearfix">
                             <div class="select-wrap-half fl">
                                 <p>目标列</p>
@@ -211,24 +219,13 @@
                         <span class="light">选择算法：</span>(可选择多种选择算法添加至模型训练中)
                     </p>
 
-                    <div class="item-list clearfix">
-                        <span class="fl name">选择需要拆分的列</span>
-                        <div class="form-wrap fl clearfix">
-                            <select class="fl select"></select>
-                            <span class="icon add">+</span>
+         
+                    <div class="content-item1 content-item3 clearfix">
+                        <div class="choose-wrap" v-for="item in 5" :key="item">
+                            <label><input type="checkbox"  ><i class="icon"></i><span>{{item}}</span></label>
                         </div>
-                        
+           
                     </div>
-                    <div class="list">
-                        <div class="item-list clearfix">
-                            <span class="fl name">拆分列数</span>
-                            <div class="form-wrap fl clearfix">
-                            <input type="text" class="fl input" placeholder="请输入拆分列数">
-                            <span class="icon minus">-</span>
-                            </div>
-                        </div>
-                    </div>
-                    
 
 
                 </div>
@@ -299,7 +296,7 @@
                                 <div class="item-list clearfix">
                                     <span class="fl name">拆分列数</span>
                                     <div class="form-wrap fl clearfix">
-                                    <input type="number" class="fl input" v-model="item.colmunNUmber" placeholder="请输入拆分列数">
+                                    <input type="number" class="fl input" min="2" v-model="item.colmunNUmber" placeholder="请输入拆分列数">
                                     
                                     </div>
                                 </div>
@@ -342,7 +339,7 @@
                         </div>
                         <div class="item-list clearfix">
                             <span class="fl name">降维数</span>
-                            <input class="fl input" type="number" v-model="jiangwei" placeholder="请输入LDA降维时降到的维数" />
+                            <input class="fl input" type="number" min="0" v-model="jiangwei" placeholder="请输入LDA降维时降到的维数" />
                         </div>
 
                         <p class="t">
@@ -350,7 +347,7 @@
                         </p>
                         <div class="item-list clearfix">
                             <span class="fl name">主成分个数</span>
-                            <input class="fl input" type="number" v-model="number" placeholder="请输入拆分的列数" />
+                            <input class="fl input" type="number" min="0" v-model="number" placeholder="请输入拆分的列数" />
                         </div>
                         <div class="item-list clearfix">
                             <span class="fl name">白化</span>
@@ -386,6 +383,7 @@
 import * as ReqUrl from '../../api/reqUrl'
 import commonTable from '../components/commonTable.vue'
 import commonHeade from '../components/header.vue'
+import inputTimePick from '../components/inputTimePick'
   import qs from 'qs'
   const parseForm = qs.stringify
   function packup (data = {}) {
@@ -470,11 +468,13 @@ import commonHeade from '../components/header.vue'
                     baihuaOption:[
                         {value:'是'},
                         {value:'否'},
-                    ]
+                    ],
+                    startTime:'',
+                    endTime:''
                 }
             },
             components:{
-                commonHeade,commonTable
+                commonHeade,commonTable,inputTimePick
             },
             watch:{
                 arithmetic(val){
@@ -508,6 +508,18 @@ import commonHeade from '../components/header.vue'
                 },
             },
             methods: {
+                changeStartTime(time){
+                    this.startTime=time;
+                    if(!time){
+                        this.getTasklist()
+                    }
+                },
+                changeEndTime(time){
+                    this.endTime=time;
+                    if(!time){
+                        this.getTasklist()
+                    }
+                },
                 addTask(){
                     var that = this
                     var obj = this.addTaskform
@@ -577,16 +589,26 @@ import commonHeade from '../components/header.vue'
                         
                 },
                 getTasklist(){
-                    // 获得项目列表
+                    // 获得任务列表
                     var that = this
+                    var date = new Date();
+                    var today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
+                    let endTime
+                    if(that.startTime){
+                        endTime = that.endTime || today
+                    }
                     let url=`${ReqUrl.taskList}`
                     var paramData={
                         search:that.searchKey,
                         userId:that.userId,
                         page:that.page || 1,
                         size:that.pageSize,
-                        projectId:that.projectId
+                        start:that.startTime,
+                        end:endTime,
+                        projectId:that.projectId,
+                        
                     }
+                    
                     axios({
                         url: url,
                         method: 'post',
@@ -598,15 +620,16 @@ import commonHeade from '../components/header.vue'
                             that.$message('抱歉，没有找到对应数据');
                         } else {
                             that.taskList = res.data.tasks
-                            that.taskList.map(item=>{
-                                that.dataList.forEach(name=>{
-                                    if(item.taId == name.taId){
-                                        item.sjjName = name.bmc
-                                    }
+                            if(res.data.tasks[0]){
+                                that.taskList.map(item=>{
+                                    that.dataList.forEach(name=>{
+                                        if(item.taId == name.taId){
+                                            item.sjjName = name.bmc
+                                        }
+                                    })
                                 })
-                                // item.checked = false
-                                // item.isShow = false
-                            })
+                            }
+                            
                             
                         }
                         that.total=res.data.count
@@ -615,8 +638,8 @@ import commonHeade from '../components/header.vue'
                  
                 },
                 searchTask(){
-                    if(!this.searchKey){
-                        this.$message('检索项目名称不能为空');
+                    if(!this.searchKey  && !this.startTime && !this.endTime){
+                        this.$message('请输入检索任务名称或者检索时间');
                     } else {
                         this.page = 1
                         this.getTasklist()
@@ -916,27 +939,44 @@ import commonHeade from '../components/header.vue'
                     let url=`${ReqUrl.saveCharacteristic}`
                     const targetObj = {}
                     targetObj.selectEliminate = that.selectEliminate//剔除类
-                    targetObj.arithmetic = that.arithmetic//降维算法
-                    targetObj.regex = that.regex//正则化
-                    targetObj.jiangwei = that.jiangwei//降维数
-                    targetObj.baihua = that.baihua//白化
-                    targetObj.number = that.number//拆分个数
                     targetObj.mergeList = that.mergeList//特征组合
                     targetObj.splitList = that.splitList //特征拆分
-                    console.log(targetObj)
-                    console.log(JSON.stringify(targetObj))
-                    console.log(parseForm(targetObj))
+                    targetObj.reduction={
+                        lad:{
+                            svd:that.arithmetic,
+                            regex:that.regex,
+                            n:that.jiangwei
+                            },
+                        pca:{
+                            n:that.number,
+                            white:that.baihua
+                        }
+                    }
                     var paramData={
-                        miId:that.selectMiid,
-                        tzgc:parseForm(targetObj)
+                        characteristicOneDto:targetObj
                     }
                     axios({
                         url: url,
                         method: 'post',
-                        params: paramData,
+                        params:{miId:that.selectMiid},
+                        data: paramData,
                     })
                     .then(res=>{
-                        console.log(res)
+                        that.selectEliminate =''
+                        that.mergeList =[{
+                            selectColmun:'',
+                            colmunName:''
+                        }]
+                        that.splitList = [{
+                            selectColmun:'',
+                            colmunNUmber:''
+                        }]
+                        that.arithmetic = ''
+                        that.regex = ''
+                        that.jiangwei = null
+                        that.number = null
+                        that.baihua = ''
+
                         that.getDatasource()
                         that.$message({
                             message: res.data,
