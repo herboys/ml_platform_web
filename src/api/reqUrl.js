@@ -40,3 +40,5 @@ export const getCharacteristic = 'api/task/getCharacteristic'
 export const taskDetail = 'api/task/details'
     // 保存特征工程
 export const saveCharacteristic = 'api/task/saveCharacteristic'
+    // 更新各列的数据类型
+export const updateColumns = 'api/task/updateColumns'
