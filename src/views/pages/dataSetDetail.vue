@@ -577,6 +577,7 @@
                     area: ['1000px', '650px'], //宽高
                     content: $('#alert-box-lookData'),
                 });
+                this.getSpecificData()
             },
             getData(){
                 const that = this
