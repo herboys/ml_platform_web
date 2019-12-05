@@ -466,7 +466,8 @@
         methods:{
             toggleShow(item){
                 item.isShowtype = !item.isShowtype
-                console.log(this.dataList)
+                console.log(item)
+                // this.updateColumns(item)
             },
             toLink(){
                 this.$router.push({path:'/specialData',query:{taId:this.taId}})
@@ -507,6 +508,24 @@
                     
                     console.log(that.dataList)
                     
+                    
+                })
+            },
+            updateColumns(){
+                // 更新各列数据类型
+                const that = this
+                let paramData={
+                    columnMap: {},
+                    taId: 0
+                }
+                let url=`${ReqUrl.updateColumns}`
+                axios({
+                    url: url,
+                    method: 'post',
+                    params: paramData
+                })
+                .then(res=>{
+                 
                     
                 })
             }
