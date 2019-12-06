@@ -97,45 +97,16 @@
                                     <a class="icon icon4" title="开始训练" @click="dialogxunliangmoxing"></a>
                                     <a class="icon icon5 shanchu" title="删除" @click="dialogDeleteFB"></a> -->
 
-                                    <a class="assessmenticon">评估</a>
-                                    <a class="trainicon">训练</a>
-                                    <a class="engineeringicon">特征工程</a>
-                                    <a class="explainicon">解释</a>
-                                    <a class="moreicon" @click="toggleListshow(item,index)">
-                                        <ul class="moreicon-ul" v-show="item.isShowlist">
-                                            <li class="lookicon">查看</li>
-                                            <li class="visualicon">可视化</li>
-                                            <li class="deployModelicon">部署模型</li>
-                                            <li class="delicon">删除</li>
-                                        </ul>
-                                    </a>
+                                    <a class="lookicon">查看</a>
+                                    <!-- <a class="icon icon5 delicon" title="删除" @click="dialogDeleteFB">删除</a> -->
+                                    <a class="delicon">删除</a>
+                             
 
                                 </td>
                             </tr>
                        
 
-                            
-                            <tr class="sonTr" v-show="item.isShow">
-                                <td></td>
-                                <td>medcine</td>
-                                <td>42kb</td>
-                                <td class="pause">暂停中</td>
-                                <td>决策树</td>
-                                <td class="handle">
-                                    <!-- <a class="icon icon1" title="查看数据"></a>
-                                    <router-link :to="{path:'/visual'}" class="icon icon2" title="数据可视化" ></router-link>
-                                    <a class="icon icon3" title="特征工程" @click="dialogtezhenggongcheng"></a>
-                                    <a class="icon icon4" title="开始训练" @click="dialogxunliangmoxing"></a>
-                                    <a class="icon icon5 shanchu" title="删除" @click="dialogDeleteFB"></a> -->
-
-                                    <a class="assessmenticon">评估</a>
-                                    <a class="trainicon">训练</a>
-                                    <a class="engineeringicon">特征工程</a>
-                                    <a class="explainicon">解释</a>
-                                    <a class="moreicon" style="visibility: hidden;">占位</a>
-
-                                </td>
-                            </tr>
+                          
                         </tbody>
                     </table>
                 </div>

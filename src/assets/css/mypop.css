@@ -908,8 +908,16 @@
     margin: 15px 0;
 }
 
+#alert-box-xunliangmoxing .content .content-item1 {
+    padding-left: 50px;
+}
+
 #alert-box-tezhenggongcheng .content .item-lists .t {
     margin: 7px 0;
+}
+
+#alert-box-xunliangmoxing .content .item-lists .t {
+    margin-left: 35px;
 }
 
 #alert-box-xunliangmoxing .content .item-lists .t span,

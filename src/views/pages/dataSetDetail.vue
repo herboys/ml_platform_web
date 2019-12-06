@@ -311,47 +311,24 @@
                         <table class="keshihua-table shujuji-table" id="tableContent">
                             <thead>
                                 <tr>
-                                    <th>姓名</th>
-                                    <th>性别</th>
+                                    <th v-for="item in specificData">{{item.fildeName}}</th>
+                                    <!-- <th>性别</th>
                                     <th>年龄</th>
                                     <th>收缩压</th>
                                     <th>血糖值</th>
                                     <th>吸烟年限</th>
                                     <th>酗酒年限</th>
-                                    <th>是否患慢性病</th>
+                                    <th>是否患慢性病</th> -->
                                 </tr>
                             </thead>
-                            <tbody v-for="(item,index) in 10" :key="index">
-                                <tr class="evenTr"  >
-                                    <!-- <td><span class="pull-icon down" :class="item.isShow?'up':'down'"></span></td> -->
-                                    <td  ><span class="dblclick">徐</span> </td>
-                                    <td>男</td>
-                                    <td class="notStart">12</td>
-                                    <td>-</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td>否</td>
+                            <tbody >
+                                <tr class="evenTr" v-for="(item,index) in specificData" :key="index">
+                                  <td v-for="name in item.data">{{name}}</td>
                                 </tr>
                         
 
                                 
-                                <tr class="sonTr" v-show="item.isShow">
-                                    <td></td>
-                                    <td>medcine</td>
-                                    <td>42kb</td>
-                                    <td class="pause">暂停中</td>
-                                    <td>决策树</td>
-                                    <td class="handle">
-
-                                        <a class="assessmenticon">评估</a>
-                                        <a class="trainicon">训练</a>
-                                        <a class="engineeringicon">特征工程</a>
-                                        <a class="explainicon">解释</a>
-                                        <a class="moreicon" style="visibility: hidden;">占位</a>
-
-                                    </td>
-                                </tr>
+                             
                             </tbody>
                         </table>
                     </div>
@@ -529,8 +506,9 @@
                     {value:10},
                     {value:20},
                 ],
-                specificData:[]
- 
+                specificData:[],
+                specificListname:[],
+                total:null
 
             }
         },
@@ -690,14 +668,15 @@
                             that.specificData.push(obj)
                         })
                     }
+                    console.log(dataArry.data)
+                    that.specificListname = dataArry.columns
                     that.specificData.map((item,index)=>{
-                        if(dataArry && dataArry.index[0]){
-                            dataArry.index.forEach((key,keyindex)=>{
-                                item[key] = dataArry.data[keyindex][index]
-                            })
-                        }
+                        item.data = dataArry.data[index]
+                        
                         
                     })
+                    that.total=res.data.count
+                    that.maxPage =Math.ceil(that.total/that.pageSize) 
                     console.log(that.specificData)
                     
                     
