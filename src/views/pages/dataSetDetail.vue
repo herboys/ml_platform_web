@@ -48,20 +48,26 @@
                                 <div class="swiper-ul">
                                     <ul>
                                         <li>{{item.fildeName}}</li>
-                                        <li class="p" @click="toggleShow(item)">{{item.type}} <i class="icon"></i>
+                                        <li class="p" @click="toggleShow(item)">{{item.type}} <i class="icon" v-show="item.type !='字符串'"></i>
                                             <!-- <select name="" id="" v-model="item.type">
                                                 <option :value="name.type" v-for="name in optionlist" >{{name.text}}</option>
                                             </select> -->
-                                            <ul class="s" v-show="item.isShowtype">
+                                            <ul class="s" v-show="item.isShowtype && item.type !='字符串'">
                                                 <li v-for="name in optionlist" @click="updateColumns(item,name)">{{name.text}}</li>
                                                 <!-- <li>连续型</li> -->
                                             </ul>
                                         </li>
                                         <li>{{item.count}}</li>
                                         <li>{{item.miss_column}}</li>
-                                        <li>r</li>
-                                        <li>{{item.min}}</li>
-                                        <li>{{item.max}}</li>
+                                        <li>{{item.mean}}</li>
+                                        <li>
+                                            <span v-show="item.type == '数值'">{{item.min}}</span>
+                                            <span v-show="item.type != '数值'">-</span>
+                                        </li>
+                                        <li>
+                                            <span v-show="item.type == '数值'">{{item.max}}</span>
+                                            <span v-show="item.type != '数值'">-</span>
+                                        </li>
                                         <li>{{item.std}}</li>
                                         <li>{{item.unique}}</li>
                                     </ul>

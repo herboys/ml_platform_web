@@ -42,7 +42,7 @@
                                     <a href="javascript:void(0)" class="lookicon" @click="toLink('detail',item)">查看数据</a>
                                     <a href="javascript:void(0)" class="pretreatmenticon" @click="dialogPretreatment(item)">数据预处理</a>
                                     <a class="engineeringicon" @click="dialogtezhenggongcheng(item)" :class="!item.yclcs?'gray':''" >特征工程</a>
-                                    <a class="trainicon" @click="dialogxunliangmoxing" :class="!item.yclcs?'gray':''"  >训练</a>
+                                    <a class="trainicon" @click="dialogxunliangmoxing(item)" :class="!item.yclcs?'gray':''"  >训练</a>
                                     <a class="assessmenticon" :class="!item.yclcs?'gray':''" @click="toLink('pg')">评估</a>
                                     <router-link :to="{path:'/explain'}" class="explainicon" :class="!item.yclcs?'gray':''"  @click="toLink('js')">解释</router-link>
                                     <!-- <a class="explainicon">解释</a> -->
@@ -128,6 +128,7 @@
         <!-- 数据预处理 -->
         <div class="alert-box" id="alert-box-shujuyuchuli">
             <div class="title text-c">
+                <span class="fl more-pf">调用更多配方</span>
                 数据预处理1
                 <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
             </div>
@@ -178,8 +179,28 @@
 
                     <div class="content-item1 content-item3 clearfix">
                         <p class="name">缺失值填充：</p>
-                        <div class="choose-wrap" v-for="item in preProcesscolmun.deficiencyColumn" :key="item.name">
+                        <!-- <div class="choose-wrap" v-for="item in preProcesscolmun.deficiencyColumn" :key="item.name">
                             <label><input type="checkbox" :checked="item.checked" v-model="item.checked"><i class="icon"></i><span>{{item.name}}</span></label>
+                        </div> -->
+                        <div class="w1">
+                            <span class="fl" style="width:300px;font-size:14px;color:#b1c8fe;margin-bottom:10px;">选择填充方式</span>
+                            <span class="fr" style="width:300px;font-size:14px;color:#b1c8fe;margin-bottom:10px;">选择该填充方式应用字段（可多选）</span>
+                            
+                            
+                            <div class="half-left fl">
+                                <div class="choose-wrap" v-for="item in radioList" >
+                                    <label><input type="radio" name="radio2" :label="item.key" class="radioInput" v-model="selectRadio" :value="item.text"><i class="icon radio"></i><span>{{item.text}}</span></label>
+                                </div>
+                            </div>
+                            <div class="half-left fr">
+                                <div class="choose-wrap" v-for="item in preProcesscolmun.deficiencyColumn" :key="item.name">
+                                    <label><input type="checkbox" class="checkInput" :checked="item.checked" v-model="item.checked"><i class="icon check"></i><span>{{item.name}}</span></label>
+                                </div>
+                            </div>
+                            <span class="pop-arrow"></span>
+                            <div class="btn-wrap">
+                                <button class="more" style="margin-top:15px;color:#fff" @click="toReset">重 置</button>
+                            </div>
                         </div>
            
                     </div>
@@ -189,7 +210,7 @@
                 </div>
 
                 <div class="btn-wrap">
-                    <button class="more" @click="closeDialog">调用更多配方</button>
+                    <!-- <button class="more" @click="closeDialog">调用更多配方</button> -->
                     <button class="dev" @click="toPretreatment">生成副本</button>
                 </div>
             </div>
@@ -204,7 +225,7 @@
                 <div class="item-lists">
                     <div class="item-list clearfix">
                         <span class="fl name">选择拆分比例</span>
-                        <input type="text" class="fl input" placeholder="请输入训练集与测试集的拆分比例，如：0.75">
+                        <input type="number" class="fl input" min="0" max="1" placeholder="请输入训练集与测试集的拆分比例，如：0.75">
                     </div>
                     <div class="item-list clearfix">
                         <span class="fl name">添加随机种子</span>
@@ -218,11 +239,19 @@
                     <p class="t">
                         <span class="light">选择算法：</span>(可选择多种选择算法添加至模型训练中)
                     </p>
-
-         
                     <div class="content-item1 content-item3 clearfix">
-                        <div class="choose-wrap" v-for="item in 5" :key="item">
-                            <label><input type="checkbox"  ><i class="icon"></i><span>{{item}}</span></label>
+                        
+                        <!-- 分类模型 -->
+                        <div class="choose-wrap" v-for="item in classification" :key="item.key" v-show="curItemtype == '分类模型'">
+                            <label><input type="checkbox" :checked="item.checked"  :value="item.key" ><i class="icon"></i><span>{{item.text}}</span></label>
+                        </div>
+                        <!-- 回归模型 -->
+                        <div class="choose-wrap" v-for="item in regression" :key="item.key" v-show="curItemtype == '归类模型'">
+                            <label><input type="checkbox"  :checked="item.checked"  :value="item.key"><i class="icon"></i><span>{{item.text}}</span></label>
+                        </div>
+                        <!-- 聚类模型 -->
+                        <div class="choose-wrap" v-for="item in clustering" :key="item.key" v-show="curItemtype == '聚类模型'">
+                            <label><input type="checkbox" :checked="item.checked"  :value="item.key"><i class="icon"></i><span>{{item.text}}</span></label>
                         </div>
            
                     </div>
@@ -252,7 +281,7 @@
                         <div class="item-list clearfix">
                             <span class="fl name">选择剔除类<b class="sm">(可多选)</b></span>
                             <select class="fl select" v-model="selectEliminate">
-                                <option :value="item" v-for="(item,index) in tcgcList" :key="index">{{item}}</option>
+                                <option :value="item" v-for="(item,index) in tcgcList" :key="index">{{item.colmunName}}</option>
                             </select>
                         </div>
 
@@ -260,20 +289,27 @@
                             <span class="light">特称组合：</span>
                         </p>
     
-                        <div v-for="(item,index) in mergeList" >
+                        <div  > 
                             <div class="item-list clearfix">
                                 <span class="fl name">选择需要合并的列</span>
-                                <div class="form-wrap fl clearfix">
+                                <!-- <div class="form-wrap fl clearfix">
                                     <select class="fl select" v-model="item.selectColmun">
                                         <option :value="name" v-for="name in item.selectList" :key="name">{{name}}</option>
                                     </select>
                                     <span class="icon add" @click="addMerge" v-show="index ==0">+</span>
                                     <span class="icon minus" @click="removeMerge" v-show="mergeList.length>1 && index ==0">-</span>
+                                </div> -->
+                                
+                            </div>
+                            <div class="content-item1">
+                                <div class="choose-wrap" v-for="item in tcgcList">
+                                    <label><input type="checkbox" :checked="item.checked" v-model="item.checked"><i class="icon"></i><span>{{item.colmunName}}</span></label>
                                 </div>
                             </div>
+                            
                             <div class="item-list clearfix">
                                 <span class="fl name">合并列名称</span>
-                                <input class="fl input" v-model="item.colmunName" placeholder="请输入合并列的名称" />
+                                <input class="fl input" v-model="mergeColmunName" placeholder="请输入合并列的名称" />
                             </div>
                         </div>
 
@@ -285,7 +321,7 @@
                                 <span class="fl name">选择需要拆分的列</span>
                                 <div class="form-wrap fl clearfix">
                                     <select class="fl select" v-model="item.selectColmun">
-                                        <option :value="name" v-for="name in item.selectList" :key="name">{{name}}</option>
+                                        <option :value="name" v-for="(name,index) in item.selectList" :key="index">{{name.colmunName}}</option>
                                     </select>
                                     <span class="icon add" @click="addSplit" v-show="index ==0">+</span>
                                     <span class="icon minus" @click="removeSplit" v-show="splitList.length>1 && index ==0">-</span>
@@ -315,6 +351,7 @@
 
             <div id="alert-box-tezhenggongcheng2" v-show="tezhenggongcheng2">
                 <div class="title text-c">
+                    <span class="fl more-pf">调用更多配方</span>
                     特征工程2
                     <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
                 </div>
@@ -339,7 +376,7 @@
                         </div>
                         <div class="item-list clearfix">
                             <span class="fl name">降维数</span>
-                            <input class="fl input" type="number" min="0" v-model="jiangwei" placeholder="请输入LDA降维时降到的维数" />
+                            <input class="fl input" type="number" min="3" v-model="jiangwei" placeholder="请输入LDA降维时降到的维数" />
                         </div>
 
                         <p class="t">
@@ -370,7 +407,7 @@
                     </div>
                     
                     <div class="btn-wrap text-c">
-                        <button class="btn esc" @click="closeDialog">调用更多配方</button>
+                        <!-- <button class="btn esc" @click="closeDialog">调用更多配方</button> -->
                         <button class="btn begin" @click="saveCharacteristic">保存</button>
                     </div>
                 </div>
@@ -425,13 +462,7 @@ import inputTimePick from '../components/inputTimePick'
                         {value:20},
                     ],
                     total:null,
-                    deleteId:null,
-                    mergeList:[
-                        {
-                            selectColmun:'',
-                            colmunName:''
-                        }
-                    ],//特征工程合并列
+                    deleteId:null,//特征工程合并列
                     splitList:[
                         {
                             selectColmun:'',
@@ -470,7 +501,117 @@ import inputTimePick from '../components/inputTimePick'
                         {value:'否'},
                     ],
                     startTime:'',
-                    endTime:''
+                    endTime:'',
+                    radioList:[
+                        {
+                            key:'1',
+                            text:'调用该列平均值去填充该缺失值'
+                        },
+                        {
+                            key:'2',
+                            text:'调用该列中位数去填充该缺失值'
+                        },
+                        {
+                            key:'3',
+                            text:'调用该列众数去填充该缺失值'
+                        },
+                        {
+                            key:'4',
+                            text:'调用前一个非缺失值去填充该缺失值'
+                        },
+                        {
+                            key:'5',
+                            text:'调用后一个非缺失去填充该缺失值'
+                        },
+                        {
+                            key:'3',
+                            text:'输入自定义值定义去填充缺失值'
+                        },
+                    ],
+                    selectRadio:'调用该列平均值去填充该缺失值',
+                    mergeColmunName:'',
+                    classification:[
+                        {
+                            checked:false,
+                            text:'SVC(支持向量机)',
+                            key:'SVC'
+                        },
+                        {
+                            checked:false,
+                            text:'LR(逻辑回归)',
+                            key:'LR'
+                        },
+                        {
+                            checked:false,
+                            text:'DCTREE(决策树)',
+                            key:'DCTREE'
+                        },
+                        {
+                            checked:false,
+                            text:'GBDC(GBDT)',
+                            key:'GBDC'
+                        },
+                        {
+                            checked:false,
+                            text:'BYSC(贝叶斯)',
+                            key:'BYSC'
+                        },
+                        {
+                            checked:false,
+                            text:'KNN(K近邻)',
+                            key:'KNN'
+                        },
+                        {
+                            checked:false,
+                            text:'XGBC(XGBoost)',
+                            key:'XGBC'
+                        },
+                        {
+                            checked:false,
+                            text:'RDMC(随机森林)',
+                            key:'RDMC'
+                        },
+                    ],//分类模型
+                    regression:[
+                        {
+                            checked:false,
+                            text:'SVR(支持向量机)',
+                            key:'SVR'
+                        },
+                        {
+                            checked:false,
+                            text:'DVTREE(决策树)',
+                            key:'DVTREE'
+                        },
+                        {
+                            checked:false,
+                            text:'GBDR(GBDT)',
+                            key:'GBDR'
+                        },
+                        {
+                            checked:false,
+                            text:'LINR(线性回归)',
+                            key:'LINR'
+                        },
+                        {
+                            checked:false,
+                            text:'XGBR(XGBoost)',
+                            key:'XGBR'
+                        },
+                        {
+                            checked:false,
+                            text:'RDMR(随机森林)',
+                            key:'RDMR'
+                        },
+                    ],//回归模型
+                    clustering:[
+                        {
+                            checked:false,
+                            text:'Kmeans（Kmeans）',
+                            key:'Kmeans（Kmeans）'
+                        },
+                    ],//聚类模型
+                    curItemtype:''//当前选中的item类型
                 }
             },
             components:{
@@ -478,19 +619,14 @@ import inputTimePick from '../components/inputTimePick'
             },
             watch:{
                 arithmetic(val){
-                    console.log(val,'降维算法')
                 },
                 regex(val){
-                    console.log(val,'正则化')
                 },
                 jiangwei(val){
-                    console.log(val,'降维数')
                 },
                 baihua(val){
-                    console.log(val,'白话')
                 },
                 number(val){
-                    console.log(val,'拆分个数')
                 },
                 searchKey(val){
                     if(!val){
@@ -501,11 +637,11 @@ import inputTimePick from '../components/inputTimePick'
                     this.getTasklist()
                 },
                 selectType(val){
-                    console.log(val)
                 },
                 selectEliminate(val){
-                    console.log(val)
                 },
+                selectRadio(val){
+                }
             },
             methods: {
                 changeStartTime(time){
@@ -684,7 +820,7 @@ import inputTimePick from '../components/inputTimePick'
                         title: false,
                         anim: 2,
                         closeBtn: 0,
-                        area: ['860px', '600px'], //宽高
+                        area: ['860px', '680px'], //宽高
                         content: $('#alert-box-shujuyuchuli'),
                     });
                     this.selectMiid = item.miId
@@ -709,7 +845,6 @@ import inputTimePick from '../components/inputTimePick'
 
                         })
                         this.preProcesscolmun.deficiencyColumn = arr
-                        console.log(this.preProcesscolmun.deficiencyColumn)
                     })
 
                 },
@@ -725,20 +860,12 @@ import inputTimePick from '../components/inputTimePick'
                         title: false,
                         anim: 2,
                         closeBtn: 0,
-                        area: ['660px', 1000], //宽高
+                        area: ['660px', '600px'], //宽高
                         content: $('#alert-box-tezhenggongcheng'),
                     });
                     if(this.selectMiid != item.miId){
                         this.selectEliminate = ''
-                        this.mergeList=[]
                         this.splitList=[]
-                        this.mergeList.push(
-                            {
-                                selectColmun:'',
-                                colmunName:'',
-                                selectList:this.tcgcList
-                            }
-                        )
                         this.splitList.push(
                             {
                                 selectColmun:'',
@@ -761,39 +888,34 @@ import inputTimePick from '../components/inputTimePick'
                         params: paramsData,
                     })
                     .then(res=>{
-                        console.log(res)
-                        this.tcgcList = res.data
-                        this.mergeList.map(item=>{
-                            item.selectList = res.data
+                        res.data.map(item=>{
+                            var obj = {}
+                            obj.colmunName = item
+                            obj.checked = false
+                            this.tcgcList.push(obj)
                         })
                         this.splitList.map(item=>{
-                            item.selectList = res.data
+                            item.selectList = this.tcgcList
                         })
-                        console.log(this.mergeList)
-                        console.log(this.splitList)
                        
                     })
 
                 },
-                dialogxunliangmoxing(){
+                dialogxunliangmoxing(item){
                     // 模型训练
+                    if(!item.yclcs){
+                        this.$message('请先进行预处理')
+                        return
+                    }
+                    this.curItemtype = JSON.parse(item.yclcs).modelType
                     layer.open({
                         type: 1,
                         title: false,
                         anim: 2,
                         closeBtn: 0,
-                        area: ['600px', "auto"], //宽高
+                        area: ['600px', "500px"], //宽高
                         content: $('#alert-box-xunliangmoxing'),
                     });
-                },
-                addMerge(){
-                    // 添加合并列
-                    let obj={
-                        selectColmun:'',
-                        colmunName:'',
-                        selectList:this.tcgcList
-                    }
-                    this.mergeList.push(obj)
                 },
                 addSplit(){
                     // 添加拆分列
@@ -804,9 +926,6 @@ import inputTimePick from '../components/inputTimePick'
                     }
                     this.splitList.push(obj)
                 },
-                removeMerge(){
-                    this.mergeList.pop()
-                },
                 removeSplit(){
                     this.splitList.pop()
                 },
@@ -816,15 +935,6 @@ import inputTimePick from '../components/inputTimePick'
                 },
                 tezhenggongcheng2Fn(){
                     
-                    console.log(this.selectEliminate)
-                    console.log(this.mergeList)
-                    console.log(this.splitList)
-                    this.mergeList.forEach((item,index)=>{
-                      
-                    })
-                    this.splitList.forEach(item=>{
-
-                    })
                     
                     // return
                     this.tezhenggongcheng2=true;
@@ -852,7 +962,6 @@ import inputTimePick from '../components/inputTimePick'
                         sjjName:item.sjjName,
                         isShow:!item.isShow
                     })
-                    console.log(item)
                 },
                 getDatasource(){
                     // 获取数据集列表
@@ -876,12 +985,22 @@ import inputTimePick from '../components/inputTimePick'
                         // that.maxPage =Math.ceil(that.total/that.pageSize) 
                     })
                 },
+                toReset(){
+                    this.selectRadio = ''
+                    this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
+                        item.checked = false
+                    })
+                },
                 toPretreatment(){
                     // 预处理接口
+                    if(!this.selectRadio){
+                        this.$message('请选择填充方式')
+                        return
+                    }
                     const missKey ={}
                     this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
                         if(item.checked){
-                            missKey[index] = item.name;
+                            missKey[item.name] = this.selectRadio;
                         }
                     })
                     if(!this.selectGroup){
@@ -910,7 +1029,6 @@ import inputTimePick from '../components/inputTimePick'
                         data:paramsData
                     })
                     .then(res=>{
-                        console.log(res)
                         this.$message({
                             message: res.data,
                             type: 'success'
@@ -937,12 +1055,25 @@ import inputTimePick from '../components/inputTimePick'
                     // 保存特征工程
                     var that = this
                     let url=`${ReqUrl.saveCharacteristic}`
+                    var selectColmun =[],selectNum =0
+                    this.tcgcList.forEach(item=>{
+                        if(item.checked){
+                            selectNum++
+                            selectColmun.push(item.colmunName)
+                        } 
+                    })
+                    if(selectNum == 1){
+                        this.$message('合并的列需要两个及以上')
+                        return
+                    }
+                    
+                    
                     const targetObj = {}
+
                     targetObj.selectEliminate = that.selectEliminate//剔除类
-                    targetObj.mergeList = that.mergeList//特征组合
                     targetObj.splitList = that.splitList //特征拆分
                     targetObj.reduction={
-                        lad:{
+                        lda:{
                             svd:that.arithmetic,
                             regex:that.regex,
                             n:that.jiangwei
@@ -951,6 +1082,10 @@ import inputTimePick from '../components/inputTimePick'
                             n:that.number,
                             white:that.baihua
                         }
+                    }
+                    targetObj.mergeObj={
+                        colmunName:that.mergeColmunName,
+                        mergeList:selectColmun
                     }
                     var paramData={
                         characteristicOneDto:targetObj
@@ -963,10 +1098,6 @@ import inputTimePick from '../components/inputTimePick'
                     })
                     .then(res=>{
                         that.selectEliminate =''
-                        that.mergeList =[{
-                            selectColmun:'',
-                            colmunName:''
-                        }]
                         that.splitList = [{
                             selectColmun:'',
                             colmunNUmber:''

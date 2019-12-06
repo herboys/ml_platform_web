@@ -892,7 +892,7 @@
         mounted(){
             this.init();
             this.active=this.tabList[1]["name"];
-            this.dialogPretreatment();
+            // this.dialogPretreatment();
         },
         watch:{
             selectDatesource(val){

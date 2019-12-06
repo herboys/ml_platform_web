@@ -44,3 +44,5 @@ export const saveCharacteristic = 'api/task/saveCharacteristic'
 export const updateColumns = 'api/task/updateColumns'
     // 查看具体数据
 export const getSpecificData = 'api/task/getSpecificData'
+    // 模型训练
+export const saveModelDrill = 'api/task/saveModelDrill'

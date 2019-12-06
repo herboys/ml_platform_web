@@ -1835,14 +1835,14 @@
 
         methods:{
             dialogSetOption(id){
-                layer.open({
-                    type: 1,
-                    title: false,
-                    anim: 2,
-                    closeBtn: 0,
-                    area: ['510px', 1000], //宽高
-                    content: $('#alert-box-setOption'),
-                });
+                // layer.open({
+                //     type: 1,
+                //     title: false,
+                //     anim: 2,
+                //     closeBtn: 0,
+                //     area: ['510px', 1000], //宽高
+                //     content: $('#alert-box-setOption'),
+                // });
             },
             closeDialog(){
                 layer.closeAll();

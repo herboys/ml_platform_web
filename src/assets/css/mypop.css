@@ -278,7 +278,7 @@
 }
 
 #alert-box-tezhenggongcheng1 .content-wrap {
-    height: 452px;
+    /* height: 452px; */
     overflow: auto;
 }
 
@@ -297,24 +297,28 @@
 }
 
 #alert-box-shujuyuchuli .content-item1 .choose-wrap,
-#alert-box-xunliangmoxing .content-item1 .choose-wrap {
+#alert-box-xunliangmoxing .content-item1 .choose-wrap,
+#alert-box-tezhenggongcheng .content-item1 .choose-wrap {
     width: 206px;
     float: left;
     padding-left: 70px;
 }
 
-#alert-box-xunliangmoxing .content-item1 .choose-wrap {
+#alert-box-xunliangmoxing .content-item1 .choose-wrap,
+#alert-box-tezhenggongcheng .content-item1 .choose-wrap {
     padding-left: 40px;
     margin-bottom: 23px;
 }
 
 #alert-box-shujuyuchuli .content-item1 .choose-wrap label,
-#alert-box-xunliangmoxing .content-item1 .choose-wrap label {
+#alert-box-xunliangmoxing .content-item1 .choose-wrap label,
+#alert-box-tezhenggongcheng .content-item1 .choose-wrap label {
     position: relative;
 }
 
 #alert-box-shujuyuchuli .content-item1 .choose-wrap label span,
-#alert-box-xunliangmoxing .content-item1 .choose-wrap label span {
+#alert-box-xunliangmoxing .content-item1 .choose-wrap label span,
+#alert-box-tezhenggongcheng .content-item1 .choose-wrap label span {
     margin-left: 7px;
     color: #adc5fa;
     font-size: 14px;
@@ -322,7 +326,8 @@
 }
 
 #alert-box-shujuyuchuli .content-item1 .choose-wrap .icon,
-#alert-box-xunliangmoxing .content-item1 .choose-wrap .icon {
+#alert-box-xunliangmoxing .content-item1 .choose-wrap .icon,
+#alert-box-tezhenggongcheng .content-item1 .choose-wrap .icon {
     width: 16px;
     height: 16px;
     display: inline-block;
@@ -332,7 +337,8 @@
 }
 
 #alert-box-shujuyuchuli .content-item1 .choose-wrap input[type='checkbox'],
-#alert-box-xunliangmoxing .content-item1 .choose-wrap input[type='checkbox'] {
+#alert-box-xunliangmoxing .content-item1 .choose-wrap input[type='checkbox'],
+#alert-box-tezhenggongcheng .content-item1 .choose-wrap input[type='checkbox'] {
     position: absolute;
     left: 0;
     top: 0;
@@ -342,8 +348,15 @@
 }
 
 #alert-box-shujuyuchuli .content-item1 .choose-wrap input:checked+i,
-#alert-box-xunliangmoxing .content-item1 .choose-wrap input:checked+i {
+#alert-box-xunliangmoxing .content-item1 .choose-wrap input:checked+i,
+#alert-box-tezhenggongcheng .content-item1 .choose-wrap input:checked+i {
     background-position: 0 -68px;
+}
+
+#alert-box-tezhenggongcheng .content-item1 {
+    height: 100px;
+    overflow-y: scroll;
+    margin-bottom: 20px;
 }
 
 #alert-box-shujuyuchuli .content .content-item1,
