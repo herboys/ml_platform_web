@@ -13,7 +13,7 @@
                 <p class="top clearfix">
                     <span class="fl title"><i class="fl i1"></i> 模型评估详情</span>
                     <span class="fr btn-wrap">
-                        <a class="a1">查看模型解释</a>
+                        <router-link class="a1" :to="{path:'/explain'}"> 查看模型解释</router-link>
                         <a class="a2"><i class="icon"></i>下载该模型评估报告</a>
                     </span>
                 </p>

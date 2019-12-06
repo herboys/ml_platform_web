@@ -47,29 +47,29 @@
                                 <div class="swiper-rect"></div>
                                 <div class="swiper-ul">
                                     <ul>
-                                        <li>{{item.fildeName}}</li>
-                                        <li class="p" @click="toggleShow(item)">{{item.type}} <i class="icon" v-show="item.type !='字符串'"></i>
+                                        <li>{{item.columnName}}</li>
+                                        <li class="p" @click="toggleShow(item,index)">{{item.columnType}} <i class="icon" v-show="item.columnType !='字符串'"></i>
                                             <!-- <select name="" id="" v-model="item.type">
                                                 <option :value="name.type" v-for="name in optionlist" >{{name.text}}</option>
                                             </select> -->
-                                            <ul class="s" v-show="item.isShowtype && item.type !='字符串'">
+                                            <ul class="s" v-show="item.isShowtype && item.columnType !='字符串'">
                                                 <li v-for="name in optionlist" @click="updateColumns(item,name)">{{name.text}}</li>
                                                 <!-- <li>连续型</li> -->
                                             </ul>
                                         </li>
-                                        <li>{{item.count}}</li>
-                                        <li>{{item.miss_column}}</li>
-                                        <li>{{item.mean}}</li>
+                                        <li>{{item.columnCount}}</li>
+                                        <li>{{item.missCount}}</li>
+                                        <li>{{item.avgNum}}</li>
                                         <li>
-                                            <span v-show="item.type == '数值'">{{item.min}}</span>
+                                            <span v-show="item.type == '数值'">{{item.minNum}}</span>
                                             <span v-show="item.type != '数值'">-</span>
                                         </li>
                                         <li>
-                                            <span v-show="item.type == '数值'">{{item.max}}</span>
+                                            <span v-show="item.type == '数值'">{{item.maxNum}}</span>
                                             <span v-show="item.type != '数值'">-</span>
                                         </li>
-                                        <li>{{item.std}}</li>
-                                        <li>{{item.unique}}</li>
+                                        <li>{{item.bzc}}</li>
+                                        <li>{{item.onlyNum}}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -334,12 +334,12 @@
                     </div>
                     <div class="ui-page-sort">
                         <div class="right-tool">
-                            <span class="span-setting">
+                            <!-- <span class="span-setting">
                                     每页条数
                                     <select class="select-text" v-model="pageSize">
                                         <option v-for="(item,index) in options" :key="index" :value="item.value"> {{item.value}}</option>
                                     </select>
-                                </span>
+                                </span> -->
 
                             <span class="span-number">
                                         转到
@@ -543,12 +543,26 @@
                     this.$message('搜索列名称不能为空')
                 } else {
                     this.dataList= this.dataList.filter((value)=>{  //过滤数组元素
-                        return value.fildeName.includes(this.searchKey); //如果包含字符返回true
+                        return value.columnName.includes(this.searchKey); //如果包含字符返回true
                     });
                 }
             },
-            toggleShow(item){
-                item.isShowtype = !item.isShowtype
+            toggleShow(item,index){
+                this.$set(
+                    this.dataList,index,{
+                        avgNum:item.avgNum,
+                        bcs:item.bcs,
+                        bzc:item.bzc,
+                        columnCount:item.columnCount,
+                        columnName:item.columnName,
+                        columnType:item.columnType,
+                        maxNum:item.maxNum,
+                        minNum:item.minNum,
+                        missCount:item.missCount,
+                        onlyNum:item.onlyNum,
+                        isShowtype: !item.isShowtype
+                    })
+                
                 console.log(item)
                 // this.updateColumns(item)
             },
@@ -576,23 +590,27 @@
                 })
                 .then(res=>{
                     const dataArry= res.data
+                    that.dataList = res.data
                     console.log(dataArry)
-                    if(dataArry && dataArry.columns[0]){
-                        dataArry.columns.forEach((item,index)=>{
-                            var obj = {}
-                            obj.fildeName = item
-                            obj.isShowtype = false
-                            that.dataList.push(obj)
-                        })
-                    }
                     that.dataList.map((item,index)=>{
-                        if(dataArry && dataArry.index[0]){
-                            dataArry.index.forEach((key,keyindex)=>{
-                                item[key] = dataArry.data[keyindex][index]
-                            })
-                        }
-                        
+                        item.isShowtype = false
                     })
+                    // if(dataArry && dataArry.columns[0]){
+                    //     dataArry.columns.forEach((item,index)=>{
+                    //         var obj = {}
+                    //         obj.fildeName = item
+                    //         obj.isShowtype = false
+                    //         that.dataList.push(obj)
+                    //     })
+                    // }
+                    // that.dataList.map((item,index)=>{
+                    //     if(dataArry && dataArry.index[0]){
+                    //         dataArry.index.forEach((key,keyindex)=>{
+                    //             item[key] = dataArry.data[keyindex][index]
+                    //         })
+                    //     }
+                        
+                    // })
                     that.originalData = that.dataList
                     console.log(that.dataList)
                     
@@ -623,14 +641,14 @@
                 // 更新各列数据类型
                 const that = this
                 let obj = {}
-                obj[item.fildeName] = name.text
+                obj[item.columnName] = name.text
                 let paramData={
                     columnMap: obj,
                     taId: 24
                 }
                 let url=`${ReqUrl.updateColumns}`
-                if(item.type != name.type){
-                    item.type = name.type
+                if(item.columnType != name.type){
+                    item.columnType = name.type
                     axios({
                         url: url,
                         method: 'post',

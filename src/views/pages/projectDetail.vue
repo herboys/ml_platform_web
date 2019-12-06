@@ -211,7 +211,7 @@
 
                 <div class="btn-wrap">
                     <!-- <button class="more" @click="closeDialog">调用更多配方</button> -->
-                    <button class="dev" @click="toPretreatment">生成副本</button>
+                    <button class="dev" @click="toPretreatment">保存</button>
                 </div>
             </div>
         </div>
@@ -261,7 +261,7 @@
 
                 
                 <div class="btn-wrap text-c">
-                    <button class="btn esc" @click="closeDialog">退出</button>
+                    <!-- <button class="btn esc" @click="closeDialog">退出</button> -->
                     <button class="btn begin" @click="saveModelDrill">开始训练</button>
                 </div>
             </div>
@@ -289,7 +289,7 @@
                             <span class="light">特称组合：</span>
                         </p>
     
-                        <div v-for="(item,index) in mergeList" :key="index"> 
+                        <div v-for="(item,index) in mergeList" > 
                             <div class="item-list clearfix">
                                 <span class="fl name">选择需要合并的列</span>
                                 <div class="form-wrap fl clearfix">
@@ -302,9 +302,9 @@
                                 
                             </div>
                             <div class="content-item1">
-                                <div class="choose-wrap" v-for="name in item.selectList">
-                                    <label><input type="checkbox" :checked="name.checked"  @click="name.checked = !name.checked" ><i class="icon"></i><span>{{name.colmunName}}</span></label>
-                                </div>
+                                 <div class="choose-wrap" v-for="name in item.tcgcList">
+                                    <label><input type="checkbox" @click="ClickItemBtn(index,name)"   ><i class="icon"></i><span>{{name.colmunName}}</span></label>
+                                </div>
                             </div>
                             
                             <div class="item-list clearfix">
@@ -316,7 +316,7 @@
                         <p class="t">
                             <span class="light">特征拆分：</span>
                         </p>
-                        <div v-for="(item,index) in splitList">
+                        <div v-for="(item,index) in splitList" :key="index">
                             <div class="item-list clearfix">
                                 <span class="fl name">选择需要拆分的列</span>
                                 <div class="form-wrap fl clearfix">
@@ -534,82 +534,82 @@ import inputTimePick from '../components/inputTimePick'
                     classification:[
                         {
                             checked:false,
-                            text:'SVC(支持向量机)',
+                            text:'支持向量机',
                             key:'SVC'
                         },
                         {
                             checked:false,
-                            text:'LR(逻辑回归)',
+                            text:'逻辑回归',
                             key:'LR'
                         },
                         {
                             checked:false,
-                            text:'DCTREE(决策树)',
+                            text:'决策树',
                             key:'DCTREE'
                         },
                         {
                             checked:false,
-                            text:'GBDC(GBDT)',
+                            text:'GBDT',
                             key:'GBDC'
                         },
                         {
                             checked:false,
-                            text:'BYSC(贝叶斯)',
+                            text:'贝叶斯',
                             key:'BYSC'
                         },
                         {
                             checked:false,
-                            text:'KNN(K近邻)',
+                            text:'K近邻',
                             key:'KNN'
                         },
                         {
                             checked:false,
-                            text:'XGBC(XGBoost)',
+                            text:'XGBoost',
                             key:'XGBC'
                         },
                         {
                             checked:false,
-                            text:'RDMC(随机森林)',
+                            text:'随机森林',
                             key:'RDMC'
                         },
                     ],//分类模型
                     regression:[
                         {
                             checked:false,
-                            text:'SVR(支持向量机)',
+                            text:'支持向量机',
                             key:'SVR'
                         },
                         {
                             checked:false,
-                            text:'DVTREE(决策树)',
+                            text:'决策树',
                             key:'DVTREE'
                         },
                         {
                             checked:false,
-                            text:'GBDR(GBDT)',
+                            text:'GBDT',
                             key:'GBDR'
                         },
                         {
                             checked:false,
-                            text:'LINR(线性回归)',
+                            text:'线性回归',
                             key:'LINR'
                         },
                         {
                             checked:false,
-                            text:'XGBR(XGBoost)',
+                            text:'XGBoost',
                             key:'XGBR'
                         },
                         {
                             checked:false,
-                            text:'RDMR(随机森林)',
+                            text:'随机森林',
                             key:'RDMR'
                         },
                     ],//回归模型
                     clustering:[
                         {
                             checked:false,
-                            text:'Kmeans（Kmeans）',
-                            key:'Kmeans（Kmeans）'
+                            text:'means',
+                            key:'Kmeans'
                         },
                     ],//聚类模型
                     curItemtype:'',//当前选中的item类型
@@ -648,6 +648,24 @@ import inputTimePick from '../components/inputTimePick'
                 }
             },
             methods: {
+                  ClickItemBtn(index,name){
+                    this.mergeList.forEach((element,indexs)=>{
+                        if(indexs==index){ 
+
+                        for (let i = 0; i < element.tcgcList.length; i++) {
+                               if(element.tcgcList[i].colmunName==name.colmunName){
+                                   if(element.tcgcList[i].checked==true){
+                                        element.tcgcList[i].checked=false
+                                   }else{
+                                        element.tcgcList[i].checked=true
+                                   }
+                                    // element.tcgcList[i].checked = !element.tcgcList[i].checked
+                               }
+                            }
+                        }
+                    })
+                    console.log(this.mergeList)
+                },
                 changeStartTime(time){
                     this.startTime=time;
                     if(!time){
@@ -901,8 +919,8 @@ import inputTimePick from '../components/inputTimePick'
                         this.mergeList=[
                             {
                                 selectColmun:[],
-                                selectList:this.tcgcList,
-                                selectColmun:''
+                                tcgcList:this.tcgcList,
+                                colmunName:''
                             }
                         ]
                         this.splitList.map(item=>{
@@ -932,8 +950,8 @@ import inputTimePick from '../components/inputTimePick'
                 addMerge(){
                     let obj={
                         selectColmun:[],
-                        selectList:this.tcgcList,
-                        selectColmun:''
+                        tcgcList:this.tcgcList,
+                        colmunName:''
                     }
                     this.mergeList.push(obj)
                 },
@@ -1092,15 +1110,6 @@ import inputTimePick from '../components/inputTimePick'
                     
                     
                     const targetObj = {}
-                    this.mergeList.map(item=>{
-                        console.log(item)
-                        item.selectList.forEach(value=>{
-                            if(value.checked){
-                                item.selectColmun.push(value.colmunName)
-                            }
-                        })
-                        console.log(item.selectColmun)
-                    })
                     return
                     targetObj.selectEliminate = that.selectEliminate//剔除类
                     targetObj.splitList = that.splitList //特征拆分
@@ -1133,9 +1142,10 @@ import inputTimePick from '../components/inputTimePick'
                         that.selectEliminate =''
                         that.mergeList=[
                             {
-                                selectColmun:'',
+                                selectColmun:[],
                                 selectList:this.tcgcList,
-                                selectColmun:''
+                                colmunName:''
+
                             }
                         ]
                         that.splitList = [{

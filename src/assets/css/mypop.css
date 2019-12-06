@@ -299,8 +299,9 @@
 #alert-box-shujuyuchuli .content-item1 .choose-wrap,
 #alert-box-xunliangmoxing .content-item1 .choose-wrap,
 #alert-box-tezhenggongcheng .content-item1 .choose-wrap {
-    width: 206px;
-    float: left;
+    width: 50%;
+    /* float: left; */
+    display: inline-block;
     padding-left: 70px;
 }
 
@@ -910,6 +911,7 @@
 
 #alert-box-xunliangmoxing .content .content-item1 {
     padding-left: 50px;
+    min-height: 130px;
 }
 
 #alert-box-tezhenggongcheng .content .item-lists .t {

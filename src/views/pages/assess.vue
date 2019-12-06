@@ -11,7 +11,7 @@
                 <p class="top clearfix">
                     <span class="fl title"><i class="fl i1"></i> 模型评估</span>
                     <span class="fr btn-wrap">
-                        <a class="a1">查看模型解释</a>
+                        <router-link class="a1" :to="{path:'/explain'}"> 查看模型解释</router-link>
                         <a class="a2"><i class="icon"></i>下载该模型评估报告</a>
                     </span>
                 </p>
@@ -31,7 +31,7 @@
                                 <li class="clearfix">
                                     <i class="fl">Top1</i>
                                     <span class="name fl">决策树</span>
-                                    <b class="fr">0.94</b>
+                                    <b class="fr" @click="toLink">0.94</b>
                                     <span class="dash-line">
                                         <em class="line"></em>
                                     </span>
@@ -40,7 +40,7 @@
                                 <li class="clearfix">
                                     <i class="fl">Top2</i>
                                     <span class="name fl">支持向量机</span>
-                                    <b class="fr">0.85</b>
+                                    <b class="fr" @click="toLink">0.85</b>
                                     <span class="dash-line">
                                         <em class="line"></em>
                                     </span>
@@ -49,7 +49,7 @@
                                 <li class="clearfix">
                                     <i class="fl">Top3</i>
                                     <span class="name fl">逻辑回归</span>
-                                    <b class="fr">0.72</b>
+                                    <b class="fr" @click="toLink">0.72</b>
                                     <span class="dash-line">
                                         <em class="line"></em>
                                     </span>
@@ -58,7 +58,7 @@
                                 <li class="clearfix">
                                     <i class="fl">Top4</i>
                                     <span class="name fl">贪心算法</span>
-                                    <b class="fr">0.66</b>
+                                    <b class="fr" @click="toLink">0.66</b>
                                     <span class="dash-line">
                                         <em class="line"></em>
                                     </span>
@@ -67,7 +67,7 @@
                                 <li class="clearfix">
                                     <i class="fl">Top5</i>
                                     <span class="name fl">动态规则</span>
-                                    <b class="fr">0.54</b>
+                                    <b class="fr" @click="toLink">0.54</b>
                                     <span class="dash-line">
                                         <em class="line"></em>
                                     </span>
@@ -76,7 +76,7 @@
                                 <li class="clearfix">
                                     <i class="fl">Top6</i>
                                     <span class="name fl">其他规则</span>
-                                    <b class="fr">0.40</b>
+                                    <b class="fr" @click="toLink">0.40</b>
                                     <span class="dash-line">
                                         <em class="line"></em>
                                     </span>
@@ -333,6 +333,11 @@
         },
         components:{
             
+        },
+        methods:{
+            toLink(){
+                this.$router.push({path:'/assessDetail'})
+            }
         }
     }
 </script>
