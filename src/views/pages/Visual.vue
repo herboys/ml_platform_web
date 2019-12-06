@@ -319,7 +319,7 @@
         },
         components:{inputTimePick,chart:EChartsComponents},
         mounted(){
-           this.dialogSetOption();//直方图参数设置弹框 
+        //    this.dialogSetOption();//直方图参数设置弹框 
             
         },
 
