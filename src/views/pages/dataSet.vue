@@ -97,9 +97,9 @@
                                     <a class="icon icon4" title="开始训练" @click="dialogxunliangmoxing"></a>
                                     <a class="icon icon5 shanchu" title="删除" @click="dialogDeleteFB"></a> -->
 
-                                    <a class="lookicon">查看</a>
+                                    <a class="lookicon" @click="toLink(item)">查看</a>
                                     <!-- <a class="icon icon5 delicon" title="删除" @click="dialogDeleteFB">删除</a> -->
-                                    <a class="delicon">删除</a>
+                                    <a class="delicon" @click="dialogDelete(item)"> 删除</a>
                              
 
                                 </td>
@@ -165,149 +165,6 @@
                 <div class="btn-wrap clearfix">
                     <button class="btn cancelBtn fl" @click="closeDialog">取消</button>
                     <button class="btn okBtn fr" @click="closeDialog">确认</button>
-                </div>
-            </div>
-        </div>
-        <!-- 数据预处理 -->
-        <div class="alert-box" id="alert-box-shujuyuchuli">
-            <div class="title text-c">
-                <span class="fl more-pf">调用更多配方</span>
-                数据预处理1
-                <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
-            </div>
-            <div class="content alert-box-content">
-                <div class="content-item">
-
-                    <!-- <div class="content-item1 clearfix">
-                        <p class="name">模型类型：</p>
-                        <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>分类模型</span></label>
-                        </div>
-                        <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>归类模型</span></label>
-                        </div>
-                        <div class="choose-wrap">
-                            <label><input type="checkbox"><i class="icon"></i><span>聚类模型</span></label>
-                        </div>
-                    </div> -->
-
-
-                    <div class="content-item1 clearfix">
-                        <p class="name">模型类型：</p>
-                        <div class="choose-wrap">
-                            <label><input type="radio" class="radioInput" name="radio"><i class="icon radio"></i><span>分类模型</span></label>
-                        </div>
-                        <div class="choose-wrap">
-                            <label><input type="radio" class="radioInput" name="radio"><i class="icon radio"></i><span>归类模型</span></label>
-                        </div>
-                        <div class="choose-wrap">
-                            <label><input type="radio" class="radioInput" name="radio"><i class="icon radio"></i><span>聚类模型</span></label>
-                        </div>
-                    </div>
-
-
-                    <div class="content-item2 clearfix">
-                        <p class="name">目标列：</p>
-                        <div class="select-wrap clearfix">
-                            <div class="select-wrap-half fl">
-                                <p>目标列</p>
-                                <div class="select">
-                                    <select>
-                                        <option value=""></option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="select-wrap-half fl">
-                                <p>分组列</p>
-                                <div class="select">
-                                    <select>
-                                        <option value=""></option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="content-item1 content-item3 clearfix">
-                        <p class="name">缺失值填充：</p>
-                        <!-- <div class="choose-wrap">
-                            <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用该列平均值去填充该缺失值</span></label>
-                        </div>
-                        <div class="choose-wrap">
-                            <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用该列中位位数去填充该缺</span></label>
-                        </div>
-                        <div class="choose-wrap">
-                            <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用该列众数去填充该缺失值</span></label>
-                        </div>
-                        <div class="choose-wrap">
-                            <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用前一个非缺失值去填充该缺失值</span></label>
-                        </div>
-                        <div class="choose-wrap">
-                            <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用后一个非缺失值去填充该缺失值</span></label>
-                        </div>
-                        <div class="choose-wrap">
-                            <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>输入自定义值定义去填充缺失值</span></label>
-                        </div> -->
-                        <div class="w1">
-                            <span class="fl" style="width:300px;font-size:14px;color:#b1c8fe;margin-bottom:10px;">选择填充方式</span>
-                            <span class="fr" style="width:300px;font-size:14px;color:#b1c8fe;margin-bottom:10px;">选择该填充方式应用字段（可多选）</span>
-                            
-                            <div class="half-left fr">
-                                <div class="choose-wrap">
-                                    <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用该列平均值去填充该缺失值</span></label>
-                                </div>
-                                <div class="choose-wrap">
-                                    <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用该列中位位数去填充该缺</span></label>
-                                </div>
-                                <div class="choose-wrap">
-                                    <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用该列众数去填充该缺失值</span></label>
-                                </div>
-                                <div class="choose-wrap">
-                                    <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用前一个非缺失值去填充该缺失值</span></label>
-                                </div>
-                                <div class="choose-wrap">
-                                    <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>调用后一个非缺失值去填充该缺失值</span></label>
-                                </div>
-                                <div class="choose-wrap">
-                                    <label><input type="checkbox" class="checkInput"><i class="icon check"></i><span>输入自定义值定义去填充缺失值</span></label>
-                                </div>
-                            </div>
-                            <div class="half-left fl">
-                                <div class="choose-wrap">
-                                    <label><input type="radio" name="radio2" class="radioInput"><i class="icon radio"></i><span>调用该列平均值去填充该缺失值</span></label>
-                                </div>
-                                <div class="choose-wrap">
-                                    <label><input type="radio" name="radio2" class="radioInput"><i class="icon radio"></i><span>调用该列平均值去填充该缺失值</span></label>
-                                </div>
-                                <div class="choose-wrap">
-                                    <label><input type="radio" name="radio2" class="radioInput"><i class="icon radio"></i><span>调用该列平均值去填充该缺失值</span></label>
-                                </div>
-                                <div class="choose-wrap">
-                                    <label><input type="radio" name="radio2" class="radioInput"><i class="icon radio"></i><span>调用该列平均值去填充该缺失值</span></label>
-                                </div>
-                                <div class="choose-wrap">
-                                    <label><input type="radio" name="radio2" class="radioInput"><i class="icon radio"></i><span>调用该列平均值去填充该缺失值</span></label>
-                                </div>
-                                <div class="choose-wrap">
-                                    <label><input type="radio" name="radio2" class="radioInput"><i class="icon radio"></i><span>调用该列平均值去填充该缺失值</span></label>
-                                </div>
-                            </div>
-                            <span class="pop-arrow"></span>
-                            <div class="btn-wrap">
-                                <button class="more" style="margin-top:15px;color:#fff">重 置</button>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-
-                <div class="btn-wrap">
-                    <button class="more" @click="closeDialog">调用更多配方</button>
-                    <button class="dev" @click="closeDialog">生成副本</button>
                 </div>
             </div>
         </div>
@@ -444,7 +301,7 @@
                     <el-upload
                         class="upload-demo"
                         ref="upload"
-                        :action="uploadUrl"
+                        :action="uploadUrl+'?dataName='+sjjName+'&userId='+userId"
                         :on-change="handleChange"
                         :on-success="uploadSuccess"
                         :on-error="uploadError"
@@ -550,197 +407,10 @@
                 <div class="text">数据集名</div>
                 <input type="text" v-model='sjjName' placeholder="请输入数据集名称">
                 <div class="btn-wrap clearfix">
-                    <button class="btn okBtn fr" @click="confireUpload">确定并上传</button>
+                    <button class="btn okBtn fr" @click="confireUpload" v-show="uploadType == 'link'">确定并上传</button>
+                    <button class="btn okBtn fr" @click="confireUploadfile" v-show="uploadType == 'upload'">确定并上传</button>
                 </div>
             </div>
-        </div>
-        <!-- 模型驯良设置 -->
-        <div class="alert-box" id="alert-box-xunliangmoxing">
-            <div class="title text-c">
-                模型驯良设置
-                <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
-            </div>
-            <div class="content alert-box-content">
-                <div class="item-lists">
-                    <div class="item-list clearfix">
-                        <span class="fl name">选择拆分比例</span>
-                        <input type="text" class="fl input" placeholder="请输入训练集与测试集的拆分比例，如：0.75">
-                    </div>
-                    <div class="item-list clearfix">
-                        <span class="fl name">添加随机种子</span>
-                        <select class="fl select"></select>
-                    </div>
-                    <div class="item-list clearfix">
-                        <span class="fl name">选择抽样比例</span>
-                        <input type="text" class="fl input" placeholder="请输入抽样比例，如：0.5">
-                    </div>
-
-                    <p class="t">
-                        <span class="light">选择算法：</span>(可选择多种选择算法添加至模型训练中)
-                    </p>
-
-                    <div class="item-list clearfix">
-                        <span class="fl name">选择需要拆分的列</span>
-                        <div class="form-wrap fl clearfix">
-                            <select class="fl select"></select>
-                            <span class="icon add">+</span>
-                        </div>
-                        
-                    </div>
-                    <div class="list">
-                        <div class="item-list clearfix">
-                            <span class="fl name">拆分列数</span>
-                            <div class="form-wrap fl clearfix">
-                            <input type="text" class="fl input" placeholder="请输入拆分列数">
-                            <span class="icon minus">-</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-
-
-                </div>
-
-                
-                <div class="btn-wrap text-c">
-                    <button class="btn esc" @click="closeDialog">退出</button>
-                    <button class="btn begin" @click="closeDialog">开始训练</button>
-                </div>
-            </div>
-        </div>
-
-
-
-
-        <!-- 特征工程 -->
-        <div class="alert-box" id="alert-box-tezhenggongcheng">
-            <div class="arrow arrow-left" :class="tezhenggongcheng1 ?'off' :'on'" @click="tezhenggongcheng1Fn()"></div>
-            <div class="arrow arrow-right " :class="tezhenggongcheng2 ?'off' :'on'" @click="tezhenggongcheng2Fn()"></div>
-            <div id="alert-box-tezhenggongcheng1" v-show="tezhenggongcheng1">
-                <div class="title text-c">
-                    特征工程1
-                    <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
-                </div>
-                <div class="content-wrap">
-                <div class="content alert-box-content">
-                    <div class="item-lists">
-                        <div class="item-list clearfix">
-                            <span class="fl name">选择剔除类<b class="sm">(可多选)</b></span>
-                            <select class="fl select"></select>
-                        </div>
-
-                        <p class="t">
-                            <span class="light">特称组合：</span>
-                        </p>
-    
-                        <div v-for="(item,index) in mergeList" >
-                            <div class="item-list clearfix">
-                                <span class="fl name">选择需要合并的列</span>
-                                <div class="form-wrap fl clearfix">
-                                    <select class="fl select"></select>
-                                    <span class="icon add" @click="addMerge" v-show="index ==0">+</span>
-                                    <span class="icon minus" @click="removeMerge" v-show="mergeList.length>1 && index ==0">-</span>
-                                </div>
-                            </div>
-                            <div class="item-list clearfix">
-                                <span class="fl name">合并列名称</span>
-                                <input class="fl input" placeholder="请输入合并列的名称" />
-                            </div>
-                        </div>
-
-                        <p class="t">
-                            <span class="light">特征拆分：</span>
-                        </p>
-                        <div v-for="(item,index) in splitList">
-                            <div class="item-list clearfix">
-                                <span class="fl name">选择需要拆分的列</span>
-                                <div class="form-wrap fl clearfix">
-                                    <select class="fl select"></select>
-                                    <span class="icon add" @click="addSplit" v-show="index ==0">+</span>
-                                    <span class="icon minus" @click="removeSplit" v-show="splitList.length>1 && index ==0">-</span>
-                                </div>
-                            </div>
-
-                            <div class="list">
-                                <div class="item-list clearfix">
-                                    <span class="fl name">拆分列数</span>
-                                    <div class="form-wrap fl clearfix">
-                                    <input type="text" class="fl input" placeholder="请输入拆分列数">
-                                    
-                                    </div>
-                                </div>
-                            
-                            </div>
-                        </div>
-                        
-                        
-
-                    </div>
-                    
-                    <div class="btn-wrap text-c">
-                        <button class="btn begin" @click="closeDialog">调用更多配方</button>
-                    </div>
-                </div>
-                </div>
-            </div>
-
-
-            <div id="alert-box-tezhenggongcheng2" v-show="tezhenggongcheng2">
-                <div class="title text-c">
-                    特征工程2
-                    <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
-                </div>
-                <div class="content alert-box-content">
-                    <div class="item-lists">
-
-                        <p class="t">
-                            <span class="light">线性版本分析：</span>
-                        </p>
-
-                        <div class="item-list clearfix">
-                            <span class="fl name">降维算法</span>
-                            <select class="fl select"></select>
-                        </div>
-                        <div class="item-list clearfix">
-                            <span class="fl name">正则化</span>
-                            <select class="fl select"></select>
-                        </div>
-                        <div class="item-list clearfix">
-                            <span class="fl name">降维数</span>
-                            <input class="fl input" placeholder="请输入LDA降维时降到的维数" />
-                        </div>
-
-                        <p class="t">
-                            <span class="light">主成分分析：</span>
-                        </p>
-                        <div class="item-list clearfix">
-                            <span class="fl name">主成分个数</span>
-                            <input class="fl input" placeholder="请输入拆分的列数" />
-                        </div>
-                        <div class="item-list clearfix">
-                            <span class="fl name">白化</span>
-                            <select class="fl select"></select>
-                            <p class="fl pop">
-                                <span class="wenhao fl">
-                                    <i class="icon iconfont icon-qm"></i>
-                                </span>
-                                <span class="fl help">帮助</span>
-                                <span class="border-right"></span>
-                                <span class="txt">
-                                        特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
-                           
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="btn-wrap text-c">
-                        <button class="btn esc" @click="closeDialog">调用更多配方</button>
-                        <button class="btn begin" @click="closeDialog">保存</button>
-                    </div>
-                </div>
-            </div>
-            
         </div>
         <!-- 修改数据集 -->
         <div class="alert-box" id="alert-box-reviseNewObject">
@@ -765,7 +435,7 @@
 </template>
 
 <script>
-    let dialogSjkLayer,dialogSelectsjk
+    let dialogSjkLayer,dialogSelectsjk,dialogUploadFiles
     import * as ReqUrl from '../../api/reqUrl'
     import inputTimePick from '../components/inputTimePick'
     export default  {
@@ -849,10 +519,12 @@
                 pageSize:5,
                 maxPage:null,
                 options:[
-                        {value:5},
-                        {value:10},
-                        {value:20},
-                    ],
+                    {value:5},
+                    {value:10},
+                    {value:20},
+                ],
+                uploadType:'',
+                userId:1
  
             }
         },
@@ -863,7 +535,6 @@
         mounted(){
             this.init();
             this.active=this.tabList[1]["name"];
-            // this.dialogPretreatment();
         },
         watch:{
             selectDatesource(val){
@@ -892,26 +563,6 @@
             tezhenggongcheng2Fn(){
                 this.tezhenggongcheng2=true;
                 this.tezhenggongcheng1=false;
-            },
-            dialogtezhenggongcheng(){
-                layer.open({
-                    type: 1,
-                    title: false,
-                    anim: 2,
-                    closeBtn: 0,
-                    area: ['660px', 1000], //宽高
-                    content: $('#alert-box-tezhenggongcheng'),
-                });
-            },
-            dialogxunliangmoxing(){
-                layer.open({
-                    type: 1,
-                    title: false,
-                    anim: 2,
-                    closeBtn: 0,
-                    area: ['600px', "auto"], //宽高
-                    content: $('#alert-box-xunliangmoxing'),
-                });
             },
 
             init(){
@@ -970,31 +621,8 @@
                 //     content: $('#alert-box-shujujiTab'),
                 // });
             },
-            dialogPretreatment(item){
-                layer.open({
-                    type: 1,
-                    title: false,
-                    anim: 2,
-                    closeBtn: 0,
-                    area: ['860px', 1000], //宽高
-                    content: $('#alert-box-shujuyuchuli'),
-                });
-                let url=`${ReqUrl.preProcessing}`
-                let paramsData={
-                    taId:item.dsId
-                }
-                axios({
-                    url: url,
-                    method: 'get',
-                    params: paramsData
-                })
-                .then(res=>{
-                    console.log(res)
-                })
-
-            },
             dialogDelete(item){
-                this.currentId = item.dsId
+                this.currentId = item.taId
                 layer.open({
                     type: 1,
                     title: false,
@@ -1048,7 +676,7 @@
             dialogUpload(){
                 // 上传文件
                 this.filesName = ''
-                layer.open({
+                dialogUploadFiles = layer.open({
                     type: 1,
                     title: false,
                     anim: 2,
@@ -1058,7 +686,10 @@
                 });
             },
             submitUpload() {
-                this.$refs.upload.submit();
+                
+                this.closeDialog(dialogUploadFiles)
+                this.uploadType = 'upload'
+                this.openSjname()
             },
             handleChange(file, fileList){
                 // 选择文件之后获得文件名进行格式判断
@@ -1082,10 +713,14 @@
                     message: '上传成功',
                     type: 'success'
                 });
+                this.sjjName =''
+                this.getDatasource()
+                
             },
             uploadError(){
                 this.filesName = ''
                 this.closeDialog()
+                this.sjjName =''
                 this.$message.error('上传失败');
             },
             dialogSjklink(){
@@ -1112,13 +747,16 @@
             },
             closesSelectsjk(){
                 layer.close(dialogSelectsjk)
-                
+                this.uploadType = 'link'
+                this.openSjname()
+            },
+            openSjname(type){
                 layer.open({
                     type: 1,
                     title: false,
                     anim: 2,
                     closeBtn: 0,
-                    area: ['422px', 1000], //宽高
+                    area: ['422px', '200px'], //宽高
                     content: $('#alert-box-sjjName'),
                 });
             },
@@ -1321,11 +959,18 @@
                     data: paramsData
                 })
                 .then(res=>{
+                    that.sjjName =''
                     that.getDatasource()
                     that.closeDialog()
                     
                 })
                 
+            },
+            confireUploadfile(){
+               if(!this.sjjName){
+                   this.$message('请输入数据集名称')
+               }
+                this.$refs.upload.submit()
             },
             updateText(item){
                 layer.open({
@@ -1437,6 +1082,9 @@
                     this.getDatasource()
                 }
             },
+            toLink(item){
+                this.$router.push({path:'/DataSetDetail',query:{taId:item.taId}})
+            }
 
         },
         created(){

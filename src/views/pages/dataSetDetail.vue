@@ -35,11 +35,12 @@
                                 <div class="swiper-top">
                                     <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart01">
                                         <swiper-slide>
-                                            <swiper-chart :values="echartsOption"></swiper-chart>
+                                            <!-- <swiper-chart :values="echartsOption"></swiper-chart> -->
+                                            <swiper-chart :values="item.bcs | filterEcharts" ref="charts"></swiper-chart>
                                         </swiper-slide>
-                                        <swiper-slide>
+                                        <!-- <swiper-slide>
                                             <swiper-chart :values="echartsOption"></swiper-chart>
-                                        </swiper-slide>
+                                        </swiper-slide> -->
                                         <div class="swiper-pagination" slot="pagination"></div>
                                     </swiper>
                                 </div>
@@ -47,29 +48,29 @@
                                 <div class="swiper-rect"></div>
                                 <div class="swiper-ul">
                                     <ul>
-                                        <li>{{item.columnName}}</li>
-                                        <li class="p" @click="toggleShow(item,index)">{{item.columnType}} <i class="icon" v-show="item.columnType !='字符串'"></i>
+                                        <li>{{item.column_name}}</li>
+                                        <li class="p" @click="toggleShow(item,index)">{{item.type}} <i class="icon" v-show="item.type !='字符串'"></i>
                                             <!-- <select name="" id="" v-model="item.type">
                                                 <option :value="name.type" v-for="name in optionlist" >{{name.text}}</option>
                                             </select> -->
-                                            <ul class="s" v-show="item.isShowtype && item.columnType !='字符串'">
+                                            <ul class="s" v-show="item.isShowtype && item.type !='字符串'">
                                                 <li v-for="name in optionlist" @click="updateColumns(item,name)">{{name.text}}</li>
                                                 <!-- <li>连续型</li> -->
                                             </ul>
                                         </li>
-                                        <li>{{item.columnCount}}</li>
-                                        <li>{{item.missCount}}</li>
-                                        <li>{{item.avgNum}}</li>
+                                        <li>{{item.count}}</li>
+                                        <li>{{item.miss_column}}</li>
+                                        <li>{{item.mean}}</li>
                                         <li>
-                                            <span v-show="item.type == '数值'">{{item.minNum}}</span>
+                                            <span v-show="item.type == '数值'">{{item.min}}</span>
                                             <span v-show="item.type != '数值'">-</span>
                                         </li>
                                         <li>
-                                            <span v-show="item.type == '数值'">{{item.maxNum}}</span>
+                                            <span v-show="item.type == '数值'">{{item.max}}</span>
                                             <span v-show="item.type != '数值'">-</span>
                                         </li>
-                                        <li>{{item.bzc}}</li>
-                                        <li>{{item.onlyNum}}</li>
+                                        <li>{{item.std}}</li>
+                                        <li>{{item.unique}}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -516,6 +517,120 @@
             filterType(val){
                 if(val == 'object') return '离散型'
                 else return '连续型'
+            },
+            filterEcharts(val){
+                if(val){
+                    // let data = JSON.parse(val)
+                    let yData =  Object.values(val)
+                    let xData =  Object.keys(val)
+                    // yData.forEach(item=>{
+                    //     xData.push('1')
+                    // })
+                    // xData.forEach(item=>{
+                    //     if(item.length>10){
+                    //         xData =[]
+                    //     }
+                    // })
+                    let echartsOption 
+                    echartsOption=  {
+                            color: ['#3398DB'],
+                            tooltip : {
+                                trigger: 'axis',
+                                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                                },
+                       
+                            },
+                            legend:{
+                                name:"name",
+                                textStyle:{
+                                    color:"#FFF"
+                                }
+                            },
+                            grid: {
+                                left: '3%',
+                                right: '8%',
+                                bottom: '6%',
+                                top:'12%',
+                                containLabel: true
+                            },
+                            axisLabel: {  
+                                interval: 0,  
+                                formatter:function(value)  
+                                {  
+                                    // debugger  
+                                    var ret = "";//拼接加\n返回的类目项  
+                                    var maxLength = 5;//每项显示文字个数  
+                                    var valLength = value.length;//X轴类目项的文字个数  
+                                    var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数  
+                                    if (rowN > 1)//如果类目项的文字大于3,  
+                                    {  
+                                        for (var i = 0; i < rowN; i++) {  
+                                            var temp = "";//每次截取的字符串  
+                                            var start = i * maxLength;//开始截取的位置  
+                                            var end = start + maxLength;//结束截取的位置  
+                                            //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧  
+                                            temp = value.substring(start, end) + "\n";  
+                                            ret += temp; //凭借最终的字符串  
+                                        }  
+                                        return ret;  
+                                    }  
+                                    else {  
+                                        return value;  
+                                    }  
+                                }  
+                            },
+                            xAxis : [
+                                {
+                                    
+                                    type : 'category',
+                                    data : xData,
+                                    axisTick: {
+                                        alignWithLabel: true
+                                    },
+                                    axisLabel: {
+                                        show:false,
+                                        color: '#fff',
+                                        fontSize:10
+                                    },
+                                    axisTick: {
+                                        show: false,
+                                    },
+                                    axisLine: {
+                                        lineStyle: {
+                                            color: "#708ec1"
+                                        }
+                                    },
+                                }
+                            ],
+                            yAxis: [{
+                                type: 'value',
+                                splitNumber: 5,
+                                axisLabel: {
+                                    color: '#fff',
+                                    fontSize:10
+                                },
+                                axisTick: {
+                                    show: false,
+                                },
+                                axisLine: {
+                                    show: false,
+                                },
+                                splitLine: {
+                                    show: false
+                                }
+                            }],
+                            series : [
+                                {
+                                    //name:"name",
+                                    type:'bar',
+                                    barWidth: '20',
+                                    data:yData
+                                }
+                            ]
+                    }
+                    return echartsOption
+                }
             }
         },
         
@@ -524,7 +639,7 @@
         },
         components:{inputTimePick,swiperChart},
         mounted(){
-
+            this.getData()
         },
         watch:{
             searchKey(val){
@@ -543,28 +658,35 @@
                     this.$message('搜索列名称不能为空')
                 } else {
                     this.dataList= this.dataList.filter((value)=>{  //过滤数组元素
-                        return value.columnName.includes(this.searchKey); //如果包含字符返回true
+                        return value.column_name.includes(this.searchKey); //如果包含字符返回true
                     });
                 }
             },
             toggleShow(item,index){
-                this.$set(
-                    this.dataList,index,{
-                        avgNum:item.avgNum,
-                        bcs:item.bcs,
-                        bzc:item.bzc,
-                        columnCount:item.columnCount,
-                        columnName:item.columnName,
-                        columnType:item.columnType,
-                        maxNum:item.maxNum,
-                        minNum:item.minNum,
-                        missCount:item.missCount,
-                        onlyNum:item.onlyNum,
-                        isShowtype: !item.isShowtype
-                    })
+                if(item.type =='字符串') {
+                    this.$set(
+                        this.dataList,index,item
+                    )
+                }else{
+                    this.$set(
+                        this.dataList,index,{
+                            column_name: item.column_name,
+                            count: item.count,
+                            max:item.max,
+                            mean: item.mean,
+                            min: item.min,
+                            miss_column: item.miss_column,
+                            std: item.std,
+                            type: item.type,
+                            unique: item.unique,
+                            bcs:item.bcs,
+                            isShowtype: !item.isShowtype
+                        }
+                    )
+                    
+                    console.log(item)
+                }
                 
-                console.log(item)
-                // this.updateColumns(item)
             },
             toLook(){
                 layer.open({
@@ -591,7 +713,7 @@
                 .then(res=>{
                     const dataArry= res.data
                     that.dataList = res.data
-                    console.log(dataArry)
+                    // console.log(dataArry)
                     that.dataList.map((item,index)=>{
                         item.isShowtype = false
                     })
@@ -622,7 +744,7 @@
                     this.$message('当前是最后一页');
                 } else {
                     this.page++
-                    this.getDatasource()
+                    this.getSpecificData()
                 }
             },
             goPage(){
@@ -631,7 +753,7 @@
                     this.$message('当前数据一共'+this.maxPage +'页');
                     return
                 } else {
-                    this.getDatasource()
+                    this.getSpecificData()
                 }
             },
             closeDialog(){
@@ -641,14 +763,14 @@
                 // 更新各列数据类型
                 const that = this
                 let obj = {}
-                obj[item.columnName] = name.text
+                obj[item.column_name] = name.text
                 let paramData={
                     columnMap: obj,
                     taId: 24
                 }
                 let url=`${ReqUrl.updateColumns}`
-                if(item.columnType != name.type){
-                    item.columnType = name.type
+                if(item.type != name.type){
+                    item.type = name.type
                     axios({
                         url: url,
                         method: 'post',
@@ -678,7 +800,6 @@
                 })
                 .then(res=>{
                     const dataArry= res.data
-                    console.log(dataArry)
                     if(dataArry && dataArry.columns[0]){
                         dataArry.columns.forEach((item,index)=>{
                             var obj = {}
@@ -686,12 +807,9 @@
                             that.specificData.push(obj)
                         })
                     }
-                    console.log(dataArry.data)
                     that.specificListname = dataArry.columns
                     that.specificData.map((item,index)=>{
                         item.data = dataArry.data[index]
-                        
-                        
                     })
                     that.total=res.data.count
                     that.maxPage =Math.ceil(that.total/that.pageSize) 
@@ -703,7 +821,7 @@
         },
         created(){
             this.taId = this.$route.query.taId
-            this.getData()
+            
 
         }
     }

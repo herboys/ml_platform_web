@@ -34,7 +34,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item,index) in taskList" :key="index">
+                            <tr v-for="(item,index) in taskList" >
                                 <td>{{item.rwmc}}</td>
                                 <td>{{item.sjjName}}</td>
                                 <td>未开始</td>
@@ -42,7 +42,7 @@
                                     <a href="javascript:void(0)" class="lookicon" @click="toLink('detail',item)">查看数据</a>
                                     <a href="javascript:void(0)" class="pretreatmenticon" @click="dialogPretreatment(item)">数据预处理</a>
                                     <a class="engineeringicon" @click="dialogtezhenggongcheng(item)" :class="!item.yclcs?'gray':''" >特征工程</a>
-                                    <a class="trainicon" @click="dialogxunliangmoxing(item)" :class="!item.yclcs?'gray':''"  >训练</a>
+                                    <a class="trainicon" @click="dialogxunliangmoxing(item)" :class="!item.tzzcs?'gray':''"  >训练</a>
                                     <a class="assessmenticon" :class="!item.yclcs?'gray':''" @click="toLink('pg')">评估</a>
                                     <router-link :to="{path:'/explain'}" class="explainicon" :class="!item.yclcs?'gray':''"  @click="toLink('js')">解释</router-link>
                                     <!-- <a class="explainicon">解释</a> -->
@@ -134,7 +134,6 @@
             </div>
             <div class="content alert-box-content">
                 <div class="content-item">
-
                     <div class="content-item1 clearfix">
                         <p class="name">模型类型：</p>
                         <div class="choose-wrap">
@@ -233,7 +232,7 @@
                     </div>
                     <div class="item-list clearfix">
                         <span class="fl name">选择抽样比例</span>
-                        <input type="text" class="fl input" min="0" max="1" v-model="cyBl" placeholder="请输入抽样比例，如：0.5">
+                        <input type="number" class="fl input" min="0" max="1" v-model="cyBl" placeholder="请输入抽样比例，如：0.5">
                     </div>
 
                     <p class="t">
@@ -276,75 +275,78 @@
                     <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
                 </div>
                 <div class="content-wrap">
-                <div class="content alert-box-content">
-                    <div class="item-lists">
-                        <div class="item-list clearfix">
-                            <span class="fl name">选择剔除类<b class="sm">(可多选)</b></span>
-                            <select class="fl select" v-model="selectEliminate">
-                                <option :value="item" v-for="(item,index) in tcgcList" :key="index">{{item.colmunName}}</option>
-                            </select>
-                        </div>
-
-                        <p class="t">
-                            <span class="light">特称组合：</span>
-                        </p>
-    
-                        <div v-for="(item,index) in mergeList" > 
+                    <div class="content alert-box-content">
+                        <div class="item-lists">
                             <div class="item-list clearfix">
-                                <span class="fl name">选择需要合并的列</span>
-                                <div class="form-wrap fl clearfix">
-                                    <!-- <select class="fl select" v-model="item.selectColmun">
-                                        <option :value="name" v-for="name in item.selectList" :key="name">{{name}}</option>
-                                    </select> -->
-                                    <span class="icon add" @click="addMerge" v-show="index ==0">+</span>
-                                    <span class="icon minus" @click="removeMerge" v-show="mergeList.length>1 && index ==0">-</span>
+                                <span class="fl name">选择剔除类<b class="sm">(可多选)</b></span>
+                                <select class="fl select" v-model="selectEliminate">
+                                    <option :value="item" v-for="item in tcgcList" >{{item.colmunName}}</option>
+                                </select>
+                            </div>
+
+                            <p class="t">
+                                <span class="light">特称组合：</span>
+                            </p>
+        
+                            <div v-for="(item,index) in mergeList" > 
+                                <div class="item-list clearfix">
+                                    <span class="fl name">选择需要合并的列</span>
+                                    <div class="form-wrap fl clearfix">
+                                        <!-- <select class="fl select" v-model="item.selectColmun">
+                                            <option :value="name" v-for="name in item.selectList" :key="name">{{name}}</option>
+                                        </select> -->
+                                        <span class="icon add" @click="addMerge" v-show="index ==0">+</span>
+                                        <span class="icon minus" @click="removeMerge" v-show="mergeList.length>1 && index ==0">-</span>
+                                    </div>
+                                    
+                                </div>
+                                <div class="content-item1">
+                                     <div class="choose-wrap" v-for="name in item.tcgcList">
+                                        <label>
+                                            <input type="checkbox" @click="ClickItemBtn(index,name)"/>
+                                            <i class="icon"></i><span>{{name.colmunName}}</span>
+                                        </label>
+                                    </div>
                                 </div>
                                 
-                            </div>
-                            <div class="content-item1">
-                                 <div class="choose-wrap" v-for="name in item.tcgcList">
-                                    <label><input type="checkbox" @click="ClickItemBtn(index,name)"   ><i class="icon"></i><span>{{name.colmunName}}</span></label>
-                                </div>
-                            </div>
-                            
-                            <div class="item-list clearfix">
-                                <span class="fl name">合并列名称</span>
-                                <input class="fl input" v-model="item.colmunName" placeholder="请输入合并列的名称" />
-                            </div>
-                        </div>
-
-                        <p class="t">
-                            <span class="light">特征拆分：</span>
-                        </p>
-                        <div v-for="(item,index) in splitList" :key="index">
-                            <div class="item-list clearfix">
-                                <span class="fl name">选择需要拆分的列</span>
-                                <div class="form-wrap fl clearfix">
-                                    <select class="fl select" v-model="item.selectColmun">
-                                        <option :value="name" v-for="(name,index) in item.selectList" :key="index">{{name.colmunName}}</option>
-                                    </select>
-                                    <span class="icon add" @click="addSplit" v-show="index ==0">+</span>
-                                    <span class="icon minus" @click="removeSplit" v-show="splitList.length>1 && index ==0">-</span>
+                                <div class="item-list clearfix">
+                                    <span class="fl name">合并列名称</span>
+                                    <input class="fl input" v-model="item.colmunName" placeholder="请输入合并列的名称" />
                                 </div>
                             </div>
 
-                            <div class="list">
+                            <p class="t">
+                                <span class="light">特征拆分：</span>
+                            </p>
+                            <div v-for="(item,index) in splitList" >
                                 <div class="item-list clearfix">
-                                    <span class="fl name">拆分列数</span>
+                                    <span class="fl name">选择需要拆分的列</span>
                                     <div class="form-wrap fl clearfix">
-                                    <input type="number" class="fl input" min="2" v-model="item.colmunNUmber" placeholder="请输入拆分列数">
-                                    
+                                        <select class="fl select" v-model="item.selectColmun">
+                                            <option :value="name" v-for="(name,index) in item.selectList" >{{name.colmunName}}</option>
+                                        </select>
+                                        <span class="icon add" @click="addSplit" v-show="index ==0">+</span>
+                                        <span class="icon minus" @click="removeSplit" v-show="splitList.length>1 && index ==0">-</span>
                                     </div>
                                 </div>
-                            
+
+                                <div class="list">
+                                    <div class="item-list clearfix">
+                                        <span class="fl name">拆分列数</span>
+                                        <div class="form-wrap fl clearfix">
+                                        <input type="number" class="fl input" min="2" v-model="item.colmunNUmber" placeholder="请输入拆分列数">
+                                        
+                                        </div>
+                                    </div>
+                                
+                                </div>
                             </div>
                         </div>
+                        
+                        <!-- <div class="btn-wrap text-c">
+                            <button class="btn begin" @click="closeDialog">调用更多配方</button>
+                        </div> -->
                     </div>
-                    
-                    <!-- <div class="btn-wrap text-c">
-                        <button class="btn begin" @click="closeDialog">调用更多配方</button>
-                    </div> -->
-                </div>
                 </div>
             </div>
 
@@ -644,27 +646,23 @@ import inputTimePick from '../components/inputTimePick'
                 },
                 selectEliminate(val){
                 },
-                selectRadio(val){
-                }
             },
             methods: {
-                  ClickItemBtn(index,name){
+                 ClickItemBtn(index,name){
                     this.mergeList.forEach((element,indexs)=>{
                         if(indexs==index){ 
 
-                        for (let i = 0; i < element.tcgcList.length; i++) {
+                            for (let i = 0; i < element.tcgcList.length; i++) {
                                if(element.tcgcList[i].colmunName==name.colmunName){
-                                   if(element.tcgcList[i].checked==true){
-                                        element.tcgcList[i].checked=false
-                                   }else{
-                                        element.tcgcList[i].checked=true
-                                   }
-                                    // element.tcgcList[i].checked = !element.tcgcList[i].checked
-                               }
+                                       if(element.tcgcList[i].checked==true){
+                                            element.tcgcList[i].checked=false
+                                       }else{
+                                            element.tcgcList[i].checked=true
+                                       }
+                                   }
+                                }
                             }
-                        }
                     })
-                    console.log(this.mergeList)
                 },
                 changeStartTime(time){
                     this.startTime=time;
@@ -779,7 +777,18 @@ import inputTimePick from '../components/inputTimePick'
                         } else {
                             that.taskList = res.data.tasks
                             if(res.data.tasks[0]){
+                                
                                 that.taskList.map(item=>{
+                                    
+                                    if(item.tzzcs){
+                                        item.tzzcs = JSON.parse(item.tzzcs)
+                                    } 
+                                    if(item.yclcs){
+                                        item.yclcs = JSON.parse(item.yclcs)
+                                    }
+                                    if(item.mxcs) {
+                                        item.mxcs = JSON.parse(item.mxcs)
+                                    }
                                     that.dataList.forEach(name=>{
                                         if(item.taId == name.taId){
                                             item.sjjName = name.bmc
@@ -787,6 +796,7 @@ import inputTimePick from '../components/inputTimePick'
                                     })
                                 })
                             }
+                            console.log(that.taskList)
                             
                             
                         }
@@ -851,6 +861,7 @@ import inputTimePick from '../components/inputTimePick'
                         // taId:item.dsId
                         taId:24
                     }
+                    
                     axios({
                         url: url,
                         method: 'get',
@@ -867,6 +878,28 @@ import inputTimePick from '../components/inputTimePick'
 
                         })
                         this.preProcesscolmun.deficiencyColumn = arr
+                        // 如果已经预处理过就赋值
+                        if(item.yclcs){
+                            this.selectGroup=item.yclcs.groupColumn,
+                            this.selectType=item.yclcs.modelType,
+                            this.selectTarget =item.yclcs.targetColumn
+                            this.selectRadio = Object.values(item.yclcs.missingColumn)[0]
+                            var selectKey = Object.keys(item.yclcs.missingColumn)
+                            this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
+                                if(item.name == selectKey){
+                                    item.checked = true
+                                }
+                            })
+                        } else {
+                            this.selectGroup='',
+                            this.selectType='',
+                            this.selectTarget =''
+                            this.selectRadio = ''
+                            var selectKey = ''
+                            this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
+                                item.checked = false
+                            })
+                        }
                     })
 
                 },
@@ -885,19 +918,43 @@ import inputTimePick from '../components/inputTimePick'
                         area: ['660px', '600px'], //宽高
                         content: $('#alert-box-tezhenggongcheng'),
                     });
-                    if(this.selectMiid != item.miId){
-                        this.selectEliminate = ''
-                        this.splitList=[]
-                        this.splitList.push(
-                            {
-                                selectColmun:'',
-                                colmunNUmber:'',
-                                selectList:this.tcgcList
-                            }
-                        )
-                    }
+                    // if(this.selectMiid != item.miId){
+                    //     this.selectEliminate = ''
+                    //     this.splitList=[]
+                    //     this.splitList.push(
+                    //         {
+                    //             selectColmun:'',
+                    //             colmunNUmber:'',
+                    //             selectList:this.tcgcList
+                    //         }
+                    //     )
+                    // }
                     this.selectMiid = item.miId
                     this.selectTzgc = item.taId
+
+                    if(item.tzzcs){
+                        this.selectEliminate = item.tzzcs.characteristicOneDto.selectEliminate //剔除类
+                        this.splitList = item.tzzcs.characteristicOneDto.splitList   //特征拆分
+                        this.mergeList = item.tzzcs.characteristicOneDto.mergeList  
+                        this.arithmetic = item.tzzcs.characteristicOneDto.reduction.lda.svd
+                        this.regex = item.tzzcs.characteristicOneDto.reduction.lda.regex
+                        this.jiangwei = item.tzzcs.characteristicOneDto.reduction.lda.n
+                        this.number = item.tzzcs.characteristicOneDto.reduction.pca.n
+                        this.baihua = item.tzzcs.characteristicOneDto.reduction.pca.white
+                    } else {
+                        this.selectEliminate = '' //剔除类
+                        this.splitList = [{
+                            selectList:this.tcgcList,
+                            selectColmun:'',
+                            colmunNUmber:''
+                        }] //特征拆分
+                        this.mergeList = []
+                        this.arithmetic = ''
+                        this.regex = ''
+                        this.jiangwei = ''
+                        this.number = ''
+                        this.baihua = ''
+                    }
                     let url=`${ReqUrl.getCharacteristic}`
                     let paramsData={
                         userId:1,
@@ -932,12 +989,57 @@ import inputTimePick from '../components/inputTimePick'
                 },
                 dialogxunliangmoxing(item){
                     // 模型训练
-                    if(!item.yclcs){
-                        this.$message('请先进行预处理')
+                    if(!item.tzzcs){
+                        this.$message('请先进行特征工程')
                         return
                     }
                     this.selectMiid = item.miId
-                    this.curItemtype = JSON.parse(item.yclcs).modelType
+                    this.curItemtype = item.yclcs.modelType
+                    var that = this
+                    if(item.mxcs.cfBl){
+                        that.cfBl=item.mxcs.cfBl
+                        that.sjZz=item.mxcs.sjZz
+                        that.cyBl = item.mxcs.cyBl
+                        item.mxcs.algorithm.forEach(key=>{
+                            if(that.curItemtype == '分类模型'){
+                                that.classification.forEach(item=>{
+                                    if(key == item.key){
+                                        item.checked = true
+                                    }
+                                })
+                            } else if(that.curItemtype == '归类模型'){
+                                that.regression.forEach(item=>{
+                                    if(key == item.key){
+                                        item.checked = true
+                                    }
+                                })
+                            } else if(that.curItemtype == '聚类模型'){
+                                that.clustering.forEach(item=>{
+                                    if(key == item.key){
+                                        item.checked = true
+                                    }
+                                })
+                            }
+                        })
+                        
+                    } else {
+                        that.cfBl=''
+                        that.sjZz=''
+                        that.cyBl = ''
+                        if(that.curItemtype == '分类模型'){
+                            that.classification.forEach(item=>{
+                                item.checked = false
+                            })
+                        } else if(that.curItemtype == '归类模型'){
+                            that.regression.forEach(item=>{
+                                item.checked = false
+                            })
+                        } else if(that.curItemtype == '聚类模型'){
+                            that.clustering.forEach(item=>{
+                                item.checked = false
+                            })
+                        }
+                    }
                     layer.open({
                         type: 1,
                         title: false,
@@ -1020,7 +1122,6 @@ import inputTimePick from '../components/inputTimePick'
                     })
                     .then(res=>{
                         that.dataList = res.data.list
-                        console.log(that.dataList)
                         that.getTasklist()
                         // that.total=res.data.count
                         // that.maxPage =Math.ceil(that.total/that.pageSize) 
@@ -1110,7 +1211,7 @@ import inputTimePick from '../components/inputTimePick'
                     
                     
                     const targetObj = {}
-                    return
+                    // return
                     targetObj.selectEliminate = that.selectEliminate//剔除类
                     targetObj.splitList = that.splitList //特征拆分
                     targetObj.mergeList = that.mergeList
@@ -1207,7 +1308,7 @@ import inputTimePick from '../components/inputTimePick'
                         url: url,
                         method: 'post',
                         params:{miId:that.selectMiid},
-                        data:targetObj
+                        data:paramData
                     })
                     .then(res=>{
                        that.cfBl = ''

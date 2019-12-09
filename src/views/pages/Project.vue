@@ -408,7 +408,7 @@ import inputTimePick from '../components/inputTimePick'
                 },
                 searchProject(){
                     if(!this.searchKey && !this.startTime && !this.endTime){
-                        this.$message('检索项目名称不能为空');
+                        this.$message('请输入检索项目名称或者检索时间');
                     } else {
                         this.page = 1
                         this.getProjeclist()

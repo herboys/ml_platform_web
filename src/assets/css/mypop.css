@@ -305,6 +305,10 @@
     padding-left: 70px;
 }
 
+#alert-box-shujuyuchuli .content-item1 .choose-wrap {
+    width: 33%;
+}
+
 #alert-box-xunliangmoxing .content-item1 .choose-wrap,
 #alert-box-tezhenggongcheng .content-item1 .choose-wrap {
     padding-left: 40px;
