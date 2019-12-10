@@ -35,7 +35,7 @@
                         <swiper-slide  class="swiper-no-swiping" v-for="(item,index) in dataList" :key="index">
                             <div class="swiperItem">
                                 <div class="swiper-top">
-                                    <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" ref="swiperEchart01">
+                                    <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" :ref="'swiperEchart0'+(index+1)">
                                         <swiper-slide>
                                             <!-- <swiper-chart :values="echartsOption"></swiper-chart> -->
                                             <swiper-chart :values="item | filterEcharts" ref="charts"></swiper-chart>
@@ -104,10 +104,10 @@
                                 <tr class="evenTr" v-for="(item,index) in specificData" :key="index">
                                   <td v-for="name in item.data">{{name}}</td>
                                 </tr>
-                        
 
-                                
-                             
+
+
+
                             </tbody>
                         </table>
                     </div>
@@ -302,7 +302,7 @@
                     console.log(val)
                     let yData =  Object.values(val.bcs)
                     let xData =  Object.keys(val.bcs)
-                    let echartsOption 
+                    let echartsOption
                     if(val.type!='离散型'){
                         echartsOption=  {
                             color: ['#3398DB'],
@@ -311,7 +311,7 @@
                                 axisPointer : {            // 坐标轴指示器，坐标轴触发有效
                                     type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                                 },
-                       
+
                             },
                             legend:{
                                 name:"name",
@@ -392,31 +392,31 @@
                                 top: '12%',
                                 containLabel: true
                             },
-                            axisLabel: {  
-                                interval: 0,  
+                            axisLabel: {
+                                interval: 0,
                                 lineHeight:15,
-                                formatter:function(value)  {  
-                                    // debugger  
-                                    var ret = "";//拼接加\n返回的类目项  
-                                    var maxLength = 14;//每项显示文字个数  
-                                    var valLength = value.length;//X轴类目项的文字个数  
-                                    var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数  
-                                    if (rowN > 1)//如果类目项的文字大于3,  
-                                    {  
-                                        for (var i = 0; i < rowN; i++) {  
-                                            var temp = "";//每次截取的字符串  
-                                            var start = i * maxLength;//开始截取的位置  
-                                            var end = start + maxLength;//结束截取的位置  
-                                            //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧  
-                                            temp = value.substring(start, end) + "\n";  
-                                            ret += temp; //凭借最终的字符串  
-                                        }  
-                                        return ret;  
-                                    }  
-                                    else {  
-                                        return value;  
-                                    }  
-                                }  
+                                formatter:function(value)  {
+                                    // debugger
+                                    var ret = "";//拼接加\n返回的类目项
+                                    var maxLength = 14;//每项显示文字个数
+                                    var valLength = value.length;//X轴类目项的文字个数
+                                    var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                                    if (rowN > 1)//如果类目项的文字大于3,
+                                    {
+                                        for (var i = 0; i < rowN; i++) {
+                                            var temp = "";//每次截取的字符串
+                                            var start = i * maxLength;//开始截取的位置
+                                            var end = start + maxLength;//结束截取的位置
+                                            //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                            temp = value.substring(start, end) + "\n";
+                                            ret += temp; //凭借最终的字符串
+                                        }
+                                        return ret;
+                                    }
+                                    else {
+                                        return value;
+                                    }
+                                }
                             },
                             xAxis: {
                                 type: 'value',
@@ -479,12 +479,12 @@
                             ]
                         }
                     }
-                    
+
                     return echartsOption
                 }
             }
         },
-        
+
         computed: {
 
         },
@@ -533,11 +533,11 @@
                         }
                     )
                 }else{
-                    
-                    
+
+
                     console.log(item)
                 }
-                
+
             },
             toLook(){
                 layer.open({
@@ -551,7 +551,7 @@
                 this.getSpecificData()
             },
             getData(){
-                
+
                 const that = this
                 that.loading = true
                 let paramData={
@@ -585,13 +585,23 @@
                                     text:'连续型' //连续型
                                 }
                             ]
-                        } 
+                        }
                     })
                     that.loading = false
                     that.originalData = that.dataList
                     console.log(that.dataList)
-                    
-                    
+
+                    let len=that.dataList.length;
+                    that.$nextTick(function(){
+                        //console.log(this.$refs.c)
+                        for(let i=0;i<len;i++){
+                            if(that.swiperInit){
+                                that.$refs['swiperEchart0'+(i+1)][0].swiper.update();
+                            }
+                        }
+                    });
+
+
                 })
             },
             nextPage(){
@@ -632,13 +642,13 @@
                         data: paramData
                     })
                     .then(res=>{
-                    
+
                         console.log(res)
                         this.getData()
                     })
                 }
-                
-                
+
+
             },
             getSpecificData(){
                 const that = this
@@ -656,7 +666,7 @@
                 .then(res=>{
                     that.specificData =[]
                     const dataArry= res.data
-              
+
                     that.specificListname = dataArry.columns
                     dataArry.data.forEach(item=>{
                         var obj ={}
@@ -667,15 +677,15 @@
                     //     item.data = dataArry.data[index]
                     // })
                     that.total=res.data.count
-                    that.maxPage =Math.ceil(that.total/that.pageSize) 
-                    
-                    
+                    that.maxPage =Math.ceil(that.total/that.pageSize)
+
+
                 })
             }
         },
         created(){
             this.taId = this.$route.query.taId
-            
+
 
         }
     }

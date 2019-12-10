@@ -1,5 +1,5 @@
 <template>
-    <chart ref="echarts" class="echarts" :initOptions="initOptions" :options="options"></chart>
+    <chart ref="echarts" :autoresize="autoresize" class="echarts" :initOptions="initOptions" :options="options"></chart>
 </template>
 
 <script>
@@ -11,7 +11,8 @@
             return{
                 initOptions:{
                     // renderer:"svg"
-                }
+                },
+                autoresize:true
             }
         },
         props:['values','color'],
