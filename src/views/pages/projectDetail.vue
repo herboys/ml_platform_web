@@ -1,5 +1,5 @@
 <template>
-    <div style="height:100%;"  v-loading="loading">
+    <div style="height:100%;"  >
         <commonHeade @showPalette="togglePalette" :isShow="paletteShow"></commonHeade>
         
         <div class="wrapbody">
@@ -117,7 +117,7 @@
                 <select name="" id="" v-model="addTaskform.selectDataid">
                         <option :value="item.taId" v-for="item in dataList" :key="item.taId" >{{item.bmc}}</option>
                 </select>
-                <p class="tips" >数据源中没有需要的数据? <router-link :to="{path:'/dataSet',}">点击前往上传数据集</router-link></p>
+                <p class="tips" >数据源中没有需要的数据? <a @click="toLink('dataSet')">点击前往上传数据集</a></p>
                 <div class="btn-wrap clearfix">
                     <button class="btn addBtn fl" @click="addTask()">新增</button>
                     <button class="btn backBtn fr" @click="closeDialog">返回</button>
@@ -614,7 +614,6 @@ import inputTimePick from '../components/inputTimePick'
                     cfBl:null,//拆分比列
                     cyBl:null,//抽烟比列
                     sjZz:null,//随机种子
-                    loading:false
                 }
             },
             components:{
@@ -645,20 +644,19 @@ import inputTimePick from '../components/inputTimePick'
                 },
             },
             methods: {
-                 ClickItemBtn(index,name){
-                    this.mergeList.forEach((element,indexs)=>{
-                        if(indexs==index){ 
-
-                            for (let i = 0; i < element.tcgcList.length; i++) {
-                               if(element.tcgcList[i].colmunName==name.colmunName){
-                                       if(element.tcgcList[i].checked==true){
-                                            element.tcgcList[i].checked=false
-                                       }else{
-                                            element.tcgcList[i].checked=true
-                                       }
-                                   }
-                                }
+                ClickItemBtn(index,name){
+                    this.mergeList.forEach((element,indexs)=>{
+                        if(indexs==index){ 
+                        for (let i = 0; i < element.tcgcList.length; i++) {
+                           if(element.tcgcList[i].colmunName==name.colmunName){
+                                   if(element.tcgcList[i].checked==true){
+                                        element.tcgcList[i].checked=false
+                                   }else{
+                                        element.tcgcList[i].checked=true
+                                   }
+                               }
                             }
+                        }
                     })
                 },
                 changeStartTime(time){
@@ -1051,6 +1049,7 @@ import inputTimePick from '../components/inputTimePick'
                         tcgcList:this.tcgcList,
                         colmunName:''
                     }
+                    // 深拷贝
                     this.mergeList.push(JSON.parse(JSON.stringify(obj)))
                 },
                 addSplit(){
@@ -1073,7 +1072,6 @@ import inputTimePick from '../components/inputTimePick'
                     this.tezhenggongcheng2=false;
                 },
                 tezhenggongcheng2Fn(){
-                    
                     
                     // return
                     this.tezhenggongcheng2=true;
@@ -1186,7 +1184,9 @@ import inputTimePick from '../components/inputTimePick'
                         this.$router.push({path:'/explain'})
                     } else if(type == 'visual'){
                         this.$router.push({path:'/VisualTwoLevel'})
-                    } 
+                    }  else if(type =='dataSet'){
+                        this.$router.push({path:'/dataSet'})
+                    }
 
                 },
                 saveCharacteristic(){

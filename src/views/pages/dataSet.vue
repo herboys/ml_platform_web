@@ -1089,6 +1089,7 @@
         },
         created(){
             this.getDatasource()
+            layer.closeAll();
             this.projectId = this.$route.query.projectId
             this.uploadUrl = `${ReqUrl.saveDataupload}`
         }
