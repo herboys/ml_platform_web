@@ -1,5 +1,5 @@
 <template>
-    <div style="height:100%;">
+    <div style="height:100%;"  v-loading="loading">
         <commonHeade @showPalette="togglePalette" :isShow="paletteShow"></commonHeade>
         
         <div class="wrapbody">
@@ -287,14 +287,10 @@
                             <p class="t">
                                 <span class="light">特称组合：</span>
                             </p>
-        
                             <div v-for="(item,index) in mergeList" > 
                                 <div class="item-list clearfix">
                                     <span class="fl name">选择需要合并的列</span>
                                     <div class="form-wrap fl clearfix">
-                                        <!-- <select class="fl select" v-model="item.selectColmun">
-                                            <option :value="name" v-for="name in item.selectList" :key="name">{{name}}</option>
-                                        </select> -->
                                         <span class="icon add" @click="addMerge" v-show="index ==0">+</span>
                                         <span class="icon minus" @click="removeMerge" v-show="mergeList.length>1 && index ==0">-</span>
                                     </div>
@@ -303,7 +299,7 @@
                                 <div class="content-item1">
                                      <div class="choose-wrap" v-for="name in item.tcgcList">
                                         <label>
-                                            <input type="checkbox" @click="ClickItemBtn(index,name)"/>
+                                            <input type="checkbox"  :checked="name.checked" @click="ClickItemBtn(index,name)"/>
                                             <i class="icon"></i><span>{{name.colmunName}}</span>
                                         </label>
                                     </div>
@@ -618,6 +614,7 @@ import inputTimePick from '../components/inputTimePick'
                     cfBl:null,//拆分比列
                     cyBl:null,//抽烟比列
                     sjZz:null,//随机种子
+                    loading:false
                 }
             },
             components:{
@@ -918,43 +915,16 @@ import inputTimePick from '../components/inputTimePick'
                         area: ['660px', '600px'], //宽高
                         content: $('#alert-box-tezhenggongcheng'),
                     });
-                    // if(this.selectMiid != item.miId){
-                    //     this.selectEliminate = ''
-                    //     this.splitList=[]
-                    //     this.splitList.push(
-                    //         {
-                    //             selectColmun:'',
-                    //             colmunNUmber:'',
-                    //             selectList:this.tcgcList
-                    //         }
-                    //     )
-                    // }
                     this.selectMiid = item.miId
                     this.selectTzgc = item.taId
 
-                    if(item.tzzcs){
-                        this.selectEliminate = item.tzzcs.characteristicOneDto.selectEliminate //剔除类
-                        this.splitList = item.tzzcs.characteristicOneDto.splitList   //特征拆分
-                        this.mergeList = item.tzzcs.characteristicOneDto.mergeList  
-                        this.arithmetic = item.tzzcs.characteristicOneDto.reduction.lda.svd
-                        this.regex = item.tzzcs.characteristicOneDto.reduction.lda.regex
-                        this.jiangwei = item.tzzcs.characteristicOneDto.reduction.lda.n
-                        this.number = item.tzzcs.characteristicOneDto.reduction.pca.n
-                        this.baihua = item.tzzcs.characteristicOneDto.reduction.pca.white
-                    } else {
-                        this.selectEliminate = '' //剔除类
-                        this.splitList = [{
-                            selectList:this.tcgcList,
-                            selectColmun:'',
-                            colmunNUmber:''
-                        }] //特征拆分
-                        this.mergeList = []
-                        this.arithmetic = ''
-                        this.regex = ''
-                        this.jiangwei = ''
-                        this.number = ''
-                        this.baihua = ''
-                    }
+                    this.getCharacteristic(item)
+                    
+                    
+                    console.log(this.mergeList)
+
+                },
+                getCharacteristic(item){
                     let url=`${ReqUrl.getCharacteristic}`
                     let paramsData={
                         userId:1,
@@ -983,9 +953,35 @@ import inputTimePick from '../components/inputTimePick'
                         this.splitList.map(item=>{
                             item.selectList = this.tcgcList
                         })
+                        if(item.tzzcs){
+                            this.selectEliminate = item.tzzcs.characteristicOneDto.selectEliminate //剔除类
+                            this.splitList = item.tzzcs.characteristicOneDto.splitList   //特征拆分
+                            this.mergeList = item.tzzcs.characteristicOneDto.mergeList  
+                            this.arithmetic = item.tzzcs.characteristicOneDto.reduction.lda.svd
+                            this.regex = item.tzzcs.characteristicOneDto.reduction.lda.regex
+                            this.jiangwei = item.tzzcs.characteristicOneDto.reduction.lda.n
+                            this.number = item.tzzcs.characteristicOneDto.reduction.pca.n
+                            this.baihua = item.tzzcs.characteristicOneDto.reduction.pca.white
+                        } else {
+                            this.selectEliminate = '' //剔除类
+                            this.splitList = [{
+                                selectList:this.tcgcList,
+                                selectColmun:'',
+                                colmunNUmber:''
+                            }] //特征拆分
+                            this.mergeList = [{
+                                selectColmun:[],
+                                tcgcList:this.tcgcList,
+                                colmunName:''
+                            }]
+                            this.arithmetic = ''
+                            this.regex = ''
+                            this.jiangwei = ''
+                            this.number = ''
+                            this.baihua = ''
+                        }
                        
                     })
-
                 },
                 dialogxunliangmoxing(item){
                     // 模型训练

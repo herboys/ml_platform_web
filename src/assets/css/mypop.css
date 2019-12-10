@@ -963,8 +963,14 @@
     cursor: pointer;
 }
 
+#alert-box-tezhenggongcheng .content .item-list .add,
+#alert-box-tezhenggongcheng .content .item-list .add {
+    margin-top: 18px;
+}
+
 #alert-box-tezhenggongcheng .content .item-list .minus {
     right: -50px;
+    margin-top: 18px;
 }
 
 #alert-box-xunliangmoxing .content .item-list span.minus,

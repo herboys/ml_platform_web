@@ -486,9 +486,9 @@
                 fieldList:[],
                 isCheckAll:false,
                 optionList:[
-                    '字符串',
-                    '时间',
-                    '数值'
+                    '离散型',
+                    '连续型',
+                    '时间型'
                 ],
                 typeOption:[
                     'mysql',
