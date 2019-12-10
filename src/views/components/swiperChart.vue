@@ -10,7 +10,7 @@
         data (){
             return{
                 initOptions:{
-                    renderer:"svg"
+                    // renderer:"svg"
                 }
             }
         },

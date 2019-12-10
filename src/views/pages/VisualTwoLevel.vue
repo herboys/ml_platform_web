@@ -100,11 +100,31 @@
                 <input type="text">
 
                 <div class="btn-wrap">
-                    <button @click="closeDialog" class="btn btnksh">进行可视化</button>
+                    <button @click="toView" class="btn btnksh">进行可视化</button>
                 </div>
             </div>
         </div>
+        <!-- echarts swiper -->
+        <div class="alert-box" id="alert-box-swiper">
+            <div class="title text-c">
+                {{echartsType}}参数设置
+                <span @click="closeDialog" class="close iconfont icon-cross-fill"></span>
+            </div>
+            <div class="content alert-box-content">
+                <swiper :options="swiperOption" class="swiper-wrap-new" ref="SwiperWrap">
+                        <!-- slides -->
+                        <swiper-slide  class="swiper-no-swiping" v-for="(item,index) in dataList" :key="index">
+                            <div class="swiperItem">
+                                {{item}}
+                              
+                            </div>
+                        </swiper-slide>
+                    </swiper>
 
+                    <div class="swiper-button-prev" slot="button-prev"></div>
+                    <div class="swiper-button-next" slot="button-next"></div>
+            </div>
+        </div>
 
 
     </div>
@@ -115,6 +135,7 @@
     import senzhenGEO from '@/until/senzhen.js'
     import swiperChart from '../components/swiperChart'
     echarts.registerMap('sz',senzhenGEO)
+    var setOptionEcharts
     export default  {
         data(){
             return {
@@ -1825,7 +1846,23 @@
                     ]
 
                 },
-                echartsType:''
+                echartsType:'',
+                swiperInit:false,
+                swiperOption: {
+                    slidesPerView: 6,
+                    spaceBetween: 14,
+                    on: {
+                        init: ()=>{
+                            this.swiperInit=true;
+                            //this.$refs.swiperEchart01.swiper.init();
+                        }
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                },
+                dataList:[1,2,3,4,5,6,7,8]
             }
         },
         components:{swiperChart},
@@ -1837,7 +1874,7 @@
         methods:{
             dialogSetOption(type){
                 this.echartsType = type
-                layer.open({
+                setOptionEcharts = layer.open({
                     type: 1,
                     title: false,
                     anim: 2,
@@ -1849,6 +1886,20 @@
             closeDialog(){
                 layer.closeAll();
             },
+            toView(){
+                layer.closeAll(setOptionEcharts)
+                layer.open({
+                    type: 1,
+                    title: false,
+                    anim: 2,
+                    closeBtn: 0,
+                    area: ['800px', '600px'], //宽高
+                    content: $('#alert-box-swiper'),
+                });
+                if(this.echartsType == '直方图'){
+
+                }
+            }
         }
     }
 </script>

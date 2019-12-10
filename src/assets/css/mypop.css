@@ -1164,18 +1164,35 @@
 
 #alert-box-lookData .table {
     margin: 0 20px;
-    height: 500px;
+    height: 550px;
     overflow-y: scroll;
 }
 
-#alert-box-lookData .keshihua-table tr td:first-child {
-    width: 100px;
+#alert-box-lookData .table th:first-child,
+#alert-box-lookData .table td:first-child {
+    width: 60px;
 }
 
 #alert-box-lookData .keshihua-table tr td:last-child {
-    width: 150px;
+    width: 80px;
 }
 
 #alert-box-lookData .ui-page-sort {
     margin-bottom: 30px;
+}
+
+#alert-box-swiper .swiper-button-prev {
+    left: 30px!important;
+    top: 300px!important;
+}
+
+#alert-box-swiper .swiper-button-next,
+.swiper-container-rtl .swiper-button-prev {
+    right: 30px!important;
+    top: 300px!important;
+}
+
+#alert-box-swiper .swiper-container {
+    width: 550px;
+    margin: 0 auto;
 }

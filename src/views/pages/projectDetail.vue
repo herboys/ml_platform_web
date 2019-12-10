@@ -1055,7 +1055,7 @@ import inputTimePick from '../components/inputTimePick'
                         tcgcList:this.tcgcList,
                         colmunName:''
                     }
-                    this.mergeList.push(obj)
+                    this.mergeList.push(JSON.parse(JSON.stringify(obj)))
                 },
                 addSplit(){
                     // 添加拆分列
@@ -1197,21 +1197,34 @@ import inputTimePick from '../components/inputTimePick'
                     // 保存特征工程
                     var that = this
                     let url=`${ReqUrl.saveCharacteristic}`
-                    var selectColmun =[],selectNum =0
-                    // this.tcgcList.forEach(item=>{
-                    //     if(item.checked){
-                    //         selectNum++
-                    //         selectColmun.push(item.colmunName)
-                    //     } 
-                    // })
-                    // if(selectNum == 1){
-                    //     this.$message('合并的列需要两个及以上')
-                    //     return
-                    // }
-                    
-                    
+                    var selectColmun =[],selectNum ,isTrue = false
+                    this.mergeList.forEach(item=>{
+                        selectNum =0
+                        item.selectColmun =[]
+                        item.tcgcList.forEach(name=>{
+                            if(name.checked){
+                                item.selectColmun.push(name.colmunName)
+                            } 
+                        })
+                        if(item.selectColmun.length<2){
+                            that.$message({
+                                message: '合并的列需要两个及以上',
+                                type:'warning'
+                             });
+                        } else if(item.selectColmun.length>2 || item.selectColmun.length==2 ){
+                            if(!item.colmunName){
+                                that.$message({
+                                    message: '请输入合并列名',
+                                    type:'warning'
+                                });
+                            } else {
+                                isTrue = true
+                            }
+                        } 
+                        
+                    })
+                    if(!isTrue) return
                     const targetObj = {}
-                    // return
                     targetObj.selectEliminate = that.selectEliminate//剔除类
                     targetObj.splitList = that.splitList //特征拆分
                     targetObj.mergeList = that.mergeList
