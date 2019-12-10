@@ -11,19 +11,19 @@
             <div class="echart-box clearfix">
                 <div class="echart-item fl">
                     <span class="title"><i></i>直方图</span>
-                    <div class="echart-content" @click="dialogSetOption()">
+                    <div class="echart-content" @click="dialogSetOption('直方图')">
                         <swiper-chart class="echart" :values="echartsBarOption"></swiper-chart>
                     </div>
                 </div>
                 <div class="echart-item fl">
                     <span class="title"><i></i>箱型图</span>
-                    <div class="echart-content" @click="dialogSetOption()">
+                    <div class="echart-content" @click="dialogSetOption('箱型图')">
                         <swiper-chart class="echart" :values="echartsBoxplotOption"></swiper-chart>
                     </div>
                 </div>
                 <div class="echart-item fl">
                     <span class="title"><i></i>热力图</span>
-                    <div class="echart-content" @click="dialogSetOption()">
+                    <div class="echart-content" @click="dialogSetOption('热力图')">
                         <swiper-chart class="echart" :values="echartsHeatMapOption"></swiper-chart>
                     </div>
                 </div>
@@ -32,14 +32,14 @@
 
                 <div class="echart-item fl">
                     <span class="title"><i></i>雷达图</span>
-                    <div class="echart-content" @click="dialogSetOption()">
+                    <div class="echart-content" @click="dialogSetOption('雷达图')">
                         <swiper-chart class="echart" :values="echartsRadarOption"></swiper-chart>
                     </div>
                 </div>
 
                 <div class="echart-item fl">
                     <span class="title"><i></i>关系图</span>
-                    <div class="echart-content" @click="dialogSetOption()">
+                    <div class="echart-content" @click="dialogSetOption('关系图')">
                         <swiper-chart class="echart" :values="echartsGrapOption"></swiper-chart>
                     </div>
                 </div>
@@ -47,35 +47,35 @@
 
                 <div class="echart-item fl">
                     <span class="title"><i></i>平行坐标图</span>
-                    <div class="echart-content" @click="dialogSetOption()">
+                    <div class="echart-content" @click="dialogSetOption('平行坐标图')">
                         <swiper-chart class="echart" :values="echartsParallelOption"></swiper-chart>
                     </div>
                 </div>
 
                 <div class="echart-item fl">
                     <span class="title"><i></i>散点图</span>
-                    <div class="echart-content" @click="dialogSetOption()">
+                    <div class="echart-content" @click="dialogSetOption('散点图')">
                         <swiper-chart class="echart" :values="echartsScatterOption" ></swiper-chart>
                     </div>
                 </div>
 
                 <div class="echart-item fl">
                     <span class="title"><i></i>漏斗图</span>
-                    <div class="echart-content" @click="dialogSetOption()">
+                    <div class="echart-content" @click="dialogSetOption('漏斗图')">
                         <swiper-chart class="echart echartsFunnel" :values="echartsFunnelOption"></swiper-chart>
                     </div>
                 </div>
 
                 <div class="echart-item fl">
                     <span class="title"><i></i>分布地图</span>
-                    <div class="echart-content" @click="dialogSetOption()">
+                    <div class="echart-content" @click="dialogSetOption('分布地图')">
                         <swiper-chart class="echart" :values="echartsMapOption"></swiper-chart>
                     </div>
                 </div>
 
                 <div class="echart-item fl">
                     <span class="title"><i></i>折线图</span>
-                    <div class="echart-content" @click="dialogSetOption()">
+                    <div class="echart-content" @click="dialogSetOption('折线图 ')">
                         <swiper-chart class="echart" :values="echartsLinelOption"></swiper-chart>
                     </div>
                 </div>
@@ -90,7 +90,7 @@
     <!-- 直方图参数设置弹框  -->
         <div class="alert-box" id="alert-box-setOption">
             <div class="title text-c">
-                直方图参数设置
+                {{echartsType}}参数设置
                 <span @click="closeDialog" class="close iconfont icon-cross-fill"></span>
             </div>
             <div class="content alert-box-content">
@@ -1825,6 +1825,7 @@
                     ]
 
                 },
+                echartsType:''
             }
         },
         components:{swiperChart},
@@ -1834,15 +1835,16 @@
         },
 
         methods:{
-            dialogSetOption(id){
-                // layer.open({
-                //     type: 1,
-                //     title: false,
-                //     anim: 2,
-                //     closeBtn: 0,
-                //     area: ['510px', 1000], //宽高
-                //     content: $('#alert-box-setOption'),
-                // });
+            dialogSetOption(type){
+                this.echartsType = type
+                layer.open({
+                    type: 1,
+                    title: false,
+                    anim: 2,
+                    closeBtn: 0,
+                    area: ['510px', 1000], //宽高
+                    content: $('#alert-box-setOption'),
+                });
             },
             closeDialog(){
                 layer.closeAll();
