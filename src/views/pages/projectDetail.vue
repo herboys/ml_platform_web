@@ -1176,6 +1176,7 @@ import inputTimePick from '../components/inputTimePick'
                 },
                 toLink(type,item){
                     // 路由跳转
+                    layer.closeAll();
                     if(type == 'detail') {
                         this.$router.push({path:'/DataSetDetail',query:{taId:item.taId}})
                     } else if(type == 'pg'){
