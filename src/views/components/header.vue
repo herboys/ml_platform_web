@@ -53,7 +53,7 @@
             </div>
 
         </header>
-        <div id="palette" class="palette animated" v-show="paletteShow">
+      <!--  <div id="palette" class="palette animated" v-show="paletteShow">
             <div class="palette-list">
                 <div class="title title1">整体风格设置</div>
                 <div class="content1 clearfix">
@@ -79,7 +79,7 @@
                 <a class="cannel-btn" @click="cancle">取消</a>
                 <a class="success-btn" @click="confire">确认</a>
             </div>
-        </div>
+        </div>-->
     </div>
 </template>
 <script>
@@ -143,7 +143,7 @@
                             },
                             {
                                 name:'模型',
-                                path:'',
+                                path:'/model',
                             },
                             {
                                 name:'评估',
@@ -228,13 +228,13 @@
                 },
                 cancle(){
                     this.paletteShow = false
-                    
+
                 },
                 confire(){
                     this.paletteShow = false
                 },
                 themOne(){
-                    
+
                 },
                 themTwo(){
                 },

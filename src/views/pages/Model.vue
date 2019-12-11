@@ -1,0 +1,845 @@
+<template>
+<div id="main" class="page-model">
+
+    <div class="breadpage">
+        <span class="light_bread"><router-link :to="{path:'/project'}">模型</router-link></span>
+        <span class="dark_bread"> > </span>
+        <span class="dark_bread"><router-link :to="{path:'/'}">medicine.t</router-link></span>
+    </div>
+
+    <el-row :gutter="20">
+        <el-col :span="8">
+            <div class="model-box">
+                <header class="model-header">
+                    <span class="name"><i class="round"></i>数据集 testdata</span>
+                </header>
+                <div class="model-content">
+                    <ul class="dataset-list">
+                        <li class="long"><label class="label-text">验证数据集：</label>12K</li>
+                        <li class="short"><label class="label-text">行：</label> 15K</li>
+                        <li class="long"><label class="label-text">标签列：</label>是否患高血压</li>
+                        <li class="short"><label class="label-text">列：</label>30</li>
+                        <li class="long"><label class="label-text">重量列：</label> 23</li>
+                        <li class="short"><label class="label-text">类型：</label>布尔</li>
+                        <li class="long"><label class="label-text">折叠列：</label>4</li>
+                        <li class="short"><label class="label-text">时间列：</label>2</li>
+                        <li class="long"><label class="label-text">目标频率：</label>7K</li>
+                        <li class="short"><label class="label-text">唯一值：</label>10K</li>
+                        <li class="long"><label class="label-text">测试数据集：</label>3K</li>
+                        <li class="short"><label class="label-text">数量：</label>15K</li>
+                    </ul>
+                </div>
+            </div>
+        </el-col>
+        <el-col :span="8">
+            <div class="model-box">
+                <header class="model-header">
+                    <span class="name"><i class="round"></i>实验室进度</span>
+                </header>
+                <div class="model-content laboratory-box">
+                    <div v-if="!training" class="laboratory-chart-box">
+                        <label class="label-name left">中央处理器</label>
+                        <label class="label-name right">Medium</label>
+                        <swiper-chart :values="echartsLaboratoryOption" class="chart-box"></swiper-chart>
+                        <div class="label-footer left">
+                            <p class="name">过去</p>
+                            <p class="number">00:46:41</p>
+                        </div>
+                        <div class="label-footer right">
+                            <p class="name">迭代</p>
+                            <p class="number">48/50</p>
+                        </div>
+                        <a class="start-btn" @click="trainingHandler" href="javascript:void(0);">
+                            {{trainingHandler?"开始":"暂停"}}
+                        </a>
+
+                    </div>
+                    <div v-if="training">
+                        <p class="info-p"><i class="icon"></i>模型训练已完成，请点击下面的按钮进行其他操作</p>
+                        <el-row :gutter="10">
+                            <el-col :span="12">
+                                <a class="laboratory-tool" href="javascript:void(0);">在验证集上评估模型</a>
+                            </el-col>
+                            <el-col :span="12">
+                                <a class="laboratory-tool primary" href="javascript:void(0);">下载MOJO评分管道</a>
+                            </el-col>
+                            <el-col :span="12">
+                                <a class="laboratory-tool primary" href="javascript:void(0);">模型解释</a>
+                            </el-col>
+                            <el-col :span="12">
+                                <a class="laboratory-tool" href="javascript:void(0);">下载实验日志</a>
+                            </el-col>
+                            <el-col :span="12">
+                                <a class="laboratory-tool primary" href="javascript:void(0);">下载PYTHON评分管道</a>
+                            </el-col>
+                            <el-col :span="12">
+                                <a class="laboratory-tool" href="javascript:void(0);">部署</a>
+                            </el-col>
+                        </el-row>
+                    </div>
+                </div>
+            </div>
+        </el-col>
+        <el-col :span="8">
+            <div class="model-box">
+                <header class="model-header">
+                    <span class="name"><i class="round"></i>专业设置</span>
+                </header>
+                <div class="model-content">
+                </div>
+            </div>
+        </el-col>
+        <el-col :span="8">
+            <div class="model-box">
+
+                <header class="model-header">
+                    <span class="name"><i class="round"></i>迭代数据验证</span>
+                    <div class="right-tool">
+                        <p class="number">0.9857</p>
+                        <p class="model-title">Model：LIGHTGBM</p>
+                    </div>
+                </header>
+
+                <div class="model-content">
+                    <swiper-chart :values="echartsLineOption1" class="chart-box"></swiper-chart>
+                </div>
+
+            </div>
+        </el-col>
+        <el-col :span="8">
+            <div class="model-box">
+                <header class="model-header">
+                    <span class="name"><i class="round"></i>变量重要性</span>
+                </header>
+                <div class="model-content">
+                    <swiper-chart :values="echartsBarOption" class="chart-box"></swiper-chart>
+                </div>
+            </div>
+        </el-col>
+        <el-col :span="8">
+            <div class="model-box">
+                <header class="model-header">
+                    <span class="name"><i class="round"></i>评估曲线</span>
+                    <div class="right-tool">
+                        <p class="number">0.9857</p>
+                        <p class="model-title">(AUC)</p>
+                    </div>
+                </header>
+                <div class="model-content">
+                    <swiper-chart :values="echartsLineOption2" class="chart-box"></swiper-chart>
+                </div>
+            </div>
+        </el-col>
+    </el-row>
+
+</div>
+</template>
+<script>
+
+    import ECharts from 'vue-echarts/components/ECharts.vue'
+
+    import swiperChart from '../components/swiperChart'
+
+    export  default {
+        data(){
+            return {
+                training:false,
+                echartsLaboratoryOption:{
+                    series:[
+                        {
+                            type: 'pie',
+                            clockwise: true, //饼图的扇区是否是顺时针排布
+                            minAngle: 2, //最小的扇区角度（0 ~ 360）
+                            radius: ["50%", "58%"],
+                            center: ["50%", "45%"],
+                            avoidLabelOverlap: false,
+                            animation:false,
+                            color:['#72EEA8','rgba(62,212,128,0.3)'],
+                            itemStyle: { //图形样式
+                                normal: {
+                                },
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'center',
+                                    formatter: '{value|{d}}%\n{text|{b}}',
+                                    rich: {
+                                        text: {
+                                            color: "#72EEA8",
+                                            fontSize: 13,
+                                            align: 'center',
+                                            verticalAlign: 'middle',
+                                            padding: 8
+                                        },
+                                        value: {
+                                            fontSize: 42,
+                                            align: 'center',
+                                            verticalAlign: 'middle',
+                                        },
+                                    }
+                                },
+                                emphasis: {
+                                    show: true,
+                                }
+                            },
+                            data: [
+                                {
+                                    name:"完成进度",
+                                    value:85
+                                },
+                                {
+                                    name:"未完成进度",
+                                    value:15,
+                                    label: {
+                                        show:false
+                                    },
+                                    emphasis:{
+                                        label:{
+                                            show:false
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            type: 'gauge',
+                            radius: '80%',
+                            startAngle: '215',
+                            endAngle: '-35',
+                            center: ["50%", "45%"],
+                            splitNumber: 40,
+                            pointer: {
+                                show: false
+                            },
+                            detail:{
+                                show:false,
+                            },
+                            axisLine: {
+                                show: false,
+                                lineStyle: {
+                                    color: [
+                                        [0, '#CB9EFF'],
+                                        [52 / 100, `#CB9EFF`],
+                                        [1, 'rgba(164,122,229,0.3)']
+                                    ],
+                                    width: 0,
+                                }
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            splitLine: {
+                                show: true,
+                                length: 12,
+                                lineStyle: {
+                                    color:"auto",
+                                    width: 3
+                                }
+                            },
+                            axisLabel: {
+                                show: false
+                            }
+                        },
+                        {
+                            type: 'gauge',
+                            radius: '92%',
+                            startAngle: '215',
+                            center: ["50%", "45%"],
+                            endAngle: '100',
+                            splitNumber: 35,
+                            pointer: {
+                                show: false
+                            },
+                            detail:{
+                                show:false,
+                            },
+                            axisLine: {
+                                show: false,
+                                lineStyle: {
+                                    color: [
+                                        [0, '#CB9EFF'],
+                                        [52 / 100, `#CB9EFF`],
+                                        [1, 'rgba(164,122,229,0.3)']
+                                    ],
+                                    width: 0,
+                                }
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            splitLine: {
+                                show: true,
+                                length: 6,
+                                lineStyle: {
+                                    color:"auto",
+                                    width: 2
+                                }
+                            },
+                            axisLabel: {
+                                show: false
+                            }
+                        },
+                        {
+                            type: 'gauge',
+                            center: ["50%", "45%"],
+                            radius: '92%',
+                            startAngle: '80',
+                            endAngle: '-35',
+                            splitNumber: 35,
+                            pointer: {
+                                show: false
+                            },
+                            detail:{
+                                show:false,
+                            },
+                            axisLine: {
+                                show: false,
+                                lineStyle: {
+                                    color: [
+                                        [0, '#CB9EFF'],
+                                        [52 / 100, `#CB9EFF`],
+                                        [1, 'rgba(164,122,229,0.3)']
+                                    ],
+                                    width: 0,
+                                }
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            splitLine: {
+                                show: true,
+                                length: 6,
+                                lineStyle: {
+                                    color:"auto",
+                                    width: 2
+                                }
+                            },
+                            axisLabel: {
+                                show: false
+                            }
+                        },
+                    ]
+                },
+                echartsBarOption:{
+                    grid: {
+                        left:5,
+                        top:5,
+                        right:40,
+                        bottom:0,
+                        containLabel: true
+                    },
+                    tooltip: {
+                    },
+                    xAxis: {
+                        show: false,                //是否显示x轴
+                        type: 'value'
+                    },
+                    yAxis: {
+                        type: 'category',
+                        inverse:true,               //让y轴数据逆向
+                        data:['年龄','家族遗传','BMI','吸烟年限','饮酒年限', '职业', '性别','地域'],
+                        axisLabel:{
+                            color:"#B1C8FE",
+                            fontSize:13,
+                        }
+                    },
+                    series: [
+                        {
+                            name: '数据内框',
+                            type: 'bar',
+                            itemStyle: {
+                                normal: {
+                                    barBorderRadius: 3,
+                                    color: 'rgba(0, 160, 233, 1)',
+                                }
+                            },
+                            barWidth: 6,
+                            data: [0.91, 0.85, 0.80, 0.77, 0.64,0.61,0.37,0.28]
+                        },
+                        {
+                            name: '外框',
+                            type: 'bar',
+                            itemStyle: {
+                                normal: {
+                                    barBorderRadius: 3,
+                                    color: 'rgba(25,77,133,0.8)' //rgba设置透明度0.14
+                                }
+                            },
+                            label:{
+                              show:true,
+                              position:"right",
+                              fontSize:14,
+                              formatter:function(params){
+                                  console.log(params);
+                                  return params.data.value1;
+                              },
+                              color:'rgba(43, 202, 248, 1)'
+                            },
+                            barGap: '-100%',
+                            z: 0,
+                            barWidth: 6,
+                            data: [
+                                {
+                                    value:1,
+                                    value1:0.91
+                                },
+                                {
+                                    value:1,
+                                    value1:0.85
+                                },
+                                {
+                                    value:1,
+                                    value1:0.80
+                                },
+                                {
+                                    value:1,
+                                    value1:0.77
+                                },
+                                {
+                                    value:1,
+                                    value1:0.64
+                                },
+                                {
+                                    value:1,
+                                    value1:0.61
+                                },
+                                {
+                                    value:1,
+                                    value1:0.37
+                                },
+                                {
+                                    value:1,
+                                    value1:0.28
+                                },
+                            ]
+                        }
+                    ]
+                },
+                echartsLineOption1:{
+                    legend:{
+                        textStyle:{
+                            color:"#FFF"
+                        }
+                    },
+                    grid: {
+                        left:5,
+                        top:5,
+                        right:5,
+                        bottom:20,
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'value',
+                        position: 'top',
+                        axisTick: {
+                            alignWithLabel: true
+                        },
+                        axisLabel: {
+                            color: '#8C98B4',
+                            fontSize:12
+                        },
+                        axisTick: {
+                            show: false,
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: "#363960"
+                            }
+                        },
+                        splitLine: {
+                            show: true,
+                            lineStyle:{
+                                color: ['#363960'],
+                                width: 1,
+                                type: 'solid'
+                            }
+                        },
+                    },
+                    yAxis: {
+                        type: 'value',
+                        position: 'right',
+                        axisTick: {
+                            alignWithLabel: true
+                        },
+                        axisLabel: {
+                            color: '#8C98B4',
+                            fontSize:12
+                        },
+                        axisTick: {
+                            show: false,
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: "#363960"
+                            }
+                        },
+                        splitLine: {
+                            show: true,
+                            lineStyle:{
+                                color: ['#363960'],
+                                width: 1,
+                                type: 'solid'
+                            }
+                        },
+                        splitArea:{
+                            show:true,
+                            areaStyle:{
+                                color:['#1e224f','#1e224f'],
+                            }
+                        }
+
+                    },
+                    series: [
+                        {
+                            type: 'line',
+                            smooth: true,
+                            symbol:'circle',
+                            itemStyle: {
+                                normal: {
+                                    color: "#000",  // 会设置点和线的颜色，所以需要下面定制 line
+                                    borderColor: "#72EEA8",  // 点边线的颜色
+                                    lineStyle: {
+                                        color: "#72EEA8"
+                                    }
+                                }
+                            },
+                            symbolSize: 6,
+                            data:  [
+                                [0,0],
+                                [2.5,8],
+                                [5,9],
+                                [7.5,9],
+                                [10,9],
+                                [12.5,9],
+                                [15,9],
+                                [17.5,9],
+                                [20,9],
+                                [22.5,9],
+                                [25,9],
+                                [27.5,9],
+                                [30,9],
+                                [32.5,9],
+                                [35,9],
+                                [37.5,9],
+                                [40,9],
+                                [42.5,9],
+                                [45,9],
+                                [47.5,9],
+                                [50,9],
+                            ]
+                        }
+                    ]
+                },
+                echartsLineOption2:{
+                    legend:{
+                        textStyle:{
+                            color:"#FFF"
+                        }
+                    },
+                    grid: {
+                        left:5,
+                        top:5,
+                        right:5,
+                        bottom:20,
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'value',
+                        position: 'top',
+                        axisTick: {
+                            alignWithLabel: true
+                        },
+                        axisLabel: {
+                            color: '#8C98B4',
+                            fontSize:12
+                        },
+                        axisTick: {
+                            show: false,
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: "#363960"
+                            }
+                        },
+                        splitLine: {
+                            show: true,
+                            lineStyle:{
+                                color: ['#363960'],
+                                width: 1,
+                                type: 'solid'
+                            }
+                        },
+                    },
+                    yAxis: {
+                        type: 'value',
+                        position: 'right',
+                        axisTick: {
+                            alignWithLabel: true
+                        },
+                        axisLabel: {
+                            color: '#8C98B4',
+                            fontSize:12
+                        },
+                        axisTick: {
+                            show: false,
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: "#363960"
+                            }
+                        },
+                        splitLine: {
+                            show: true,
+                            lineStyle:{
+                                color: ['#363960'],
+                                width: 1,
+                                type: 'solid'
+                            }
+                        },
+                        splitArea:{
+                            show:true,
+                            areaStyle:{
+                                color:['#1e224f','#1e224f'],
+                            }
+                        }
+
+                    },
+                    series: [
+                        {
+                            type: 'line',
+                            smooth: true,
+                            symbol:'circle',
+                            itemStyle: {
+                                normal: {
+                                    color: "#000",  // 会设置点和线的颜色，所以需要下面定制 line
+                                    borderColor: "#BC89F9",  // 点边线的颜色
+                                    lineStyle: {
+                                        color: "#BC89F9"
+                                    }
+                                }
+                            },
+                            symbolSize: 6,
+                            data:  [
+
+                                [0,0],
+                                [0.05,0.8],
+                                [0.1,0.9],
+                                [0.15,0.9],
+                                [0.25,0.9],
+                                [0.30,0.9],
+                                [0.35,0.9],
+                                [0.40,0.9],
+                                [0.45,0.9],
+                                [0.5,0.9],
+                                [0.55,0.9],
+                                [0.60,0.9],
+                                [0.65,0.9],
+                                [0.70,0.9],
+                                [0.75,0.9],
+                                [0.80,0.9],
+                                [0.85,0.9],
+                                [0.90,0.9],
+                                [0.95,0.9],
+                                [1,0.9],
+
+                            ]
+                        }
+                    ]
+                },
+            }
+        },
+        components:{
+            chart:ECharts,
+            swiperChart:swiperChart,
+        },
+        methods:{
+            trainingHandler:function(){
+                this.training=!this.training
+            }
+        },
+    }
+</script>
+<style scoped lang="less">
+    .page-model{
+        .model-box{
+            height:245px;
+            background:linear-gradient(130deg,rgba(44,53,108,1),rgba(30,33,78,1));
+            border:1px solid rgba(80,91,161,1);
+            border-radius:2px;
+            margin-bottom: 20px;
+            .model-header{
+                position: relative;
+                height: 50px;
+                line-height: 50px;
+                padding: 0 20px;
+                .name{
+                    font-size: 14px;
+                    color: #ffff;
+                    .round{
+                        display: inline-block;
+                        width:8px;
+                        height:8px;
+                        background:rgba(108,236,77,1);
+                        border-radius:50%;
+                        margin-right: 10px;
+                    }
+                }
+                .right-tool{
+                    position: absolute;
+                    right: 20px;
+                    top:10px;
+                    text-align: right;
+                    .number{
+                        color: #298DF5;
+                        font-size: 22px;
+                        line-height: 1.1;
+                    }
+                    .model-title{
+                        font-size: 12px;
+                        color: #666666;
+                        line-height: 1.1;
+                    }
+                }
+            }
+            .model-content{
+                padding: 0 20px;
+            }
+            .chart-box{
+                height: 192px !important;
+            }
+        }
+        .dataset-list{
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: -4px;
+            >li{
+                width: 50%;
+                font-size: 14px;
+                color: #fff;
+                height: 30px;
+                line-height: 30px;
+                white-space: nowrap;
+                .label-text{
+                    padding-left: 20px;
+                    color: #B1C8FE;
+                    font-size: 14px;
+                }
+                &.long{
+                    width: 60%;
+                }
+                &.short{
+                    width: 40%;
+                }
+            }
+        }
+        .laboratory-box{
+            position: relative;
+            .info-p{
+                .icon{
+                    display: inline-block;
+                    vertical-align: middle;
+                    width: 16px;
+                    height: 16px;
+                    background: url('../../assets/images/dark/icon-state-ok.png') no-repeat;
+                    background-size: 100% 100%;
+                    margin-right: 10px;
+                    margin-top: -3px;
+                }
+                color: #AAC0F6;
+                font-size: 14px;
+                text-align: center;
+                height: 30px;
+                line-height: 30px;
+                margin-bottom: 20px;
+            }
+            .laboratory-tool{
+                display: block;
+                margin-bottom: 18px;
+                height:26px;
+                line-height: 26px;
+                background:rgba(2,177,154,1);
+                border-radius:13px;
+                text-align: center;
+                color: #fff;
+                &:hover{
+                    opacity: 0.9;
+                }
+                &.primary{
+                    background: #09A0AA;
+                }
+            }
+        }
+        .laboratory-chart-box{
+            position: relative;
+            .chart-box{
+                z-index: 2;
+            }
+            .start-btn{
+                position: absolute;
+                left: 50%;
+                bottom:10px;
+                margin-left: -25px;
+                width:50px;
+                height:26px;
+                line-height: 26px;
+                text-align: center;
+                background:linear-gradient(90deg,rgba(1,179,151,0.4),rgba(10,157,174,0.4));
+                border-radius:13px;
+                color: #fff;
+                font-size: 13px;
+                z-index: 10;
+                &.active{
+                    background:linear-gradient(90deg,rgba(1,179,151,1),rgba(10,157,174,1));
+                }
+            }
+            .label-name{
+                position: absolute;
+                top:-3px;
+                color: #B1C8FE;
+                font-size: 13px;
+                z-index: 10;
+                &.left{
+                    right:70%;
+                }
+                &.right{
+                    left:70%;
+                }
+            }
+
+            .label-footer{
+                position: absolute;
+                width: 111px;
+                height: 21px;
+                z-index: 10;
+                bottom:30px;
+                .name{
+                    font-size: 13px;
+                    color: #f0f1f4;
+                    height: 24px;
+                    line-height: 24px;
+                    margin-top: -4px;
+                }
+                .number{
+                    font-size: 13px;
+                    color: #72eea8;
+                    height: 24px;
+                    line-height: 24px;
+                }
+                &.left{
+                    text-align: left;
+                    right:62%;
+                    background: url("../../assets/images/dark/axis-lable-laboratory-left.png") no-repeat;
+                    background-size: 100% 100%;
+                }
+                &.right{
+                    left:62%;
+                    text-align: right;
+                    background: url("../../assets/images/dark/axis-lable-laboratory-right.png") no-repeat;
+                    background-size: 100% 100%;
+                }
+            }
+        }
+    }
+
+</style>
