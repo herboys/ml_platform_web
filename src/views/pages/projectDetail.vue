@@ -974,13 +974,13 @@ console.log( this.mergeList,'-------')
                             obj.checked = false
                             this.tcgcList.push(obj)
                         })
-                        this.mergeList=[
-                            {
-                                selectColmun:[],
-                                tcgcList:this.tcgcList,
-                                colmunName:''
-                            }
-                        ]
+
+                        let paras=[          {
+                            selectColmun:[],
+                            tcgcList:this.tcgcList,
+                            colmunName:''
+                        }]
+                        this.mergeList=JSON.parse(JSON.stringify(paras))
                         this.splitList.map(item=>{
                             item.selectList = this.tcgcList
                         })
