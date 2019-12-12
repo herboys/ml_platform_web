@@ -143,11 +143,11 @@
                         </div>
                         <div class="choose-wrap">
                             <!-- <label><input type="radio"><i class="icon"></i><span>归类模型</span></label> -->
-                            <el-radio v-model="selectType" label="归类模型">归类模型</el-radio>
+                            <el-radio v-model="selectType" label="聚类模型">聚类模型</el-radio>
                         </div>
                         <div class="choose-wrap">
                             <!-- <label><input type="radio" ><i class="icon"></i><span>聚类模型</span></label> -->
-                            <el-radio v-model="selectType" label="聚类模型">聚类模型</el-radio>
+                            <el-radio v-model="selectType" label="回归模型">回归模型</el-radio>
                         </div>
                     </div>
 
@@ -157,8 +157,8 @@
                         <div class="select-wrap clearfix">
                             <div class="select-wrap-half fl">
                                 <p>目标列</p>
-                                <div class="select">
-                                    <select v-model="selectTarget">
+                                <div class="select" >
+                                    <select v-model="selectTarget" :disabled="selectType=='聚类模型'?'false':'true'">
                                         <option :value="item" v-for="item in preProcesscolmun.targetColumn" :key="item">{{item}}</option>
                                     </select>
                                 </div>
@@ -167,7 +167,7 @@
                             <div class="select-wrap-half fl">
                                 <p>分组列</p>
                                 <div class="select" >
-                                    <select v-model="selectGroup">
+                                    <select v-model="selectGroup" >
                                         <option :value="item" v-for="item in preProcesscolmun.groupColumn" :key="item">{{item}}</option>
                                     </select>
                                 </div>
@@ -245,7 +245,7 @@
                             <label><input type="checkbox" :checked="item.checked" v-model="item.checked" :value="item.key" ><i class="icon"></i><span>{{item.text}}</span></label>
                         </div>
                         <!-- 回归模型 -->
-                        <div class="choose-wrap" v-for="item in regression" :key="item.key" v-show="curItemtype == '归类模型'">
+                        <div class="choose-wrap" v-for="item in regression" :key="item.key" v-show="curItemtype == '回归模型'">
                             <label><input type="checkbox"  :checked="item.checked" v-model="item.checked"  :value="item.key"><i class="icon"></i><span>{{item.text}}</span></label>
                         </div>
                         <!-- 聚类模型 -->
@@ -878,7 +878,7 @@ import inputTimePick from '../components/inputTimePick'
                             this.selectGroup=item.yclcs.groupColumn,
                             this.selectType=item.yclcs.modelType,
                             this.selectTarget =item.yclcs.targetColumn
-                            this.selectRadio = Object.values(item.yclcs.missingColumn)[0]
+                            // this.selectRadio = Object.values(item.yclcs.missingColumn)[0]
                             var selectKey = Object.keys(item.yclcs.missingColumn)
                             this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
                                 if(item.name == selectKey){
@@ -1001,7 +1001,7 @@ import inputTimePick from '../components/inputTimePick'
                                         item.checked = true
                                     }
                                 })
-                            } else if(that.curItemtype == '归类模型'){
+                            } else if(that.curItemtype == '回归模型'){
                                 that.regression.forEach(item=>{
                                     if(key == item.key){
                                         item.checked = true
@@ -1024,7 +1024,7 @@ import inputTimePick from '../components/inputTimePick'
                             that.classification.forEach(item=>{
                                 item.checked = false
                             })
-                        } else if(that.curItemtype == '归类模型'){
+                        } else if(that.curItemtype == '回归模型'){
                             that.regression.forEach(item=>{
                                 item.checked = false
                             })
@@ -1129,31 +1129,32 @@ import inputTimePick from '../components/inputTimePick'
                 },
                 toPretreatment(){
                     // 预处理接口
-                    if(!this.selectRadio){
-                        this.$message('请选择填充方式')
-                        return
-                    }
+                    // if(!this.selectRadio){
+                    //     this.$message('请选择填充方式')
+                    //     return
+                    // }
                     const missKey ={}
                     this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
                         if(item.checked){
                             missKey[item.name] = this.selectRadio;
                         }
                     })
-                    if(!this.selectGroup){
-                        this.$message('请选择分组列')
-                        return
-                    } else if(!this.selectTarget){
-                        this.$message('请选择目标列')
-                        return
-                    } else if (!missKey){
-                        this.$message('请选择缺失列')
-                        return
-                    }
+                    // if(!this.selectGroup){
+                    //     this.$message('请选择分组列')
+                    //     return
+                    // } else if(!this.selectTarget){
+                    //     this.$message('请选择目标列')
+                    //     return
+                    // } else if (!missKey){
+                    //     this.$message('请选择缺失列')
+                    //     return
+                    // }
+                    console.log('ok')
                     let url=`${ReqUrl.pretreatment}`
                     let paramsData={
                         userId:1,
-                        groupColumn: this.selectGroup,
-                        missingColumn: missKey,
+                        // groupColumn: this.selectGroup,
+                        // missingColumn: missKey,
                         modelType: this.selectType,
                         targetColumn: this.selectTarget
                     }
@@ -1195,51 +1196,64 @@ import inputTimePick from '../components/inputTimePick'
                     var that = this
                     let url=`${ReqUrl.saveCharacteristic}`
                     var selectColmun =[],selectNum ,isTrue = false
-                    this.mergeList.forEach(item=>{
-                        selectNum =0
-                        item.selectColmun =[]
-                        item.tcgcList.forEach(name=>{
-                            if(name.checked){
-                                item.selectColmun.push(name.colmunName)
-                            } 
-                        })
-                        if(item.selectColmun.length<2){
-                            that.$message({
-                                message: '合并的列需要两个及以上',
-                                type:'warning'
-                             });
-                        } else if(item.selectColmun.length>2 || item.selectColmun.length==2 ){
-                            if(!item.colmunName){
-                                that.$message({
-                                    message: '请输入合并列名',
-                                    type:'warning'
-                                });
-                            } else {
-                                isTrue = true
-                            }
-                        } 
+                    // this.mergeList.forEach(item=>{
+                    //     selectNum =0
+                    //     item.selectColmun =[]
+                    //     item.tcgcList.forEach(name=>{
+                    //         if(name.checked){
+                    //             item.selectColmun.push(name.colmunName)
+                    //         } 
+                    //     })
+                    //     if(item.selectColmun.length<2){
+                    //         that.$message({
+                    //             message: '合并的列需要两个及以上',
+                    //             type:'warning'
+                    //          });
+                    //     } else if(item.selectColmun.length>2 || item.selectColmun.length==2 ){
+                    //         if(!item.colmunName){
+                    //             that.$message({
+                    //                 message: '请输入合并列名',
+                    //                 type:'warning'
+                    //             });
+                    //         } else {
+                    //             isTrue = true
+                    //         }
+                    //     } 
                         
-                    })
-                    if(!isTrue) return
+                    // })
+                    // if(!isTrue) return
                     const targetObj = {}
-                    targetObj.selectEliminate = that.selectEliminate//剔除类
-                    targetObj.splitList = that.splitList //特征拆分
-                    targetObj.mergeList = that.mergeList
+                    // 原来的
+                    // targetObj.selectEliminate = that.selectEliminate//剔除类
+                    // targetObj.splitList = that.splitList //特征拆分
+                    // targetObj.mergeList = that.mergeList
+                    // targetObj.reduction={
+                    //     lda:{
+                    //         svd:that.arithmetic,
+                    //         regex:that.regex,
+                    //         n:that.jiangwei
+                    //         },
+                    //     pca:{
+                    //         n:that.number,
+                    //         white:that.baihua
+                    //     }
+                    // }
+
+                    // 暂时的
+                    targetObj.selectEliminate = ''//剔除类
+                    targetObj.splitList = [] //特征拆分
+                    targetObj.mergeList = []
                     targetObj.reduction={
                         lda:{
-                            svd:that.arithmetic,
-                            regex:that.regex,
-                            n:that.jiangwei
+                            svd:'',
+                            regex:'',
+                            n:''
                             },
                         pca:{
-                            n:that.number,
-                            white:that.baihua
+                            n:null,
+                            white:''
                         }
                     }
-                    // targetObj.mergeObj={
-                    //     colmunName:that.mergeColmunName,
-                    //     mergeList:selectColmun
-                    // }
                     var paramData={
                         characteristicOneDto:targetObj
                     }
@@ -1289,7 +1303,7 @@ import inputTimePick from '../components/inputTimePick'
                                 arr.push(item.key)
                             }
                         })
-                    } else if(this.curItemtype == '归类模型'){
+                    } else if(this.curItemtype == '回归模型'){
                         console.log(this.regression)
                         this.regression.forEach(item=>{
                             if(item.checked){

@@ -38,7 +38,8 @@
 #alert-box-shujujiTab .title,
 #alert-box-xunliangmoxing .title,
 #alert-box-tezhenggongcheng .title,
-#alert-box-addNewTask .title {
+#alert-box-addNewTask .title,
+#alert-box-echartsBt.title {
     background: rgba(59, 73, 140, 0.6);
 }
 
@@ -1201,4 +1202,16 @@
 #alert-box-swiper .swiper-container {
     width: 550px;
     margin: 0 auto;
+}
+
+.alert-box-echartsBt .echart-content {
+    margin: 20px;
+}
+
+.alert-box-echartsBt .echarts {
+    height: 450px!important;
+}
+
+.alert-box-echartsBt {
+    height: 600px!important;
 }
