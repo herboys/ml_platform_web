@@ -20,6 +20,14 @@ module.exports = {
                 pathRewrite: {
                     "^/api": "" //请求的时候使用这个api就可以
                 }
+            },
+            "/mocks": {
+                target: "http://localhost:8080",
+                ws: true,
+                changeOrigin: true,
+                pathRewrite: {
+                    "^/mocks": "" //请求的时候使用这个api就可以
+                }
             }
         }
     }

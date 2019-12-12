@@ -1,0 +1,28 @@
+
+{
+    "user": [
+        {
+            "name": "张三",
+          "ischeckbox": false
+        },
+            {
+            "name": "张三",
+          "ischeckbox": false
+        },    {
+            "name": "张三",
+          "ischeckbox": false
+        },    {
+            "name": "张三",
+          "ischeckbox": false
+        },    {
+            "name": "张三",
+          "ischeckbox": false
+        },    {
+            "name": "张三",
+          "ischeckbox": false
+        }
+
+
+
+    ]
+}

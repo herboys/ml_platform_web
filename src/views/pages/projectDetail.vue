@@ -301,9 +301,9 @@
                                     
                                 </div>
                                 <div class="content-item1">
-                                     <div class="choose-wrap" v-for="name in item.tcgcList">
+                                     <div class="choose-wrap" v-for="name in item.tcgcList">
                                         <label>
-                                            <input type="checkbox" @click="ClickItemBtn(index,name)"/>
+                                            <input type="checkbox" @click="ClickItemBtn(index,name)"/>
                                             <i class="icon"></i><span>{{name.colmunName}}</span>
                                         </label>
                                     </div>
@@ -663,6 +663,7 @@ import inputTimePick from '../components/inputTimePick'
                                 }
                             }
                     })
+console.log( this.mergeList,'-------')
                 },
                 changeStartTime(time){
                     this.startTime=time;
