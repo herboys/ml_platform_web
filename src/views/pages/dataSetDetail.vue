@@ -415,9 +415,9 @@
                             },
                             grid: {
                                 left: '10%',
-                                top: 100,
+                                top: '5%',
                                 right: '10%',
-                                bottom: 10,
+                                bottom: '5%',
                             },
                             series: [
                                 {
@@ -691,7 +691,7 @@
                         radius = [0,'70%']
                         fontSize = 12
                     } else {
-                        center = ['50%','50%']
+                        center = ['60%','50%']
                         radius = [0,'70%']
                         fontSize = 15
                     }
