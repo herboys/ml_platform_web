@@ -486,9 +486,9 @@
                 fieldList:[],
                 isCheckAll:false,
                 optionList:[
-                    '字符串',
-                    '时间',
-                    '数值'
+                    '离散型',
+                    '连续型',
+                    '时间型'
                 ],
                 typeOption:[
                     'mysql',
@@ -524,7 +524,8 @@
                     {value:20},
                 ],
                 uploadType:'',
-                userId:1
+                userId:1,
+                connectUrl:''
  
             }
         },
@@ -539,12 +540,12 @@
         watch:{
             selectDatesource(val){
                 // 库名切换时请求接口切换表名
+
                 this.toggleDatasource()
             },
             selectTablename(val){
                 // 表名切换时请求接口切换字段列表
-                this.toggleDatasource()
-
+                this.toggleDatasource() 
             },
             searchKey(val){
                 if(!val){
@@ -861,8 +862,10 @@
                         that.dataBaseList = res.data
                     } else if(!that.selectTablename){
                         that.tableNameList = res.data
-                    } else {
                         
+                    } else {
+                        that.connectUrl = res.data.pop()
+                        res.data.pop()
                         res.data.map(item=>{
                             let obj = {}
                             let field,fieldType
@@ -947,7 +950,8 @@
                     dataName: that.sjjName || null,
                     map: that.mapValue || null,
                     projectId: that.projectId,
-                    userId: 1
+                    userId: 1,
+                    connectUrl:that.connectUrl 
                 }
                 if(!this.sjjName){
                     this.$message('请输入数据集名称');
@@ -1089,6 +1093,7 @@
         },
         created(){
             this.getDatasource()
+            
             this.projectId = this.$route.query.projectId
             this.uploadUrl = `${ReqUrl.saveDataupload}`
         }

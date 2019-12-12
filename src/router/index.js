@@ -12,6 +12,7 @@ import VisualTwoLevel from '../views/pages/VisualTwoLevel.vue'
 import VisualTwoLevelStaticState from '../views/pages/VisualTwoLevelStaticState.vue'
 import assess from '../views/pages/assess.vue'
 
+import Model from '../views/pages/Model.vue'
 
 
 import assessDetail from '../views/pages/assessDetail.vue'
@@ -25,7 +26,6 @@ const routes = [{
             title: '登录'
         }
     },
-
     {
         path: '/',
         name: Home,
@@ -120,7 +120,16 @@ const routes = [{
                 meta: {
                     title: '评估详情'
                 }
+            },
+            {
+                path: '/model',
+                name: "Model",
+                component: Model,
+                meta: {
+                    title: '模型二级'
+                }
             }
+
         ]
     },
 
