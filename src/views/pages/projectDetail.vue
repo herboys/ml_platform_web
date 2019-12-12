@@ -248,7 +248,7 @@
                             <label><input type="checkbox" :checked="item.checked" v-model="item.checked" :value="item.key" ><i class="icon"></i><span>{{item.text}}</span></label>
                         </div>
                         <!-- 回归模型 -->
-                        <div class="choose-wrap" v-for="item in regression" :key="item.key" v-show="curItemtype == '归类模型'">
+                        <div class="choose-wrap" v-for="item in regression" :key="item.key" v-show="curItemtype == '回归模型'">
                             <label><input type="checkbox"  :checked="item.checked" v-model="item.checked"  :value="item.key"><i class="icon"></i><span>{{item.text}}</span></label>
                         </div>
                         <!-- 聚类模型 -->
@@ -1031,6 +1031,7 @@ import inputTimePick from '../components/inputTimePick'
                 },
                 dialogxunliangmoxing(item){
                     // 模型训练
+                    console.log(item)
                     if(!item.tzzcs){
                         this.$message('请先进行特征工程')
                         return
@@ -1038,7 +1039,7 @@ import inputTimePick from '../components/inputTimePick'
                     this.selectMiid = item.miId
                     this.curItemtype = item.yclcs.modelType
                     var that = this
-                    if(item.mxcs.cfBl){
+                    if(item.mxcs && item.mxcs.cfBl){
                         that.cfBl=item.mxcs.cfBl
                         that.sjZz=item.mxcs.sjZz
                         that.cyBl = item.mxcs.cyBl

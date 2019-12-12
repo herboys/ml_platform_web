@@ -84,7 +84,7 @@
                 <header class="model-header">
                     <span class="name"><i class="round"></i>专业设置</span>
                     <div class="right-tool">
-                        <a class="setting-btn" :class="{'disable':training}" href="javascript:void(0);">超参数设置</a>
+                        <a class="setting-btn" :class="{'disable':training}" href="javascript:void(0);" @click="opendailog">超参数设置</a>
                     </div>
                 </header>
                 <div class="model-content major-setup-box">
@@ -165,6 +165,568 @@
             </div>
         </el-col>
     </el-row>
+    <!-- tab切换 -->
+    <div class="alert-box" id="alert-box-shujujiTab">
+        <div class="title text-c">
+            <ul class="tab-nav clearfix">
+                <li v-for="(item,index) in tabList" @click="selected(item.name)" :class="active==item.name?'active':''" :key="index"><a>{{item.name}}</a></li>
+            </ul>
+            <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
+        </div>
+        <div class="content alert-box-content">
+            <p class="big-title">参考设置</p>
+            <!-- SVR -->
+            <div class="item-lists" v-show="active == 'SVR'">
+                <div class="item-list clearfix">
+                    <span class="fl">C</span>
+                    <div class="fl clearfix">
+                        <input type="text" class="fl" v-model="svr.c" placeholder="默认为1.0">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                   C为错误术语的惩罚参数，C值越大，对误分类的惩罚越大，当C的值为无穷大的时候，表示全部正确的分类
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">kemel</span>
+                    <div class="fl clearfix">
+                        <select class="fl" v-model="svr.kemel">
+                            <option  v-for="name in svr.kemelList" :value="name" :key="name">{{ name }}</option>
+                        </select>
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                kemel为指定要在算法中使用的内核类型
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">degree</span>
+                    <div class="fl clearfix">
+                        <input type="text" v-model="svr.degree" class="fl" placeholder="默认值为3">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    degree为多项式核函数的次数
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">gamma</span>
+                    <div class="fl clearfix">
+                        <select class="fl" v-model="svr.gamma">
+                            <option :value="name" v-for="name in svr.gammaList" :key="name">{{ name }}</option>
+                        </select>
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                  Gamma指定了节点分裂所需的最小损失函数下降值。这个参数的值越大，算法越保守
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">class weight</span>
+                    <div class="fl clearfix">
+                        <select class="fl" v-model="svr.class">
+                            <option :value="name" v-for="name in svr.classList" :key="name">{{ name }}</option>
+                        </select>
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                   每个类所占据的权重，不同的类设置不同的惩罚参数C，缺省的话自适应
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- 决策树 -->
+            <div class="item-lists" v-show="active == '决策树'">
+                <div class="item-list clearfix">
+                    <span class="fl">criterion</span>
+                    <div class="fl clearfix">
+                        <select class="fl" v-model="decisionTree.criterion">
+                            <option :value="name" v-for="name in decisionTree.criterionList" :key="name">{{name}}</option>
+                        </select>
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">splitter</span>
+                    <div class="fl clearfix">
+                        <select class="fl" v-model="decisionTree.splitter">
+                                <option :value="name" v-for="name in decisionTree.splitterList" :key="name">{{name}}</option>
+                            </select>
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    特征划分标准：best在特征的所有划分点中找出最优化分店。random是随机的在部分划分点中找局部最优的划分点。best更适合样本量不大的时候
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">max_depth</span>
+                    <div class="fl clearfix">
+                        <input type="text" class="fl"  v-model="decisionTree.max_depth" placeholder="输入状态值为none">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    决策树最大深度：在模型样本量与特征都多的情况下，推荐限制最大深度，具体取值取决于数据的分布，常用取值10-100之间，常用来解决过拟合
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">min_impurity_decrease</span>
+                    <div class="fl clearfix">
+                        <input type="text" class="fl"  v-model="decisionTree.min_impurity_decrease" placeholder="默认值为0">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    节点划分最小不纯度；这个值限制决策树的增长，如果某节点的不纯度小于这个值，该节点将不再生成子节点
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">max_leaf_nodes</span>
+                    <div class="fl clearfix">
+                        <input type="text" class="fl" v-model="decisionTree.max_leaf_nodes" placeholder="默认值为none">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    最大叶子节点数：通过限制最大叶子节点数，可以防止过拟合
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+            <!-- 随机森林 -->
+            <div class="item-lists" v-show="active =='随机森林'">
+                <div class="item-list clearfix">
+                    <span class="fl">max_features</span>
+                    <div class="fl clearfix">
+                        <select class="fl" v-model="randomForest.max_features">
+                            <option :value="name" v-for="name in randomForest.max_featuresList" :key="name">{{name}}</option>
+                        </select>
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    随机森林允许单个决策树使用特征的最大数量。
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">min_samples_split</span>
+                    <div class="fl clearfix">
+                        <input type="text" class="fl" v-model="randomForest.min_samples_split" placeholder="输入状态值为2">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    内部节点再划分所需要的最小样本数；这个值限制子数继续划分，如果某节点的样本数少于设定值，则不会继续选择最优特征来进行划分。
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">min_samples_leaf</span>
+                    <div class="fl clearfix">
+                        <input type="text" class="fl" v-model="randomForest.min_samples_leaf" placeholder="输入状态值为1">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    叶子节点最少样本数：这个值限制了叶子节点最少的样本数，如果某叶子节点数目小于样本数，则会和兄弟节点一起被剪枝。
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">max_depth</span>
+                    <div class="fl clearfix">
+                        <input type="text" class="fl" v-model="randomForest.max_depth" placeholder="默认值为0">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    决策树最大深度：不输入时决策树在建立子树的时候不会限制子树的深度。特征少的时候可以不管这个值，如果模型样本量多。特征也多的情况下，推荐限制这个最大深度。
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+            <!-- GBTD -->
+            <div class="item-lists" v-show="active == 'GBTD'">
+                <div class="item-list clearfix">
+                    <span class="fl">n_estimators</span>
+                    <div class="fl clearfix">
+                        <input type="text" class="fl" v-model="gbtd.n_estimators" placeholder="默认值为100">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    弱学习器的最大迭代次数，或者说最大的弱学习器的个数、一般说n_estimators太小，容易欠拟合，n_estimators太大，又容易过拟合，一般选择一个适中的数值。
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">learing_rate</span>
+                    <div class="fl clearfix">
+                        <input type="text" class="fl" v-model="gbtd.learing_rate" placeholder="默认值为1">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    弱学习器的权重缩减系数
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">max_depth</span>
+                    <div class="fl clearfix">
+                        <input type="text" class="fl" v-model="gbtd.max_depth" placeholder="默认可以不输入">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                   最大深度:不输入时决策树在建立子树的时候不会限制子树的深度。如果模型样本量多，特征也多的情况下，推荐限制这个最大深度
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">min_samples_split</span>
+                    <div class="fl clearfix">
+                        <input type="text" class="fl" v-model="gbtd.min_samples_split" placeholder="默认值为2">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                     内部节点再划分所需要的最小样本数；这个值限制子数继续划分，如果某节点的样本数少于设定值，则不会继续选择最优特征来进行划分。
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+            <!-- 逻辑回归 -->
+            <div class="item-lists" v-show="active == '逻辑回归'">
+                <div class="item-list clearfix">
+                    <span class="fl">penalty</span>
+                    <div class="fl clearfix">
+                        <select class="fl" v-model="logisticRegression.penalty">
+                            <option :value="name" v-for="name in logisticRegression.penaltyList" :key="name">{{name}}</option>
+                        </select>
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                正则化选择参数：参数的选择会影响我们损失函数优化算法的选择
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">multi_calss</span>
+                    <div class="fl clearfix">
+                        <select class="fl" v-model="logisticRegression.multi_calss">
+                            <option :value="name" v-for="name in logisticRegression.multi_calssList" :key="name">{{name}}</option>
+                        </select>
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    分类方式选择参数
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">class_weight</span>
+                    <div class="fl clearfix">
+                        <input type="text" class="fl" v-model="logisticRegression.class_weight" placeholder="输入状态值为none">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                类型权重参数：用于标示分类模型中各类类型的权重
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">solver</span>
+                    <div class="fl clearfix">
+                        <select class="fl" v-model="logisticRegression.solver">
+                            <option :value="name" v-for="name in logisticRegression.solverList" :key="name">{{name}}</option>
+                        </select>
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    优化算法选择参数：solver参数决定了我们对逻辑回归损失函数的优化方法
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">C</span>
+                    <div class="fl clearfix">
+                        <input type="text" v-model="logisticRegression.c" class="fl" placeholder="默认值为1.0">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    C为错误术语的惩罚参数，C值越大，对误分类的惩罚越大，当C的值为无穷大的时候，表示全部正确的分类
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+            <!-- XGBOOTST -->
+            <div class="item-lists" v-show="active == 'XGBOOTST'">
+                <div class="item-list clearfix">
+                    <span class="fl">max_depth</span>
+                    <div class="fl clearfix">
+                        <input type="text" v-model="xgbootst.max_depth" class="fl" placeholder="">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                树的最大深度：值越大树越大模型越复杂，可以用来防止过拟合
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">min_data_in_leaf</span>
+                    <div class="fl clearfix">
+                        <input type="text" class="fl" v-model="xgbootst.min_data_in_leaf" placeholder="">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    叶子可能具有的最小记录数：适合过拟合时使用
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">bagging_fraction</span>
+                    <div class="fl clearfix">
+                        <input type="text" v-model="xgbootst.bagging_fraction" class="fl" placeholder="">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                每次迭代是用的数据比例：用于加快训练速度和减小过拟合。
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">early_stopping_round</span>
+                    <div class="fl clearfix">
+                        <input type="text" v-model="xgbootst.early_stopping_round" class="fl" placeholder="">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                   早起停止次数，假设为100，验证集的误差迭代到一定程度在100次内不能再继续降低，就停止迭代。
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">lambda</span>
+                    <div class="fl clearfix">
+                        <input type="text" v-model="xgbootst.lambda" class="fl" placeholder="">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    指定正则化：适用于减少过拟合
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">min_gain_to_split</span>
+                    <div class="fl clearfix">
+                        <input type="text" v-model="xgbootst.min_gain_to_split" class="fl" placeholder="">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    描述分裂最小的gain；用来控制树的有用分裂。
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">max_cat_group</span>
+                    <div class="fl clearfix">
+                        <input type="text" v-model="xgbootst.max_cat_group" class="fl" placeholder="">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    在group边界上找到分割点，适用于当特征数量很多时
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="btn-wrap text-c">
+                <button class="btn-save" @click="save">保存</button>
+            </div>
+        </div>
+    </div>
 
 </div>
 </template>
@@ -785,6 +1347,123 @@
                         zlevel: 11
                     },
                     ]
+                },
+                active:'',
+                tabList:[
+                    {
+                        name:"SVR"
+                    },
+                    {
+                        name:"决策树"
+                    },
+                    {
+                        name:"随机森林"
+                    },
+                    {
+                        name:"GBTD"
+                    },
+                    {
+                        name:'逻辑回归'
+                    },
+                    {
+                        name:'XGBOOTST'
+                    }
+                ],
+                // 超参参数
+                // SUR
+                svr:{
+                    c:'',
+                    kemel:'',
+                    kemelList:[
+                        '线性核（linear）',
+                        '多项式核（poly）',
+                        '径向基核（rbf）',
+                        'sigmoid核'
+                    ],
+                    degree:'',
+                    gamma:'',
+                    gammaList:[
+                        'poly',
+                        'rbf',
+                        'sigmoid',
+                        'auto'
+                    ],
+                    class:'',
+                    classList:[
+                        'poly',
+                        'rbf',
+                        'sigmoid'
+                    ]
+                },
+                // 决策树
+                decisionTree:{
+                    criterion:'',
+                    criterionList:[
+                        'gini',
+                        'ertropy'
+                    ],
+                    splitter:'',
+                    splitterList:[
+                        'best',
+                        'random'
+                    ],
+                    max_depth:'',
+                    min_impurity_decrease:'',
+                    max_leaf_nodes:''
+                },
+                // 随机森林
+                randomForest:{
+                    max_features:'',
+                    max_featuresList:[
+                        'sqrt',
+                        '0.2',
+                        '不填'
+                    ],
+                    min_samples_split:'',
+                    min_sample_leaf:'',
+                    max_depth:''
+                },
+                // GBTD
+                gbtd:{
+                    n_estimators:'',
+                    learing_rate:'',
+                    max_depth:'',
+                    min_samples_split:''
+                },
+                // 逻辑回归
+                logisticRegression:{
+                    penalty:'',
+                    penaltyList:[
+                        'l1',
+                        'l2',
+                        'none',
+                        'elasticnet'
+                    ],
+                    multi_calss:'',
+                    multi_calssList:[
+                        'ovr',
+                        'multinomial'
+                    ],
+                    class_weight:'',
+                    solver:'',
+                    solverList:[
+                        'newton-cg',
+                        'lbfgs',
+                        'liblinear',
+                        'sag',
+                        'saga'
+                    ],
+                    c:''
+                },
+                //XGBOOTST
+                xgbootst:{
+                    max_depth:'',
+                    min_data_in_leaf:'',
+                    bagging_fraction:'',
+                    early_stopping_round:'',
+                    lambda:'',
+                    min_gain_to_split:'',
+                    max_cat_group:''
                 }
             }
         },
@@ -792,6 +1471,10 @@
             chart:ECharts,
             chartPieSwitch,
             swiperChart:swiperChart,
+        },
+        mounted(){
+            this.init();
+            this.active=this.tabList[0]["name"];
         },
         methods:{
             trainingHandler:function(){
@@ -805,6 +1488,58 @@
             },
             switchChartPieChangeThree:function(value){
                 this.pieThree.value=value
+            },
+            selected(name){
+                this.active = name;
+            },
+            closeDialog(){
+                layer.closeAll();
+                this.chooseTypeTxt ='上传数据集'
+            },
+            opendailog(){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    anim: 2,
+                    closeBtn: 0,
+                    area: ['860px', '750px'], //宽高
+                    content: $('#alert-box-shujujiTab'),
+                });
+            },
+            init(){
+                $("#alert-box-shujujiTab .pop").hover(function() {
+                    var positionTop = $(this).position().top;
+                    var txtHeight = $(this).find(".txt").height();
+                    var alertBoxHeight = $("#alert-box-shujujiTab").height();
+                    var dic=document.getElementById("alert-box-shujujiTab").scrollHeight-document.getElementById("alert-box-shujujiTab").clientHeight;
+                    if (positionTop + txtHeight > alertBoxHeight) {
+                        $(this).find(".txt").css({
+                            top: -1*dic
+                        })
+                    }else{
+                        $(this).find(".txt").css({
+                            top: 0
+                        })
+                    }
+                })
+
+
+            },
+            save(){
+                if(this.active == 'SVR'){
+                    console.log(this.svr,'SVR')
+                } else if(this.active == '决策树'){
+                    console.log(this.decisionTree,'决策树')
+                } else if(this.active == '随机森林'){
+                    console.log(this.randomForest,'随机森林')
+                } else if(this.active == 'GBTD'){
+                    console.log(this.gbtd,'GBTD')
+                } else if(this.active == '逻辑回归'){
+                    console.log(this.logisticRegression,'逻辑回归')
+                } else if(this.active == 'XGBOOTST'){
+                    console.log(this.xgbootst,'XGBOOTST')
+                }
+                this.closeDialog()
             }
         },
     }

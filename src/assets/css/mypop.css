@@ -245,6 +245,10 @@
     padding: 26px 67px;
 }
 
+#alert-box-shujujiTab .content {
+    min-height: 650px;
+}
+
 #alert-box-addNewTask select {
     width: 100%!important;
     background-position: 410px -218px!important;
@@ -443,7 +447,7 @@
 }
 
 #alert-box-shujujiTab .content .item-list {
-    margin-top: 40px;
+    margin-top: 35px;
 }
 
 #alert-box-shujujiTab .content .item-list>span {
@@ -1215,4 +1219,38 @@
 
 .alert-box-echartsBt {
     height: 600px!important;
+}
+
+#main .keshihua-main .select-con .icon {
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+#alert-box-shujujiTab .tab-nav {
+    display: flex;
+    display: -webkit-flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding-right: 30px;
+}
+
+#alert-box-shujujiTab .tab-nav li {
+    float: left;
+    line-height: 34px;
+    height: 100%;
+    font-size: 14px;
+    -webkit-flex: 1;
+    flex: 1;
+    cursor: pointer;
+}
+
+#alert-box-shujujiTab .tab-nav li a {
+    padding: 5px;
+    border-bottom: 2px solid transparent;
+}
+
+#alert-box-shujujiTab .tab-nav li.active a {
+    border-bottom: 2px solid #0A9DAE;
 }

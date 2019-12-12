@@ -691,7 +691,7 @@
                         radius = [0,'70%']
                         fontSize = 12
                     } else {
-                        center = ['60%','50%']
+                        center = ['50%','50%']
                         radius = [0,'70%']
                         fontSize = 15
                     }

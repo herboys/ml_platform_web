@@ -168,127 +168,7 @@
                 </div>
             </div>
         </div>
-        <!-- tab切换 -->
-        <div class="alert-box" id="alert-box-shujujiTab">
-            <div class="title text-c">
-                <ul class="tab-nav clearfix">
-                    <li v-for="(item,index) in tabList" @click="selected(item.name)" :class="{active : active == item.name}" :key="index"><a>{{item.name}}</a></li>
-                </ul>
-                <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
-            </div>
-            <div class="content alert-box-content">
-                <p class="big-title">参考设置</p>
-                <div class="item-lists">
-                    <div class="item-list clearfix">
-                        <span class="fl">criterion</span>
-                        <div class="fl clearfix">
-                            <select class="fl">
-                                <option value=""></option>
-                            </select>
-                            <p class="fl pop">
-                                <span class="wenhao fl">
-                                    <i class="icon iconfont icon-qm"></i>
-                                </span>
-                                <span class="fl help">帮助</span>
-                                <span class="border-right"></span>
-                                <span class="txt">
-                                        特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
-                                </span>
-                            </p>
-
-                        </div>
-                    </div>
-
-
-
-                    <div class="item-list clearfix">
-                        <span class="fl">splitter</span>
-                        <div class="fl clearfix">
-                            <select class="fl">
-                                    <option value=""></option>
-                                </select>
-                            <p class="fl pop">
-                                <span class="wenhao fl">
-                                    <i class="icon iconfont icon-qm"></i>
-                                </span>
-                                <span class="fl help">帮助</span>
-                                <span class="border-right"></span>
-                                <span class="txt">
-                                        
-                                        特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
-                                        
-                                </span>
-                            </p>
-
-                        </div>
-                    </div>
-
-                    <div class="item-list clearfix">
-                        <span class="fl">max_depth</span>
-                        <div class="fl clearfix">
-                            <input type="text" class="fl" placeholder="输入状态值为none">
-                            <p class="fl pop">
-                                <span class="wenhao fl">
-                                    <i class="icon iconfont icon-qm"></i>
-                                </span>
-                                <span class="fl help">帮助</span>
-                                <span class="border-right"></span>
-                                <span class="txt">
-                                        
-                                        特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
-                                        
-                                </span>
-                            </p>
-
-                        </div>
-                    </div>
-
-
-                    <div class="item-list clearfix">
-                        <span class="fl">min_impurity_decrease</span>
-                        <div class="fl clearfix">
-                            <input type="text" class="fl" placeholder="默认值为0">
-                            <p class="fl pop">
-                                <span class="wenhao fl">
-                                    <i class="icon iconfont icon-qm"></i>
-                                </span>
-                                <span class="fl help">帮助</span>
-                                <span class="border-right"></span>
-                                <span class="txt">
-                                        特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
-                                       
-                                </span>
-                            </p>
-
-                        </div>
-                    </div>
-
-
-                    <div class="item-list clearfix">
-                        <span class="fl">man_leaf_nodes</span>
-                        <div class="fl clearfix">
-                            <input type="text" class="fl" placeholder="默认值为none">
-                            <p class="fl pop">
-                                <span class="wenhao fl">
-                                    <i class="icon iconfont icon-qm"></i>
-                                </span>
-                                <span class="fl help">帮助</span>
-                                <span class="border-right"></span>
-                                <span class="txt">
-                                        特征选择标准：前者是基尼 系数，后者是信息熵，两种 算法对准确率无区别，一般 说使用默认的基尼系数“gini” 就可以。
-                                </span>
-                            </p>
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="btn-wrap text-c">
-                    <button class="btn-save" @click="closeDialog">保存</button>
-                </div>
-            </div>
-        </div>
+     
         <!-- belle新增弹框 -->
         <!-- 上传文件弹框 -->
         <div class="alert-box" id="alert-box-uploadFiles">
@@ -448,21 +328,6 @@
                 tezhenggongcheng1:true,
                 tezhenggongcheng2:false,
                 tezhenggongcheng:true,
-                tabList:[
-                    {
-                        name:"SVR"
-                    },
-                    {
-                        name:"决策树"
-                    },
-                    {
-                        name:"随机森林"
-                    },
-                    {
-                        name:"GBTD"
-                    }
-                ],
-                active:"",
                 doUpload:'/api/up/file',
                  pppss:{
                     srid:''
@@ -534,8 +399,6 @@
         },
         components:{inputTimePick},
         mounted(){
-            this.init();
-            this.active=this.tabList[1]["name"];
         },
         watch:{
             selectDatesource(val){
@@ -566,48 +429,7 @@
                 this.tezhenggongcheng1=false;
             },
 
-            init(){
-                $("#tableContent tr[name]").hide();
-                $("#tableContent tbody .pull-icon").on("click", function() {
-                    var obj = $(this).parent();
-                    var control = obj.parent().attr('data-control');
-                    var subChildren = $("#tableContent tr[name=" + control + "]");
-                    if (subChildren) {
-                        var span = obj.find("span").hasClass("up");
-                        if (!span) {
-                            obj.find("span").addClass("up").removeClass("down");
-                            subChildren.show();
-                            subChildren.eq(0).prepend("<td></td>")
-                            subChildren.eq(0).find("td").eq(0).attr("rowspan", subChildren.length)
-                        } else {
-                            obj.find("span").addClass("down").removeClass("up");
-                            subChildren.hide();
-                            subChildren.eq(0).children().eq(0).remove();
-                        }
-                    } else {
-                        obj.parent().find("td").attr("rowspan", 1);
-                    }
-                });
-
-
-                $("#alert-box-shujujiTab .pop").hover(function() {
-                    var positionTop = $(this).position().top;
-                    var txtHeight = $(this).find(".txt").height();
-                    var alertBoxHeight = $("#alert-box-shujujiTab").height();
-                    var dic=document.getElementById("alert-box-shujujiTab").scrollHeight-document.getElementById("alert-box-shujujiTab").clientHeight;
-                    if (positionTop + txtHeight > alertBoxHeight) {
-                        $(this).find(".txt").css({
-                            top: -1*dic
-                        })
-                    }else{
-                        $(this).find(".txt").css({
-                            top: 0
-                        })
-                    }
-                })
-
-
-            },
+           
             selected(name){
                 this.active = name;
             },
@@ -1096,30 +918,11 @@
             
             this.projectId = this.$route.query.projectId
             this.uploadUrl = `${ReqUrl.saveDataupload}`
+            
         }
     }
 </script>
 <style scoped>
-#main .keshihua-main .select-con .icon{
-    appearance: none;
-    -webkit-appearance: none;
-}
-#alert-box-shujujiTab .tab-nav{
-    display:flex;
-    display:-webkit-flex;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    padding-right: 30px;
-}
-#alert-box-shujujiTab .tab-nav li{float: left;line-height: 34px;height:100%;font-size: 14px;-webkit-flex:1;flex:1;cursor: pointer;}
-#alert-box-shujujiTab .tab-nav li a{
-    padding: 5px;
-    border-bottom: 2px solid transparent;
-}
-#alert-box-shujujiTab .tab-nav li.active a{
-    border-bottom: 2px solid #0A9DAE;
-}
+
 
 </style>
