@@ -101,9 +101,9 @@
                                         <div class="echarts-content-wrap">
                                             <span class="s1">真正比例占比</span>
                                             <span class="s2">假正比例占比</span>
-                                            <swiper-chart :values="echartsLineOption1"></swiper-chart> 
+                                            <swiper-chart :values="echartsLineOption1"></swiper-chart>
                                         </div>
-                                        
+
                                     </div>
                                 </li>
                                 <li class="fl">
@@ -112,7 +112,7 @@
                                         <div class="echarts-content-wrap">
                                             <span class="s1">准确率</span>
                                             <span class="s2">召回率</span>
-                                            <swiper-chart :values="echartsLineOption2"></swiper-chart> 
+                                            <swiper-chart :values="echartsLineOption2"></swiper-chart>
                                         </div>
                                     </div>
                                 </li>
@@ -122,7 +122,7 @@
                                         <div class="echarts-content-wrap">
                                             <span class="s1">收益率</span>
                                             <span class="s2">分位点</span>
-                                            <swiper-chart :values="echartsLineOption1"></swiper-chart> 
+                                            <swiper-chart :values="echartsLineOption1"></swiper-chart>
                                         </div>
 
                                     </div>
@@ -133,7 +133,7 @@
                                         <div class="echarts-content-wrap">
                                             <span class="s1">提升值</span>
                                             <span class="s2">分位点</span>
-                                            <swiper-chart :values="echartsLineOption3"></swiper-chart> 
+                                            <swiper-chart :values="echartsLineOption3"></swiper-chart>
                                         </div>
 
                                     </div>
@@ -144,7 +144,7 @@
                                         <div class="echarts-content-wrap">
                                             <span class="s1">收益率</span>
                                             <span class="s2">分位点</span>
-                                            <swiper-chart :values="echartsLineOption4"></swiper-chart> 
+                                            <swiper-chart :values="echartsLineOption4"></swiper-chart>
                                         </div>
                                     </div>
                                 </li>
@@ -190,12 +190,12 @@
                                                         <td class="white">0</td>
                                                         <td></td>
                                                         <td class="white">0.0914</td>
-                                                        
+
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
-                                        
+
                                     </div>
                                 </li>
                             </ul>
@@ -233,7 +233,7 @@
                                        <p class="p2">混淆矩阵是个误差矩阵 常用来可视化地评估监督学习算法的性能，矩阵中的每行代表实例的真实标签，每列代表实例的预测标签。</p>
                                    </li>
 
-                                   
+
 
                                 </ul>
                             </div>
@@ -467,7 +467,7 @@
                                 symbol:'circle',
                                 itemStyle: {
                                     normal: {
-                                        color: "#000", 
+                                        color: "#000",
                                         borderColor: "#FAF70D",
                                         lineStyle: {
                                             color: "#FAF70D"
@@ -487,7 +487,7 @@
                                     [1.0,0.0]
                                 ]
                             },
-                 
+
                         ]
                 },
                 echartsLineOption3:{
@@ -586,10 +586,10 @@
                                     [0.6,0.6],
                                     [0.8,0.3],
                                     [1.0,0.2]
-                                    
+
                                 ]
                             },
-                 
+
                         ]
                 },
                 echartsLineOption4:{
@@ -738,15 +738,14 @@
                                     [1.0,1.0]
                                 ]
                             }
-                 
+
                         ]
                 },
-                        
             }
         },
         components:{swiperChart},
         mounted(){
-            
+
         }
     }
 </script>

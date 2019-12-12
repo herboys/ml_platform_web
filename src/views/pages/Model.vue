@@ -52,7 +52,6 @@
                         <a class="start-btn" @click="trainingHandler" href="javascript:void(0);">
                             {{trainingHandler?"开始":"暂停"}}
                         </a>
-
                     </div>
                     <div v-if="training">
                         <p class="info-p"><i class="icon"></i>模型训练已完成，请点击下面的按钮进行其他操作</p>
@@ -70,10 +69,10 @@
                                 <a class="laboratory-tool" href="javascript:void(0);">下载实验日志</a>
                             </el-col>
                             <el-col :span="12">
-                                <a class="laboratory-tool primary" href="javascript:void(0);">下载PYTHON评分管道</a>
+                                <a class="laboratory-tool" href="javascript:void(0);">下载PYTHON评分管道</a>
                             </el-col>
                             <el-col :span="12">
-                                <a class="laboratory-tool" href="javascript:void(0);">部署</a>
+                                <a class="laboratory-tool primary" href="javascript:void(0);">部署</a>
                             </el-col>
                         </el-row>
                     </div>
@@ -84,8 +83,43 @@
             <div class="model-box">
                 <header class="model-header">
                     <span class="name"><i class="round"></i>专业设置</span>
+                    <div class="right-tool">
+                        <a class="setting-btn" :class="{'disable':training}" href="javascript:void(0);">超参数设置</a>
+                    </div>
                 </header>
-                <div class="model-content">
+                <div class="model-content major-setup-box">
+                    <el-row  v-if="!training">
+                        <el-col :span="8">
+                            <chart-pie-switch  :max="pieOne.max" :value="pieOne.value" :colors="pieOne.colors" @change="switchChartPieChangeOne" :name-text="pieOne.name"  />
+                        </el-col>
+                        <el-col :span="8">
+                            <chart-pie-switch  :max="pieTwo.max" :value="pieTwo.value" :colors="pieTwo.colors" @change="switchChartPieChangeTwo" :name-text="pieTwo.name"  />
+                        </el-col>
+                        <el-col :span="8">
+                            <chart-pie-switch  :max="pieThree.max" :value="pieThree.value" :colors="pieThree.colors" @change="switchChartPieChangeThree" :name-text="pieThree.name"  />
+                        </el-col>
+                    </el-row>
+
+                    <div v-if="training">
+                        <el-row>
+                            <el-col :span="8">
+                                <chart-pie-switch class="short" :show-switch="false" :max="pieOne.max" :value="pieOne.value" :colors="pieOne.colors" @change="switchChartPieChangeOne" :name-text="pieOne.name"  />
+                            </el-col>
+                            <el-col :span="8">
+                                <chart-pie-switch  class="short" :show-switch="false" :max="pieTwo.max" :value="pieTwo.value" :colors="pieTwo.colors" @change="switchChartPieChangeTwo" :name-text="pieTwo.name"  />
+                            </el-col>
+                            <el-col :span="8">
+                                <chart-pie-switch  class="short" :show-switch="false" :max="pieThree.max" :value="pieThree.value" :colors="pieThree.colors" @change="switchChartPieChangeThree" :name-text="pieThree.name"  />
+                            </el-col>
+                        </el-row>
+                        <div class="cpu-chart">
+                            <h4 class="cpu-chart-title"><i class="lines left"></i><span class="name">CPU运转情况</span><i class="lines right"></i></h4>
+                            <div class="cpu-chart-box">
+                                <swiper-chart :values="echartCPUOptions"></swiper-chart>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </el-col>
@@ -138,12 +172,32 @@
 
     import ECharts from 'vue-echarts/components/ECharts.vue'
 
+    import chartPieSwitch from '../components/chartPieSwitch'
+
     import swiperChart from '../components/swiperChart'
 
     export  default {
         data(){
             return {
                 training:false,
+                pieOne:{
+                  value:7,
+                  max:10,
+                  colors:['rgba(55,153,240,.3)','rgba(55,153,240,1)'],
+                  name:"准确度"
+                },
+                pieTwo:{
+                    value:6,
+                    max:10,
+                    colors:['rgba(128,99,200,.3)','rgba(128,99,200,1)'],
+                    name:"运行时间"
+                },
+                pieThree:{
+                    value:6,
+                    max:10,
+                    colors:['rgba(8,161,170,.3)','rgba(8,161,170,1)'],
+                    name:"可理解度"
+                },
                 echartsLaboratoryOption:{
                     series:[
                         {
@@ -647,15 +701,110 @@
                         }
                     ]
                 },
+                echartCPUOptions:{
+                    grid: {
+                        left: '0',
+                        right: '0',
+                        bottom: '10',
+                        top: '7%',
+                        containLabel: true,
+                        z: 22
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        gridIndex: 0,
+                        data: [
+                            '01', '02', '03', '04', '05', '06', '07', '08','09', '10',
+                            '11', '12', '13', '14', '15', '16', '17', '18','19', '20',
+                            '21', '22', '23', '24', '25', '26', '27', '28','29', '30',
+                            '31', '32', '33', '34', '35', '36', '37', '38','39', '40',
+                            '41', '42', '43', '44', '45', '46', '47', '48','49', '50',
+                        ],
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            show: false,
+                            lineStyle: {
+                                color: '#19347b'
+
+                            }
+                        },
+                        axisLabel: {
+                            show:false
+                        }
+                    }],
+                    yAxis: [{
+                        show:false,
+                        type: 'value',
+                        //   name: "单位:户",
+                        nameTextStyle: {
+                            color: "rgb(170,170,170)"
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            show: false,
+                        },
+                        splitLine: {
+                            show: true
+                        },
+                        axisLabel: {
+                            sow:false
+                        }
+                        },
+                    ],
+                    series: [{
+                        name: 'CPU运行情况',
+                        type: 'bar',
+                        legendHoverLink: true,
+                        xAxisIndex: 0,
+                        yAxisIndex: 0,
+                        barCategoryGap:3,
+                        itemStyle: {
+                            normal: {
+                                barBorderRadius: [0, 0, 0, 0],
+                               // color: "rgba(41,206,149,1)",
+                                color: new ECharts.graphic.LinearGradient(
+                                    0, 0, 0, 1,
+                                    [
+                                        {offset: 0, color: 'rgba(41,206,149,1)'},
+                                        {offset: 1, color: 'rgba(31,123,231,1)'}
+                                    ]
+                                )
+                            }
+                        },
+                        data: [
+                            20, 69, 56, 34, 45, 56, 67, 67, 87, 45,
+                            20, 69, 56, 34, 45, 56, 67, 67, 87, 45,
+                            20, 69, 56, 34, 45, 56, 67, 67, 87, 45,
+                            20, 69, 56, 34, 45, 56, 67, 67, 87, 45,
+                            20, 69, 56, 34, 45, 56, 67, 67, 87, 45
+                        ],
+                        zlevel: 11
+                    },
+                    ]
+                }
             }
         },
         components:{
             chart:ECharts,
+            chartPieSwitch,
             swiperChart:swiperChart,
         },
         methods:{
             trainingHandler:function(){
                 this.training=!this.training
+            },
+            switchChartPieChangeOne:function(value){
+                this.pieOne.value=value
+            },
+            switchChartPieChangeTwo:function(value){
+                this.pieTwo.value=value
+            },
+            switchChartPieChangeThree:function(value){
+                this.pieThree.value=value
             }
         },
     }
@@ -690,6 +839,22 @@
                     right: 20px;
                     top:10px;
                     text-align: right;
+                    line-height: normal;
+                    .setting-btn{
+                        display: inline-block;
+                        vertical-align: middle;
+                        line-height: 26px;
+                        width: 98px;
+                        height: 26px;
+                        text-align: center;
+                        border-radius: 13px;
+                        background:linear-gradient(90deg,rgba(1,179,151,1),rgba(10,157,174,1));
+                        color: #fff;
+                        &.disable{
+                            background:rgba(90,95,130,.3);
+                            color: rgba(255,255,255,.3);
+                        }
+                    }
                     .number{
                         color: #298DF5;
                         font-size: 22px;
@@ -806,7 +971,6 @@
                     left:70%;
                 }
             }
-
             .label-footer{
                 position: absolute;
                 width: 111px;
@@ -837,6 +1001,50 @@
                     text-align: right;
                     background: url("../../assets/images/dark/axis-lable-laboratory-right.png") no-repeat;
                     background-size: 100% 100%;
+                }
+            }
+        }
+        .major-setup-box{
+            .short{
+                height: 90px !important;
+                min-height: 90px !important;
+                .name{
+                    margin-top: 0 !important;
+                }
+            }
+            .cpu-chart{
+                padding-top: 10px;
+                .cpu-chart-title{
+                    position: relative;
+                    text-align: center;
+                    height: 30px;
+                    line-height: 30px;
+                    font-size: 12px;
+                    color: #AAC0F5;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    .lines{
+                        display: inline-block;
+                        width:47px;
+                        height:1px;
+                        opacity:0.5;
+                        &.left{
+                            background: linear-gradient(to right,  rgba(47,188,246,0) 0%,rgba(47,188,246,1) 64%,rgba(47,188,246,1) 100%);
+                        }
+                        &.right{
+                            background: linear-gradient(to right,  rgba(47,188,246,1) 0%,rgba(47,188,246,1) 64%,rgba(47,188,246,0) 100%);
+                        }
+                    }
+                    .name{
+                        padding: 0 10px;
+                    }
+                }
+                .cpu-chart-box{
+                    height: 62px;
+                    .echarts{
+                        height: 100%;
+                    }
                 }
             }
         }
