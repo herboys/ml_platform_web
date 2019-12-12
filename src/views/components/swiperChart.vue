@@ -1,5 +1,5 @@
 <template>
-    <chart ref="echarts" :autoresize="autoresize" class="echarts" :initOptions="initOptions" :options="options"></chart>
+    <chart ref="echarts" class="echarts" :initOptions="initOptions" :options="options"></chart>
 </template>
 
 <script>
@@ -11,8 +11,7 @@
             return{
                 initOptions:{
                     // renderer:"svg"
-                },
-                autoresize:true
+                }
             }
         },
         props:['values','color'],
@@ -21,11 +20,15 @@
                 return this.$store.state.theme
             },
             options:function(){
+                console.log(this.values,'2222');
                 return this.values;
             }
         },
         mounted(){
-            
+           /* var that=this;
+            window.onresize=function(){
+                that.$refs.echarts.chart.resize();
+            }*/
         },
         components:{
             chart:ECharts
