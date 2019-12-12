@@ -158,7 +158,7 @@
                             <div class="select-wrap-half fl">
                                 <p>目标列</p>
                                 <div class="select" >
-                                    <select v-model="selectTarget" :disabled="selectType=='聚类模型'?'false':'true'">
+                                    <select v-model="selectTarget" :disabled="selectType=='聚类模型'?'false':'true'" :style="selectType=='聚类模型'?'color:#999':'color:#fff'">
                                         <option :value="item" v-for="item in preProcesscolmun.targetColumn" :key="item">{{item}}</option>
                                     </select>
                                 </div>
@@ -874,12 +874,19 @@ import inputTimePick from '../components/inputTimePick'
                         })
                         this.preProcesscolmun.deficiencyColumn = arr
                         // 如果已经预处理过就赋值
+                        
                         if(item.yclcs){
                             this.selectGroup=item.yclcs.groupColumn,
                             this.selectType=item.yclcs.modelType,
                             this.selectTarget =item.yclcs.targetColumn
-                            // this.selectRadio = Object.values(item.yclcs.missingColumn)[0]
-                            var selectKey = Object.keys(item.yclcs.missingColumn)
+                          
+                            
+                            var selectKey
+                            if(item.yclcs.missingColumn){
+                                this.selectRadio = Object.values(item.yclcs.missingColumn)[0]
+                                selectKey = Object.keys(item.yclcs.missingColumn)
+                            }
+                            
                             this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
                                 if(item.name == selectKey){
                                     item.checked = true
@@ -953,8 +960,26 @@ import inputTimePick from '../components/inputTimePick'
                         })
                         if(item.tzzcs){
                             this.selectEliminate = item.tzzcs.characteristicOneDto.selectEliminate //剔除类
-                            this.splitList = item.tzzcs.characteristicOneDto.splitList   //特征拆分
-                            this.mergeList = item.tzzcs.characteristicOneDto.mergeList  
+                               //特征拆分
+                            if(item.tzzcs.characteristicOneDto.splitList[0]){
+                                this.splitList = item.tzzcs.characteristicOneDto.splitList
+                            } else {
+                                this.splitList = [{
+                                    selectList:this.tcgcList,
+                                    selectColmun:'',
+                                    colmunNUmber:''
+                                }]
+                            }
+                            if(item.tzzcs.characteristicOneDto.mergeList[0]){
+                                this.mergeList = item.tzzcs.characteristicOneDto.mergeList 
+                            } else {
+                                this.mergeList=[{
+                                    selectColmun:[],
+                                    tcgcList:this.tcgcList,
+                                    colmunName:''
+                                }]
+                            }
+                             
                             this.arithmetic = item.tzzcs.characteristicOneDto.reduction.lda.svd
                             this.regex = item.tzzcs.characteristicOneDto.reduction.lda.regex
                             this.jiangwei = item.tzzcs.characteristicOneDto.reduction.lda.n
@@ -1117,8 +1142,6 @@ import inputTimePick from '../components/inputTimePick'
                     .then(res=>{
                         that.dataList = res.data.list
                         that.getTasklist()
-                        // that.total=res.data.count
-                        // that.maxPage =Math.ceil(that.total/that.pageSize) 
                     })
                 },
                 toReset(){
@@ -1129,32 +1152,32 @@ import inputTimePick from '../components/inputTimePick'
                 },
                 toPretreatment(){
                     // 预处理接口
-                    // if(!this.selectRadio){
-                    //     this.$message('请选择填充方式')
-                    //     return
-                    // }
+                    if(!this.selectRadio){
+                        this.$message('请选择填充方式')
+                        return
+                    }
                     const missKey ={}
                     this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
                         if(item.checked){
                             missKey[item.name] = this.selectRadio;
                         }
                     })
-                    // if(!this.selectGroup){
-                    //     this.$message('请选择分组列')
-                    //     return
-                    // } else if(!this.selectTarget){
-                    //     this.$message('请选择目标列')
-                    //     return
-                    // } else if (!missKey){
-                    //     this.$message('请选择缺失列')
-                    //     return
-                    // }
+                    if(!this.selectGroup){
+                        this.$message('请选择分组列')
+                        return
+                    } else if(!this.selectTarget){
+                        this.$message('请选择目标列')
+                        return
+                    } else if (!missKey){
+                        this.$message('请选择缺失列')
+                        return
+                    }
                     console.log('ok')
                     let url=`${ReqUrl.pretreatment}`
                     let paramsData={
                         userId:1,
-                        // groupColumn: this.selectGroup,
-                        // missingColumn: missKey,
+                        groupColumn: this.selectGroup,
+                        missingColumn: missKey,
                         modelType: this.selectType,
                         targetColumn: this.selectTarget
                     }
@@ -1196,64 +1219,64 @@ import inputTimePick from '../components/inputTimePick'
                     var that = this
                     let url=`${ReqUrl.saveCharacteristic}`
                     var selectColmun =[],selectNum ,isTrue = false
-                    // this.mergeList.forEach(item=>{
-                    //     selectNum =0
-                    //     item.selectColmun =[]
-                    //     item.tcgcList.forEach(name=>{
-                    //         if(name.checked){
-                    //             item.selectColmun.push(name.colmunName)
-                    //         } 
-                    //     })
-                    //     if(item.selectColmun.length<2){
-                    //         that.$message({
-                    //             message: '合并的列需要两个及以上',
-                    //             type:'warning'
-                    //          });
-                    //     } else if(item.selectColmun.length>2 || item.selectColmun.length==2 ){
-                    //         if(!item.colmunName){
-                    //             that.$message({
-                    //                 message: '请输入合并列名',
-                    //                 type:'warning'
-                    //             });
-                    //         } else {
-                    //             isTrue = true
-                    //         }
-                    //     } 
+                    this.mergeList.forEach(item=>{
+                        selectNum =0
+                        item.selectColmun =[]
+                        item.tcgcList.forEach(name=>{
+                            if(name.checked){
+                                item.selectColmun.push(name.colmunName)
+                            } 
+                        })
+                        if(item.selectColmun.length<2){
+                            that.$message({
+                                message: '合并的列需要两个及以上',
+                                type:'warning'
+                             });
+                        } else if(item.selectColmun.length>2 || item.selectColmun.length==2 ){
+                            if(!item.colmunName){
+                                that.$message({
+                                    message: '请输入合并列名',
+                                    type:'warning'
+                                });
+                            } else {
+                                isTrue = true
+                            }
+                        } 
                         
-                    // })
-                    // if(!isTrue) return
+                    })
+                    if(!isTrue) return
                     const targetObj = {}
                     // 原来的
-                    // targetObj.selectEliminate = that.selectEliminate//剔除类
-                    // targetObj.splitList = that.splitList //特征拆分
-                    // targetObj.mergeList = that.mergeList
-                    // targetObj.reduction={
-                    //     lda:{
-                    //         svd:that.arithmetic,
-                    //         regex:that.regex,
-                    //         n:that.jiangwei
-                    //         },
-                    //     pca:{
-                    //         n:that.number,
-                    //         white:that.baihua
-                    //     }
-                    // }
-
-                    // 暂时的
-                    targetObj.selectEliminate = ''//剔除类
-                    targetObj.splitList = [] //特征拆分
-                    targetObj.mergeList = []
+                    targetObj.selectEliminate = that.selectEliminate//剔除类
+                    targetObj.splitList = that.splitList //特征拆分
+                    targetObj.mergeList = that.mergeList
                     targetObj.reduction={
                         lda:{
-                            svd:'',
-                            regex:'',
-                            n:''
+                            svd:that.arithmetic,
+                            regex:that.regex,
+                            n:that.jiangwei
                             },
                         pca:{
-                            n:null,
-                            white:''
+                            n:that.number,
+                            white:that.baihua
                         }
                     }
+
+                    // 暂时的
+                    // targetObj.selectEliminate = ''//剔除类
+                    // targetObj.splitList = [] //特征拆分
+                    // targetObj.mergeList = []
+                    // targetObj.reduction={
+                    //     lda:{
+                    //         svd:'',
+                    //         regex:'',
+                    //         n:''
+                    //         },
+                    //     pca:{
+                    //         n:null,
+                    //         white:''
+                    //     }
+                    // }
                     var paramData={
                         characteristicOneDto:targetObj
                     }
