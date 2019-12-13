@@ -49,8 +49,13 @@
                             <p class="name">迭代</p>
                             <p class="number">48/50</p>
                         </div>
-                        <a class="start-btn" @click="trainingHandler" href="javascript:void(0);">
-                            {{trainingHandler?"开始":"暂停"}}
+                        <a class="start-btn" @click="isStart = true" href="javascript:void(0);" v-if="!isStart">
+                            <!-- {{trainingHandler?"开始":"暂停"}} -->
+                            开始
+                        </a>
+                        <a class="start-btn" @click="trainingHandler" href="javascript:void(0);" v-if="isStart ">
+                            <!-- {{trainingHandler?"开始":"暂停"}} -->
+                            暂停
                         </a>
                     </div>
                     <div v-if="training">
@@ -1464,7 +1469,8 @@
                     lambda:'',
                     min_gain_to_split:'',
                     max_cat_group:''
-                }
+                },
+                isStart:false
             }
         },
         components:{
@@ -1541,6 +1547,8 @@
                 }
                 this.closeDialog()
             }
+        },
+        created() {
         },
     }
 </script>

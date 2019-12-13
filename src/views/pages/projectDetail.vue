@@ -621,6 +621,7 @@ import inputTimePick from '../components/inputTimePick'
                     cfBl:null,//拆分比列
                     cyBl:null,//抽烟比列
                     sjZz:null,//随机种子
+                    curItemobject:{}
                 }
             },
             components:{
@@ -857,6 +858,7 @@ import inputTimePick from '../components/inputTimePick'
                 },
                 dialogPretreatment(item){
                     // 数据预处理
+                    console.log(item)
                     layer.open({
                         type: 1,
                         title: false,
@@ -868,8 +870,7 @@ import inputTimePick from '../components/inputTimePick'
                     this.selectMiid = item.miId
                     let url=`${ReqUrl.preProcessing}`
                     let paramsData={
-                        // taId:item.dsId
-                        taId:24
+                        taId:item.taId
                     }
                     
                     axios({
@@ -1032,38 +1033,43 @@ import inputTimePick from '../components/inputTimePick'
                 dialogxunliangmoxing(item){
                     // 模型训练
                     console.log(item)
+                    this.curItemobject = item
                     if(!item.tzzcs){
                         this.$message('请先进行特征工程')
                         return
                     }
                     this.selectMiid = item.miId
-                    this.curItemtype = item.yclcs.modelType
+                    this.objecttype = item.yclcs.modelType
                     var that = this
-                    if(item.mxcs && item.mxcs.cfBl){
+                    if(item.mxcs ){
                         that.cfBl=item.mxcs.cfBl
                         that.sjZz=item.mxcs.sjZz
                         that.cyBl = item.mxcs.cyBl
-                        item.mxcs.algorithm.forEach(key=>{
-                            if(that.curItemtype == '分类模型'){
-                                that.classification.forEach(item=>{
-                                    if(key == item.key){
-                                        item.checked = true
-                                    }
-                                })
-                            } else if(that.curItemtype == '归类模型'){
-                                that.regression.forEach(item=>{
-                                    if(key == item.key){
-                                        item.checked = true
-                                    }
-                                })
-                            } else if(that.curItemtype == '聚类模型'){
-                                that.clustering.forEach(item=>{
-                                    if(key == item.key){
-                                        item.checked = true
-                                    }
-                                })
-                            }
-                        })
+                        if(item.mxcs.algorithm){
+                            item.mxcs.algorithm.forEach(key=>{
+                                if(that.objecttype == '分类模型'){
+                                    that.classification.forEach(item=>{
+                                        if(key == item.key){
+                                            item.checked = true
+                                        }
+                                    })
+                                } else if(that.curItemtype == '回归模型'){
+                                    that.regression.forEach(item=>{
+                                        if(key == item.key){
+                                            item.checked = true
+                                        }
+                                    })
+                                } else if(that.curItemtype == '聚类模型'){
+                                    that.clustering.forEach(item=>{
+                                        if(key == item.key){
+                                            
+                                            item.checked = true
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                        
                         
                     } else {
                         that.cfBl=''
@@ -1073,7 +1079,7 @@ import inputTimePick from '../components/inputTimePick'
                             that.classification.forEach(item=>{
                                 item.checked = false
                             })
-                        } else if(that.curItemtype == '归类模型'){
+                        } else if(that.curItemtype == '回归模型'){
                             that.regression.forEach(item=>{
                                 item.checked = false
                             })
@@ -1341,13 +1347,14 @@ import inputTimePick from '../components/inputTimePick'
                     var that = this
                     let url=`${ReqUrl.saveModelDrill}`
                     let targetObj={},arr=[]
+                    console.log(this.curItemtype)
                     if(this.curItemtype == '分类模型'){
                         this.classification.forEach(item=>{
                             if(item.checked){
                                 arr.push(item.key)
                             }
                         })
-                    } else if(this.curItemtype == '归类模型'){
+                    } else if(this.curItemtype == '回归模型'){
                         console.log(this.regression)
                         this.regression.forEach(item=>{
                             if(item.checked){
@@ -1382,11 +1389,12 @@ import inputTimePick from '../components/inputTimePick'
                        that.cfBl = ''
                        that.sjZz =''
                        that.cyBl = ''
-                        that.$message({
-                            message: res.data,
-                            type: 'success'
-                        });
+                        // that.$message({
+                        //     message: res.data,
+                        //     type: 'success'
+                        // });
                         that.closeDialog()
+                        that.$router.push({path:'/model',query:{mxcs:that.curItemobject}})
                     })
                 }
 

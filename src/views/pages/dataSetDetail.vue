@@ -536,7 +536,7 @@
                 const that = this
                 that.loading = true
                 let paramData={
-                    taId:24
+                    taId:that.taId
                 }
                 let url=`${ReqUrl.taskDetail}`
                 axios({
@@ -547,27 +547,29 @@
                 .then(res=>{
                     const dataArry= res.data
                     that.dataList = res.data
-                    console.log(res.data)
-                    that.dataList.map((item,index)=>{
-                        item.isShowtype = false
-                        item.optionlist =[]
-                        if(item.type== '时间型' || item.trans !='can'){
-                            item.optionlist=[
-                                {
-                                    text:'离散型'//离散型
-                                }
-                            ]
-                        } else if(item.trans == 'can'){
-                            item.optionlist=[
-                                {
-                                    text:'离散型'//离散型
-                                },
-                                {
-                                    text:'连续型' //连续型
-                                }
-                            ]
-                        }
-                    })
+                    if(res.data !='无'){
+                        that.dataList.map((item,index)=>{
+                            item.isShowtype = false
+                            item.optionlist =[]
+                            if(item.type== '时间型' || item.trans !='can'){
+                                item.optionlist=[
+                                    {
+                                        text:'离散型'//离散型
+                                    }
+                                ]
+                            } else if(item.trans == 'can'){
+                                item.optionlist=[
+                                    {
+                                        text:'离散型'//离散型
+                                    },
+                                    {
+                                        text:'连续型' //连续型
+                                    }
+                                ]
+                            }
+                        })
+                    }
+                    
                     that.loading = false
                     that.originalData = that.dataList
                     console.log(that.dataList)
@@ -611,7 +613,7 @@
                 obj[item.column_name] = name.text
                 let paramData={
                     columnMap: obj,
-                    taId: 24
+                    taId: that.taId
                 }
                 let url=`${ReqUrl.updateColumns}`
                 if(item.type != name.type){
@@ -633,7 +635,7 @@
             getSpecificData(){
                 const that = this
                 let paramData={
-                    taId:24,
+                    taId:that.taId,
                     page:this.page,
                     size:this.pageSize
                 }
@@ -646,7 +648,6 @@
                 .then(res=>{
                     that.specificData =[]
                     const dataArry= res.data
-
                     that.specificListname = dataArry.columns
                     dataArry.data.forEach(item=>{
                         var obj ={}
