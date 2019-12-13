@@ -49,7 +49,7 @@
                             <p class="name">迭代</p>
                             <p class="number">48/50</p>
                         </div>
-                        <a class="start-btn" @click="isStart = true" href="javascript:void(0);" v-if="!isStart">
+                        <a class="start-btn" @click="startModel" href="javascript:void(0);" v-if="!isStart">
                             <!-- {{trainingHandler?"开始":"暂停"}} -->
                             开始
                         </a>
@@ -180,8 +180,8 @@
         </div>
         <div class="content alert-box-content">
             <p class="big-title">参考设置</p>
-            <!-- SVR -->
-            <div class="item-lists" v-show="active == 'SVR'">
+            <!-- 支持向量机 -->
+            <div class="item-lists" v-show="active == '支持向量机'">
                 <div class="item-list clearfix">
                     <span class="fl">C</span>
                     <div class="fl clearfix">
@@ -440,8 +440,8 @@
                     </div>
                 </div>
             </div>
-            <!-- GBTD -->
-            <div class="item-lists" v-show="active == 'GBTD'">
+            <!-- GBDT -->
+            <div class="item-lists" v-show="active == 'GBDT'">
                 <div class="item-list clearfix">
                     <span class="fl">n_estimators</span>
                     <div class="fl clearfix">
@@ -727,6 +727,36 @@
                     </div>
                 </div>
             </div>
+            <!-- SVC -->
+            <div class="item-lists" v-show="active == 'SVC'">
+                <div class="item-list clearfix">
+                    <span class="fl">SVC</span>
+                </div>
+            </div>
+            <!-- 贝叶斯 -->
+            <div class="item-lists" v-show="active == '贝叶斯'">
+                <div class="item-list clearfix">
+                    <span class="fl">贝叶斯</span>
+                </div>
+            </div>
+            <!-- K近邻 -->
+            <div class="item-lists" v-show="active == 'K近邻'">
+                <div class="item-list clearfix">
+                    <span class="fl">K近邻</span>
+                </div>
+            </div>
+            <!-- 线性回归 -->
+            <div class="item-lists" v-show="active == '线性回归'">
+                <div class="item-list clearfix">
+                    <span class="fl">线性回归</span>
+                </div>
+            </div>
+            <!-- Kmeans -->
+            <div class="item-lists" v-show="active == 'Kmeans'">
+                <div class="item-list clearfix">
+                    <span class="fl">Kmeans</span>
+                </div>
+            </div>
             <div class="btn-wrap text-c">
                 <button class="btn-save" @click="save">保存</button>
             </div>
@@ -742,7 +772,8 @@
     import chartPieSwitch from '../components/chartPieSwitch'
 
     import swiperChart from '../components/swiperChart'
-
+    import * as ReqUrl from '../../api/reqUrl'
+    import {mapState} from 'vuex'
     export  default {
         data(){
             return {
@@ -992,7 +1023,6 @@
                               position:"right",
                               fontSize:14,
                               formatter:function(params){
-                                  console.log(params);
                                   return params.data.value1;
                               },
                               color:'rgba(43, 202, 248, 1)'
@@ -1355,25 +1385,25 @@
                 },
                 active:'',
                 tabList:[
-                    {
-                        name:"SVR"
-                    },
-                    {
-                        name:"决策树"
-                    },
-                    {
-                        name:"随机森林"
-                    },
-                    {
-                        name:"GBTD"
-                    },
-                    {
-                        name:'逻辑回归'
-                    },
-                    {
-                        name:'XGBOOTST'
-                    }
-                ],
+                        {
+                            name:"支持向量机"
+                        },
+                        {
+                            name:"决策树"
+                        },
+                        {
+                            name:"随机森林"
+                        },
+                        {
+                            name:"GBDT"
+                        },
+                        {
+                            name:'逻辑回归'
+                        },
+                        {
+                            name:'XGBOOTST'
+                        }
+                    ],
                 // 超参参数
                 // SUR
                 svr:{
@@ -1428,7 +1458,7 @@
                     min_sample_leaf:'',
                     max_depth:''
                 },
-                // GBTD
+                // GBNT
                 gbtd:{
                     n_estimators:'',
                     learing_rate:'',
@@ -1470,8 +1500,15 @@
                     min_gain_to_split:'',
                     max_cat_group:''
                 },
-                isStart:false
+                isStart:false,
+                selectAlgorithm:[],//选择的算法
+                selectMiid:null,
+                selectTaid:null
+                
             }
+        },
+        computed:{
+            ...mapState(['modelItem'])
         },
         components:{
             chart:ECharts,
@@ -1480,7 +1517,11 @@
         },
         mounted(){
             this.init();
+            
+            // this.selectAlgorithm  = this.modelItem.mxcs.algorithm
+            // console.log(this.selectAlgorithm)
             this.active=this.tabList[0]["name"];
+            
         },
         methods:{
             trainingHandler:function(){
@@ -1546,9 +1587,130 @@
                     console.log(this.xgbootst,'XGBOOTST')
                 }
                 this.closeDialog()
+            },
+            filterSelect(){
+                // 判断选择的算法
+                var arr=[]
+                this.selectAlgorithm.forEach(item=>{
+                    var obj ={}
+                    // 分类模型
+                    if(item == "SVC"){
+                        obj.name = "支持向量机"
+                        arr.push(obj)
+                    } else if(item == "LR"){
+                        obj.name = "逻辑回归"
+                        arr.push(obj)
+                    }  else if(item == "CTTREE"){
+                        obj.name = "决策树"
+                        arr.push(obj)
+                    } else if(item == "GBDC"){
+                        obj.name = "GBDT"
+                        arr.push(obj)
+                    } else if(item == "BYSY"){
+                        obj.name = "贝叶斯"
+                        arr.push(obj)
+                    } else if(item == "KNN"){
+                        obj.name = "K近邻"
+                        arr.push(obj)
+                    } else if(item == "XGBC"){
+                        obj.name = "XGBOOTST"
+                        arr.push(obj)
+                    } else if(item == "RDMC"){
+                        obj.name = "随机森林"
+                        arr.push(obj)
+                    } else if(item == "SVR"){
+                        // 回归
+                        obj.name = "支持向量机"
+                        arr.push(obj)
+                    } else if(item == "RVTREE"){
+                        obj.name = "决策树"
+                        arr.push(obj)
+                    } else if(item == "GBDR"){
+                        obj.name = "GBDT"
+                        arr.push(obj)
+                    } else if(item == "LINR"){
+                        obj.name = "线性回归"
+                        arr.push(obj)
+                    } else if(item == "XGBR"){
+                        obj.name = "XGBOOTST"
+                        arr.push(obj)
+                    } else if(item == "RDMR"){
+                        obj.name = "随机森林"
+                        arr.push(obj)
+                    } else if(item == "Kmeans"){
+                        // 聚类
+                        obj.name = "Kmeans"
+                        arr.push(obj)
+                    }
+                })
+                if(arr[0]){
+                    this.tabList=arr
+                    this.active=arr[0]["name"]
+                    console.log(arr[0])
+                } else {
+                    this.tabList=[
+                        {
+                            name:"支持向量机"
+                        },
+                        {
+                            name:"决策树"
+                        },
+                        {
+                            name:"随机森林"
+                        },
+                        {
+                            name:"GBDT"
+                        },
+                        {
+                            name:'逻辑回归'
+                        },
+                        {
+                            name:'XGBOOTST'
+                        }
+                    ]
+                }
+            },
+            startModel(){
+                
+                var that = this
+                let url=`${ReqUrl.starTrain}`
+                axios({
+                        url: url,
+                        method: 'get',
+                        params:{miId:that.selectMiid},
+                    })
+                    .then(res=>{
+                        // that.$message({
+                        //     message: res.data,
+                        //     type: 'success'
+                        // });
+                        that.isStart = true
+                    })
+            },
+            findMis(){
+                var that = this
+                let url=`${ReqUrl.findMis}`
+                axios({
+                        url: url,
+                        method: 'get',
+                        params:{miId:that.selectMiid},
+                    })
+                    .then(res=>{
+                        that.selectAlgorithm = JSON.parse(res.data.mxcs).algorithm
+                        console.log(that.selectAlgorithm)
+                        if(that.selectAlgorithm[0]){
+                            that.filterSelect()
+                        }
+                    })
             }
         },
         created() {
+            this.selectMiid = this.$route.query.miId
+            this.selectTaid = this.$route.query.taId
+            if(this.selectMiid){
+                this.findMis()
+            }
+            
         },
     }
 </script>

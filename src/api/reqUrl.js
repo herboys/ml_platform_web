@@ -46,3 +46,7 @@ export const updateColumns = 'api/task/updateColumns'
 export const getSpecificData = 'api/task/getSpecificData'
     // 模型训练
 export const saveModelDrill = 'api/task/saveModelDrill'
+    // 开始训练
+export const starTrain = 'api/task/train'
+    // 查询模型参数
+export const findMis = 'api/task/findMis'

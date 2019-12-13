@@ -22,6 +22,8 @@
             options:function(){
                 // console.log(this.values,'2222');
                 return this.values;
+                
+                
             }
         },
         mounted(){

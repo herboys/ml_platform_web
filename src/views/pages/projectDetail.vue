@@ -117,7 +117,7 @@
                 <select name="" id="" v-model="addTaskform.selectDataid">
                         <option :value="item.taId" v-for="item in dataList" :key="item.taId" >{{item.bmc}}</option>
                 </select>
-                <p class="tips" >数据源中没有需要的数据? <router-link :to="{path:'/dataSet',}">点击前往上传数据集</router-link></p>
+                <p class="tips" >数据源中没有需要的数据? <a @click="toLink('dataSet')">点击前往上传数据集</a></p>
                 <div class="btn-wrap clearfix">
                     <button class="btn addBtn fl" @click="addTask()">新增</button>
                     <button class="btn backBtn fr" @click="closeDialog">返回</button>
@@ -242,7 +242,6 @@
                         <span class="light">选择算法：</span>(可选择多种选择算法添加至模型训练中)
                     </p>
                     <div class="content-item1 content-item3 clearfix">
-                        
                         <!-- 分类模型 -->
                         <div class="choose-wrap" v-for="item in classification" :key="item.key" v-show="curItemtype == '分类模型'">
                             <label><input type="checkbox" :checked="item.checked" v-model="item.checked" :value="item.key" ><i class="icon"></i><span>{{item.text}}</span></label>
@@ -264,7 +263,7 @@
                 
                 <div class="btn-wrap text-c">
                     <!-- <button class="btn esc" @click="closeDialog">退出</button> -->
-                    <button class="btn begin" @click="saveModelDrill">开始训练</button>
+                    <button class="btn begin" @click="saveModelDrill">确定</button>
                 </div>
             </div>
         </div>
@@ -614,7 +613,7 @@ import {mapMutations} from 'vuex'
                     clustering:[
                         {
                             checked:false,
-                            text:'means',
+                            text:'Kmeans',
                             key:'Kmeans'
                         },
                     ],//聚类模型
@@ -660,7 +659,7 @@ import {mapMutations} from 'vuex'
                 },
             },
             methods: {
-            ...mapMutations(['TASKITEMLIST']),
+            ...mapMutations(['TASKITEMLIST','modelItem']),
                  ClickItemBtn(index,name){
                     this.mergeList.forEach((element,indexs)=>{
                         if(indexs==index){ 
@@ -809,7 +808,7 @@ import {mapMutations} from 'vuex'
                                     })
                                 })
                             }
-                            console.log(that.taskList)
+
                             
                             
                         }
@@ -860,7 +859,6 @@ import {mapMutations} from 'vuex'
                 },
                 dialogPretreatment(item){
                     // 数据预处理
-                    console.log(item)
                     layer.open({
                         type: 1,
                         title: false,
@@ -965,12 +963,17 @@ import {mapMutations} from 'vuex'
                         params: paramsData,
                     })
                     .then(res=>{
-                        res.data.map(item=>{
-                            var obj = {}
-                            obj.colmunName = item
-                            obj.checked = false
-                            this.tcgcList.push(obj)
-                        })
+                        if(res.data[0]){
+                            res.data.map(item=>{
+                                var obj = {}
+                                obj.colmunName = item
+                                obj.checked = false
+                                this.tcgcList.push(obj)
+                            })
+                        } else {
+                            this.tcgcList=[]
+                        }
+                        
 
                         let paras=[          {
                             selectColmun:[],
@@ -1034,14 +1037,13 @@ import {mapMutations} from 'vuex'
                 },
                 dialogxunliangmoxing(item){
                     // 模型训练
-                    console.log(item)
                     this.curItemobject = item
                     if(!item.tzzcs){
                         this.$message('请先进行特征工程')
                         return
                     }
                     this.selectMiid = item.miId
-                    this.objecttype = item.yclcs.modelType
+                    this.curItemtype = item.yclcs.modelType
                     var that = this
                     if(item.mxcs ){
                         that.cfBl=item.mxcs.cfBl
@@ -1049,7 +1051,7 @@ import {mapMutations} from 'vuex'
                         that.cyBl = item.mxcs.cyBl
                         if(item.mxcs.algorithm){
                             item.mxcs.algorithm.forEach(key=>{
-                                if(that.objecttype == '分类模型'){
+                                if(that.curItemtype == '分类模型'){
                                     that.classification.forEach(item=>{
                                         if(key == item.key){
                                             item.checked = true
@@ -1240,7 +1242,10 @@ import {mapMutations} from 'vuex'
                     } else if(type == 'visual'){
                         this.TASKITEMLIST(item)
                         this.$router.push({path:'/VisualTwoLevel'})
-                    } 
+                    }  else if(type="dataSet"){
+                        this.closeDialog()
+                        this.$router.push({path:'/dataSet'})
+                    }
 
                 },
                 saveCharacteristic(){
@@ -1276,7 +1281,6 @@ import {mapMutations} from 'vuex'
                     })
                     if(!isTrue) return
                     const targetObj = {}
-                    console.log(that.splitList)
                     // 原来的
                     targetObj.selectEliminate = that.selectEliminate//剔除类
                     targetObj.splitList = that.splitList //特征拆分
@@ -1350,7 +1354,6 @@ import {mapMutations} from 'vuex'
                     var that = this
                     let url=`${ReqUrl.saveModelDrill}`
                     let targetObj={},arr=[]
-                    console.log(this.curItemtype)
                     if(this.curItemtype == '分类模型'){
                         this.classification.forEach(item=>{
                             if(item.checked){
@@ -1358,7 +1361,6 @@ import {mapMutations} from 'vuex'
                             }
                         })
                     } else if(this.curItemtype == '回归模型'){
-                        console.log(this.regression)
                         this.regression.forEach(item=>{
                             if(item.checked){
                                 arr.push(item.key)
@@ -1382,6 +1384,7 @@ import {mapMutations} from 'vuex'
                         cyBl:that.cyBl,
                         algorithm:arr
                     }
+                    
                     axios({
                         url: url,
                         method: 'post',
@@ -1396,8 +1399,10 @@ import {mapMutations} from 'vuex'
                         //     message: res.data,
                         //     type: 'success'
                         // });
+                        that.getTasklist()
                         that.closeDialog()
-                        that.$router.push({path:'/model',query:{mxcs:that.curItemobject}})
+                        that.$router.push({path:'/model',query:{miId:that.curItemobject.miId,taId:that.curItemobject.taId}})
+                        that.modelItem(paramData)
                     })
                 }
 

@@ -105,7 +105,7 @@
                             </thead>
                             <tbody >
                                 <tr class="evenTr" v-for="(item,index) in specificData" :key="index">
-                                  <td v-for="name in item.data">{{name}}</td>
+                                  <td v-for="name in item.data">{{name || '-'}} </td>
                                 </tr>
 
 
@@ -333,6 +333,7 @@
                     })
                     let echartsOption
                     if(val.type!='离散型'){
+                        console.log('非离散')
                         echartsOption=  {
                             color: ['#3398DB'],
                             tooltip : {
@@ -405,6 +406,7 @@
                             ]
                         }
                     } else {
+                        console.log('离散')
                         echartsOption = {
                             color: ["#287ae9", "#0f8b91", "#876acc"],
                             // width:'70%',
@@ -456,8 +458,8 @@
                             ]
                         }
                     }
-
                     return echartsOption
+                    
                 }
             },
             
@@ -473,9 +475,6 @@
         watch:{
             searchKey(val){
                 if(val){
-                    // this.dataList= this.dataList.filter((value)=>{  //过滤数组元素
-                    //     return value.fildeName.includes(val); //如果包含字符返回true
-                    // });
                 } else {
                     this.dataList = this.originalData
                 }
@@ -487,7 +486,7 @@
                     this.$message('搜索列名称不能为空')
                 } else {
                     this.dataList= this.dataList.filter((value)=>{  //过滤数组元素
-                        return value.column_name.includes(this.searchKey); //如果包含字符返回true
+                        return value.column_name.includes(this.searchKey)//如果包含字符返回true
                     });
                 }
             },

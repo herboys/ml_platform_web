@@ -9,7 +9,8 @@ export default new Vuex.Store({
         theme: localStorage.getItem('theme') || 'dark',
         changeMenuTheme: [],
         changeMainTheme: [],
-        taskitemlist:[]
+        taskitemlist: [],
+        modelItem: {}
     },
     mutations: {
         changeTheme(state, theme) {
@@ -21,9 +22,13 @@ export default new Vuex.Store({
         changeMainTheme(state, mainTheme) {
             state.themeColor = mainTheme;
         },
-        TASKITEMLIST(state,data){
-            console.log(data,'vuex')
-            state.taskitemlist=data
+        TASKITEMLIST(state, data) {
+            // console.log(data, 'vuex')
+            state.taskitemlist = data
+        },
+        modelItem(state, data) {
+            // console.log(data, 'vuexdd')
+            state.modelItem = data
         }
     },
     actions: {},

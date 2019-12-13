@@ -14,7 +14,7 @@ import echarts from 'echarts'
 import iconFont from './assets/aliIcon/iconfont.css'
 import qs from 'qs'
 Vue.prototype.$qs = qs
-Vue.prototype.$echarts = echarts
+Vue.prototype.$echarts = echarts 
 import axios from './api/ajax'
 
 
