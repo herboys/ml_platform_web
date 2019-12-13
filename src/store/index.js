@@ -2,13 +2,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-
+import * as getters from './getters.js'
 export default new Vuex.Store({
     state: {
         token: null,
         theme: localStorage.getItem('theme') || 'dark',
         changeMenuTheme: [],
-        changeMainTheme: []
+        changeMainTheme: [],
+        taskitemlist:[]
     },
     mutations: {
         changeTheme(state, theme) {
@@ -19,8 +20,13 @@ export default new Vuex.Store({
         },
         changeMainTheme(state, mainTheme) {
             state.themeColor = mainTheme;
+        },
+        TASKITEMLIST(state,data){
+            console.log(data,'vuex')
+            state.taskitemlist=data
         }
     },
     actions: {},
-    modules: {}
+    modules: {},
+    getters,
 })

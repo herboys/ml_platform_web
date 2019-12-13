@@ -49,7 +49,7 @@
                                     <a class="moreicon" @click="toggleShow(item,index)">
                                         <ul class="moreicon-ul" v-show="item.isShow">
                                             <!-- <li class="lookicon">查看数据</li> -->
-                                            <li class="visualicon" @click="toLink('visual')">数据可视化</li>
+                                            <li class="visualicon" @click="toLink('visual',item)">数据可视化</li>
                                             <li class="deployModelicon">部署模型</li>
                                             <li class="deployModelicon">调用模型</li>
                                             <li class="delicon" @click="deleteTask(item.miId)">删除</li>
@@ -427,6 +427,7 @@ import commonTable from '../components/commonTable.vue'
 import commonHeade from '../components/header.vue'
 import inputTimePick from '../components/inputTimePick'
   import qs from 'qs'
+import {mapMutations} from 'vuex'
   const parseForm = qs.stringify
   function packup (data = {}) {
         return parseForm({
@@ -659,6 +660,7 @@ import inputTimePick from '../components/inputTimePick'
                 },
             },
             methods: {
+            ...mapMutations(['TASKITEMLIST']),
                  ClickItemBtn(index,name){
                     this.mergeList.forEach((element,indexs)=>{
                         if(indexs==index){ 
@@ -1236,6 +1238,7 @@ import inputTimePick from '../components/inputTimePick'
                     } else if(type == 'js'){
                         this.$router.push({path:'/explain'})
                     } else if(type == 'visual'){
+                        this.TASKITEMLIST(item)
                         this.$router.push({path:'/VisualTwoLevel'})
                     } 
 
