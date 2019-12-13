@@ -246,7 +246,12 @@
 }
 
 #alert-box-shujujiTab .content {
-    min-height: 650px;
+    /* min-height: 650px; */
+}
+
+#alert-box-shujujiTab .item-lists-conent {
+    height: 400px;
+    overflow-y: scroll;
 }
 
 #alert-box-addNewTask select {

@@ -181,7 +181,7 @@
         <div class="content alert-box-content">
             <p class="big-title">参考设置</p>
             <!-- 支持向量机 -->
-            <div class="item-lists" v-show="active == '支持向量机'">
+            <div class="item-lists item-lists-conent" v-show="active == '支持向量机'">
                 <div class="item-list clearfix">
                     <span class="fl">C</span>
                     <div class="fl clearfix">
@@ -276,7 +276,7 @@
 
             </div>
             <!-- 决策树 -->
-            <div class="item-lists" v-show="active == '决策树'">
+            <div class="item-lists item-lists-conent" v-show="active == '决策树'">
                 <div class="item-list clearfix">
                     <span class="fl">criterion</span>
                     <div class="fl clearfix">
@@ -368,7 +368,7 @@
                 </div>
             </div>
             <!-- 随机森林 -->
-            <div class="item-lists" v-show="active =='随机森林'">
+            <div class="item-lists item-lists-conent" v-show="active =='随机森林'">
                 <div class="item-list clearfix">
                     <span class="fl">max_features</span>
                     <div class="fl clearfix">
@@ -441,7 +441,7 @@
                 </div>
             </div>
             <!-- GBDT -->
-            <div class="item-lists" v-show="active == 'GBDT'">
+            <div class="item-lists item-lists-conent" v-show="active == 'GBDT'">
                 <div class="item-list clearfix">
                     <span class="fl">n_estimators</span>
                     <div class="fl clearfix">
@@ -512,7 +512,7 @@
                 </div>
             </div>
             <!-- 逻辑回归 -->
-            <div class="item-lists" v-show="active == '逻辑回归'">
+            <div class="item-lists item-lists-conent" v-show="active == '逻辑回归'">
                 <div class="item-list clearfix">
                     <span class="fl">penalty</span>
                     <div class="fl clearfix">
@@ -606,7 +606,7 @@
                 </div>
             </div>
             <!-- XGBOOTST -->
-            <div class="item-lists" v-show="active == 'XGBOOTST'">
+            <div class="item-lists item-lists-conent" v-show="active == 'XGBOOTST'">
                 <div class="item-list clearfix">
                     <span class="fl">max_depth</span>
                     <div class="fl clearfix">
@@ -728,31 +728,31 @@
                 </div>
             </div>
             <!-- SVC -->
-            <div class="item-lists" v-show="active == 'SVC'">
+            <div class="item-lists item-lists-conent" v-show="active == 'SVC'">
                 <div class="item-list clearfix">
                     <span class="fl">SVC</span>
                 </div>
             </div>
             <!-- 贝叶斯 -->
-            <div class="item-lists" v-show="active == '贝叶斯'">
+            <div class="item-lists item-lists-conent" v-show="active == '贝叶斯'">
                 <div class="item-list clearfix">
                     <span class="fl">贝叶斯</span>
                 </div>
             </div>
             <!-- K近邻 -->
-            <div class="item-lists" v-show="active == 'K近邻'">
+            <div class="item-lists item-lists-conent" v-show="active == 'K近邻'">
                 <div class="item-list clearfix">
                     <span class="fl">K近邻</span>
                 </div>
             </div>
             <!-- 线性回归 -->
-            <div class="item-lists" v-show="active == '线性回归'">
+            <div class="item-lists item-lists-conent" v-show="active == '线性回归'">
                 <div class="item-list clearfix">
                     <span class="fl">线性回归</span>
                 </div>
             </div>
             <!-- Kmeans -->
-            <div class="item-lists" v-show="active == 'Kmeans'">
+            <div class="item-lists item-lists-conent" v-show="active == 'Kmeans'">
                 <div class="item-list clearfix">
                     <span class="fl">Kmeans</span>
                 </div>
@@ -1549,7 +1549,7 @@
                     title: false,
                     anim: 2,
                     closeBtn: 0,
-                    area: ['860px', '750px'], //宽高
+                    area: ['860px', '600px'], //宽高
                     content: $('#alert-box-shujujiTab'),
                 });
             },
@@ -1596,50 +1596,65 @@
                     // 分类模型
                     if(item == "SVC"){
                         obj.name = "支持向量机"
+                        obj.key=item
                         arr.push(obj)
                     } else if(item == "LR"){
                         obj.name = "逻辑回归"
+                        obj.key=item
                         arr.push(obj)
                     }  else if(item == "CTTREE"){
                         obj.name = "决策树"
+                        obj.key=item
                         arr.push(obj)
                     } else if(item == "GBDC"){
                         obj.name = "GBDT"
+                        obj.key=item
                         arr.push(obj)
                     } else if(item == "BYSY"){
                         obj.name = "贝叶斯"
+                        obj.key=item
                         arr.push(obj)
                     } else if(item == "KNN"){
                         obj.name = "K近邻"
+                        obj.key=item
                         arr.push(obj)
                     } else if(item == "XGBC"){
                         obj.name = "XGBOOTST"
+                        obj.key=item
                         arr.push(obj)
                     } else if(item == "RDMC"){
                         obj.name = "随机森林"
+                        obj.key=item
                         arr.push(obj)
                     } else if(item == "SVR"){
                         // 回归
                         obj.name = "支持向量机"
+                        obj.key=item
                         arr.push(obj)
                     } else if(item == "RVTREE"){
                         obj.name = "决策树"
+                        obj.key=item
                         arr.push(obj)
                     } else if(item == "GBDR"){
                         obj.name = "GBDT"
+                        obj.key=item
                         arr.push(obj)
                     } else if(item == "LINR"){
                         obj.name = "线性回归"
+                        obj.key=item
                         arr.push(obj)
                     } else if(item == "XGBR"){
                         obj.name = "XGBOOTST"
+                        obj.key=item
                         arr.push(obj)
                     } else if(item == "RDMR"){
                         obj.name = "随机森林"
+                        obj.key=item
                         arr.push(obj)
                     } else if(item == "Kmeans"){
                         // 聚类
                         obj.name = "Kmeans"
+                        obj.key=item
                         arr.push(obj)
                     }
                 })

@@ -317,6 +317,7 @@
                 else return '连续型'
             },
             filterEcharts(val){
+                var that = this
                 if(val){
                     let yData =  Object.values(val.bcs)
                     let xData =  Object.keys(val.bcs)
@@ -333,7 +334,6 @@
                     })
                     let echartsOption
                     if(val.type!='离散型'){
-                        console.log('非离散')
                         echartsOption=  {
                             color: ['#3398DB'],
                             tooltip : {
@@ -406,7 +406,6 @@
                             ]
                         }
                     } else {
-                        console.log('离散')
                         echartsOption = {
                             color: ["#287ae9", "#0f8b91", "#876acc"],
                             // width:'70%',
@@ -458,6 +457,7 @@
                             ]
                         }
                     }
+                    // that.echartsOption = echartsOption
                     return echartsOption
                     
                 }
@@ -478,7 +478,7 @@
                 } else {
                     this.dataList = this.originalData
                 }
-            }
+            },
         },
         methods:{
             toSearch(){
@@ -487,6 +487,7 @@
                 } else {
                     this.dataList= this.dataList.filter((value)=>{  //过滤数组元素
                         return value.column_name.includes(this.searchKey)//如果包含字符返回true
+                        // return value.type.includes(this.searchKey)
                     });
                 }
             },
@@ -531,7 +532,6 @@
                 this.getSpecificData()
             },
             getData(){
-
                 const that = this
                 that.loading = true
                 let paramData={
