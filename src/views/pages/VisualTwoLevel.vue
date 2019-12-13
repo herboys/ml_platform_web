@@ -33,7 +33,7 @@
                                 <div class="content-item1">
                                      <div class="choose-wrap" v-for="(item,index) in mergeList" :key="index"  >
                                                                         <label>
-                                    <input type="checkbox" @click="MergeListItemBtn(item,index)"/>
+                                    <input type="checkbox" :checked="item.ischeckbox" @click="MergeListItemBtn(item,index)"/>
                                     <i class="icon"></i><span>{{item.name}}</span>
                                 </label>
                                 </div>
@@ -62,14 +62,14 @@
         <!-- echarts 弹框 -->
         <div class="alert-box" id="alert-box-echarts">
             <div class="slider">
-                <div class="slide" v-for="(item,index) in echartslist">
+                <div class="slide"    v-for="(item,index) in echartslist" :key="index">
                     <div class="echarts-item">
-                        <div class="title text-c">
-                            {{echartsType}}图像
+                        <div class="title text-c"  >
+                            {{item.echartsType}}图像
                             <span @click="closeDialog" class="close iconfont icon-cross-fill"></span>
                         </div>
                         <div class="content alert-box-content">
-                            <swiper-chart class="echarts" :id="index" style="width: 676px;" :values="DynamicList"></swiper-chart>
+                            <swiper-chart class="echarts"  style="width: 676px;" :values="item.DynamicList"></swiper-chart>
                             <p class="text-c">
                                 <button class="btn btn-download" @click="EchartsDownload(index)">下载图像</button>
                                 <button class="btn btn-download"  @click="backdialogSetOption">重置可视化</button>
@@ -86,6 +86,7 @@
     import echarts from 'echarts'
     import senzhenGEO from '@/until/senzhen.js'
     import swiperChart from '../components/swiperChart'
+    import {mapState} from 'vuex'
 
     echarts.registerMap('sz', senzhenGEO)
     var setOptionEcharts
@@ -1891,25 +1892,34 @@
                 echartsType: '',
                 swiperInit: false,
                 mergeList:[],
-                echartslist:[{},{},{},{},{},{}],
+                echartslist:[],
             }
         },
         components: {swiperChart},
+        computed:{
+            ...mapState(['taskitemlist'])
+        },
         mounted() {
+            console.log(this.taskitemlist,'vuex')
             this.mock()
         },
         methods: {
             mock(){
-              axios({
-                  url:'mocks/mock.json',
-                  method:'get'
-              }).then(res=>{
-                  this.mergeList=res.data.user
-                  console.log( this.mergeList)
-              })
+                axios({
+                    url:'http://localhost:8080/mock.json',
+                    method:'get'
+                }).then(res=>{
+                    this.mergeList=this.taskitemlist.tzzcs.selectList
+                    console.log( this.mergeList)
+                })
             },
             backdialogSetOption(){
-                layer.closeAll()
+                layer.closeAll();
+                this.mergeList.forEach(res=>{
+                    res.ischeckbox=false
+                })
+                console.log(this.mergeList)
+                this.echartslist=[]
                 setTimeout(function () {
                     setOptionEcharts = layer.open({
                         type: 1,
@@ -1920,11 +1930,22 @@
                         content: $('#alert-box-tezhenggongcheng'),
                     });
                 }, 500);
-
             },
-
             dialogSetOption(type) {
                 this.echartsType = JSON.parse(JSON.stringify(type))
+                let para={
+                    ta_id:'24',
+                    type:this.echartsType,
+                    columnsx:['ID','性别','职业'],
+                    columny:'年龄',
+                    method:'count',
+                    interval_num:'3'
+                }
+                axios({
+                    url:'api/visualization/getVisualization',
+                    method:'post',
+                    data:para
+                })
                 setOptionEcharts = layer.open({
                     type: 1,
                     title: false,
@@ -1936,45 +1957,59 @@
             },
             closeDialog() {
                 layer.closeAll();
-            },
-            toView() {
-                layer.closeAll(setOptionEcharts)
-                layer.open({
-                    type: 1,
-                    title: false,
-                    anim: 2,
-                    closeBtn: 0,
-                    area: ['676px', 1000], //宽高
-                    content: $('#alert-box-echarts'),
-                });
-                $('#alert-box-echarts .slider').bxSlider({
-                    slideWidth: 676,
-                    infiniteLoop: false,
-                    hideControlOnEnd: true,
-                    slideMargin: 0,
-                    pager: false
-                });
-                this.StaticList.forEach(item => {
-                    console.log(item)
-                    if (item.name == this.echartsType) {
-                        let prop = item.echartsBarOption
-                        this.DynamicList = JSON.parse(JSON.stringify(prop))
-                        this.DynamicList.xAxis[0].show=true
-                        this.DynamicList.yAxis[0].axisLine.show=true
-                        this.DynamicList.yAxis[0].axisLabel.show=true
-                        this.DynamicList.series[0].name=this.echartsType
-                        //this.DynamicList.series[0].color='#4ca536'
-
-                        // this.mergeList.forEach(items=>{
-                        //     if(items.ischeckbox===true){
-                        //
-                        //         this.echartslist.push({})
-                        //     }
-                        // })
-                        // console.log(this.echartslist,'-------')
-
-                    }
+                this.mergeList.forEach(res=>{
+                    res.ischeckbox=false
                 })
+                console.log(this.mergeList)
+                this.echartslist=[]
+            },
+
+            toView() {
+                this.$nextTick(()=>{
+                    this.StaticList.forEach(item => {
+                        if (item.name == this.echartsType) {
+
+                            let prop = item.echartsBarOption
+                            this.DynamicList = JSON.parse(JSON.stringify(prop))
+                            this.DynamicList.xAxis[0].show=true
+                            this.DynamicList.yAxis[0].axisLine.show=true
+                            this.DynamicList.yAxis[0].axisLabel.show=true
+                            this.DynamicList.series[0].name=this.echartsType
+                            //this.DynamicList.series[0].color='#4ca536'
+                            this.mergeList.forEach(items=>{
+                                if(items.ischeckbox===true){
+                                    let paras={
+                                        echartsType:this.echartsType,
+                                        DynamicList: this.DynamicList
+                                    }
+                                    this.echartslist.push(paras)
+                                }
+                            })
+
+
+                        }
+                    })
+                })
+                if( this.echartslist.length>0){
+                    layer.closeAll(setOptionEcharts)
+                    layer.open({
+                        type: 1,
+                        title: false,
+                        anim: 2,
+                        closeBtn: 0,
+                        area: ['676px', 1000], //宽高
+                        content: $('#alert-box-echarts'),
+                    });
+                    $('#alert-box-echarts .slider').bxSlider({
+                        slideWidth: 676,
+                        infiniteLoop: false,
+                        hideControlOnEnd: true,
+                        slideMargin: 0,
+                        pager: false
+                    });
+
+                }
+
 
             },
             MergeListItemBtn(item,index){
