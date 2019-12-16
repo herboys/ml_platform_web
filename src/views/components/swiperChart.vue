@@ -27,10 +27,10 @@
             }
         },
         mounted(){
-           /* var that=this;
+            var that=this;
             window.onresize=function(){
                 that.$refs.echarts.chart.resize();
-            }*/
+            }
         },
         components:{
             chart:ECharts

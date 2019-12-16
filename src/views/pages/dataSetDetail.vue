@@ -171,7 +171,7 @@
                     on: {
                         init: ()=>{
                             this.swiperInit=true;
-                            //this.$refs.swiperEchart01.swiper.init();
+                            
                         }
                     },
                     navigation: {
@@ -318,6 +318,7 @@
             },
             filterEcharts(val){
                 var that = this
+                
                 if(val){
                     let yData =  Object.values(val.bcs)
                     let xData =  Object.keys(val.bcs)
@@ -457,7 +458,6 @@
                             ]
                         }
                     }
-                    // that.echartsOption = echartsOption
                     return echartsOption
                     
                 }
@@ -489,6 +489,7 @@
                         return value.column_name.includes(this.searchKey)//如果包含字符返回true
                         // return value.type.includes(this.searchKey)
                     });
+                    
                 }
             },
             closeDialog(){
@@ -544,12 +545,14 @@
                     params: paramData
                 })
                 .then(res=>{
-                    const dataArry= res.data
+                    const dataArry= res.data 
+                    
                     that.dataList = res.data
                     if(res.data !='无'){
                         that.dataList.map((item,index)=>{
                             item.isShowtype = false
                             item.optionlist =[]
+                            
                             if(item.type== '时间型' || item.trans !='can'){
                                 item.optionlist=[
                                     {
@@ -571,7 +574,6 @@
                     
                     that.loading = false
                     that.originalData = that.dataList
-                    console.log(that.dataList)
 
                     let len=that.dataList.length;
                     that.$nextTick(function(){
@@ -623,8 +625,6 @@
                         data: paramData
                     })
                     .then(res=>{
-
-                        console.log(res)
                         this.getData()
                     })
                 }
@@ -772,7 +772,7 @@
                     }
                 }
                 return this.swiperTcoption
-            },
+            }
         },
         created(){
             this.taId = this.$route.query.taId
