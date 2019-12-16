@@ -50,36 +50,7 @@
                             </tr>
                         </thead>
 
-                        <!-- <tbody>
-                            <tr class="evenTr">
-                                <td><span class="pull-icon down"></span></td>
-                                <td>item.dataName</td>
-                                <td>item.isShow</td>
-                                <td class="notStart">未开始</td>
-                                <td class="finished">已完成</td>
-                                <td class="unfininshed">未完成</td>
-                                <td>-</td>
-                                <td class="handle">
-                                    <a class="lookicon" @click="dialogTab">查看</a>
-                                    <a class="pretreatmenticon" @click="dialogPretreatment(item)">预处理</a>
-                                    <a class="updateicon">更新数据</a>
-                                    <a class="visualicon">可视化</a>
-                                    <a class="moreicon">
-                                        <ul class="moreicon-ul">
-                                            <li class="lookicon">查看</li>
-                                            <li class="visualicon">可视化</li>
-                                            <li class="deployModelicon">部署模型</li>
-                                            <li class="delicon">删除</li>
-                                        </ul>
-                                    </a>
-                                    <a title="修改" class="xiugai" @click="updateText(item)"><span class="iconfont icon-xiugai" ></span></a>
-                                    <a class="del" title="删除" @click="dialogDelete(item)"></a>
-                                </td>
-
-
-
-                            </tr>
-                        </tbody> -->
+                      
 
                         <tbody v-for="(item,index) in dataList" :key="index">
                             <tr class="evenTr"  >
@@ -687,7 +658,7 @@
                         
                     } else {
                         that.connectUrl = res.data.pop()
-                        res.data.pop()
+                        // res.data.pop()
                         res.data.map(item=>{
                             let obj = {}
                             let field,fieldType
@@ -746,7 +717,7 @@
                     if(item.field != 'id'){
                         that.toMapvalue(item.field,item.fieldType)
                     }
-                    
+                    // that.toMapvalue(item.field,item.fieldType)
                     if(item.checked){
                         selectedNum++
                     } 

@@ -769,6 +769,10 @@
     padding: 15px 0 14px;
 }
 
+.swiper-container {
+    width: 100%;
+}
+
 .swiper-container .swiper-slide-active .swiper-ul {
     width: 72%;
     float: right;

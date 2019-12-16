@@ -191,12 +191,16 @@
                             
                             <div class="half-left fl">
                                 <div class="choose-wrap" v-for="item in radioList" >
-                                    <label><input type="radio" name="radio2" :label="item.key" class="radioInput" v-model="selectRadio" :value="item.text"><i class="icon radio"></i><span>{{item.text}}</span></label>
+                                    <label><input type="radio" name="radio2" :label="item.key" class="radioInput" v-model="selectRadio" :value="item.text" @click="checkRadio"><i class="icon radio"></i><span>{{item.text}}</span></label>
                                 </div>
                             </div>
                             <div class="half-left fr">
                                 <div class="choose-wrap" v-for="item in preProcesscolmun.deficiencyColumn" :key="item.name">
-                                    <label><input type="checkbox" class="checkInput" :checked="item.checked" v-model="item.checked"><i class="icon check"></i><span>{{item.name}}</span></label>
+                                    <label>
+                                        <input type="checkbox" class="checkInput" :checked="item.checked" v-model="item.checked"  v-if="item.abled">
+                                        <input type="checkbox" class="checkInput" :checked="item.checked" v-model="item.checked" disabled="false" v-if="!item.abled">
+                                        <i class="icon check"></i><span>{{item.name}}</span>
+                                    </label>
                                 </div>
                             </div>
                             <span class="pop-arrow"></span>
@@ -621,7 +625,11 @@ import {mapMutations} from 'vuex'
                     cfBl:null,//拆分比列
                     cyBl:null,//抽烟比列
                     sjZz:null,//随机种子
-                    curItemobject:{}
+                    curItemobject:{},
+                    selectOldradio:'',
+                    isSeemItem:false,
+                    hasValue:false,
+                    selectKey:[]
                 }
             },
             components:{
@@ -657,6 +665,45 @@ import {mapMutations} from 'vuex'
                 },
                 selectEliminate(val){
                 },
+                selectRadio:{
+                    // if(this.isSeemItem && val != this.selectOldradio){
+                    //     this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
+                    //         if(item.checked){
+                    //             item.abled = false
+
+                    //         }
+                    //         console.log(item.abled)
+                    //     })
+                    // }
+                    deep:true,
+                    handler:function(newV,oldV){
+                        if(newV != this.selectOldradio){
+                            this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
+                                if(item.checked && item.key!=newV){
+                                    this.$set(this.preProcesscolmun.deficiencyColumn,index,{checked:!item.checked,abled:false,name:item.name,key:item.key})
+                                } else{
+                                    this.$set(this.preProcesscolmun.deficiencyColumn,index,{checked:item.checked,abled:true,name:item.name,key:item.key})
+                                }
+                                
+                            })
+                        } else {
+                            this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
+                                this.selectKey.filter(name=>{
+                                    if(item.key){
+                                        item.checked = true
+                                    } else{
+                                        item.checked = false
+                                    }
+                                })
+                            })
+                        }
+                        console.log(this.preProcesscolmun.deficiencyColumn)
+                    }
+                    
+                    
+                    
+                    
+                }
             },
             methods: {
             ...mapMutations(['TASKITEMLIST','modelItem']),
@@ -857,6 +904,8 @@ import {mapMutations} from 'vuex'
                 closeDialog(){
                     layer.closeAll();
                 },
+                checkRadio(){
+                },
                 dialogPretreatment(item){
                     // 数据预处理
                     layer.open({
@@ -867,7 +916,13 @@ import {mapMutations} from 'vuex'
                         area: ['860px', '680px'], //宽高
                         content: $('#alert-box-shujuyuchuli'),
                     });
-                    this.selectMiid = item.miId
+                    
+                    if(this.selectMiid ==  item.miId ){
+                        this.isSeemItem = true
+                    }  else {
+                        this.isSeemItem = false
+                        this.selectMiid = item.miId
+                    }
                     let url=`${ReqUrl.preProcessing}`
                     let paramsData={
                         taId:item.taId
@@ -885,6 +940,8 @@ import {mapMutations} from 'vuex'
                             var obj={}
                             obj.name = item
                             obj.checked = false
+                            obj.abled=true
+                            obj.key=""
                             arr.push(obj)
 
                         })
@@ -900,23 +957,32 @@ import {mapMutations} from 'vuex'
                             var selectKey
                             if(item.yclcs.missingColumn){
                                 this.selectRadio = Object.values(item.yclcs.missingColumn)[0]
+                                this.selectOldradio  = Object.values(item.yclcs.missingColumn)[0]
+                                
+                                
                                 selectKey = Object.keys(item.yclcs.missingColumn)
+                                this.selectKey = selectKey
                             }
-                            
                             this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
-                                if(item.name == selectKey){
-                                    item.checked = true
-                                }
+                                selectKey.forEach(name=>{
+                                    if(item.name == name){
+                                        item.checked = true
+                                        item.key = this.selectRadio
+                                    }
+                                })
                             })
+                            this.hasValue = true
                         } else {
                             this.selectGroup='',
                             this.selectType='',
                             this.selectTarget =''
                             this.selectRadio = ''
-                            var selectKey = ''
+                            var selectKey = []
+                            this.this.selectKey = []
                             this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
                                 item.checked = false
                             })
+                            this.hasValue = false
                         }
                     })
 

@@ -166,8 +166,10 @@
                 swiperInit:false,
                 swiperOption: {
                     slidesPerView: 6,
-                    spaceBetween: 10, 
+                    spaceBetween: 20, 
                     slidesPerGroup: 6,
+                    loop:true,
+                    loopedSlides:6,
                     on: {
                         init: ()=>{
                             this.swiperInit=true;
@@ -476,7 +478,11 @@
             searchKey(val){
                 if(val){
                 } else {
-                    this.dataList = this.originalData
+                    // this.dataList = []
+                    // this.dataList = this.originalData
+                    // this.getData()
+                    // this.$set(this,this.dataList, this.originalData)
+                    this.$set(this,this.dataList,[...this.originalData])
                 }
             },
         },
@@ -534,7 +540,7 @@
             },
             getData(){
                 const that = this
-                that.loading = true
+                // that.loading = true
                 let paramData={
                     taId:that.taId
                 }
