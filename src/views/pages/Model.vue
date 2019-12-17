@@ -15,18 +15,21 @@
                 </header>
                 <div class="model-content">
                     <ul class="dataset-list">
-                        <li class="long"><label class="label-text">验证数据集：</label>12K</li>
-                        <li class="short"><label class="label-text">行：</label> 15K</li>
-                        <li class="long"><label class="label-text">标签列：</label>是否患高血压</li>
+                        <li class="long"><label class="label-text">训练数据集：</label>12K</li>
+                        <li class="short"><label class="label-text">测试数据集：</label>3K</li>
+                        <li class="long"><label class="label-text">行：</label> 15K</li>
                         <li class="short"><label class="label-text">列：</label>30</li>
-                        <li class="long"><label class="label-text">重量列：</label> 23</li>
-                        <li class="short"><label class="label-text">类型：</label>布尔</li>
+                        <li class="long"><label class="label-text">目标列：</label>是否患高血压</li>
+                        
+                        <li class="short"><label class="label-text">有效列：</label> 23</li>
+                        
                         <li class="long"><label class="label-text">折叠列：</label>4</li>
                         <li class="short"><label class="label-text">时间列：</label>2</li>
-                        <li class="long"><label class="label-text">目标频率：</label>7K</li>
+                        <li class="long"><label class="label-text">训练类型：</label>布尔</li>
+                        <!-- <li class="long"><label class="label-text">目标频率：</label>7K</li>
                         <li class="short"><label class="label-text">唯一值：</label>10K</li>
-                        <li class="long"><label class="label-text">测试数据集：</label>3K</li>
-                        <li class="short"><label class="label-text">数量：</label>15K</li>
+                        
+                        <li class="short"><label class="label-text">数量：</label>15K</li> -->
                     </ul>
                 </div>
             </div>
@@ -180,8 +183,8 @@
         </div>
         <div class="content alert-box-content">
             <p class="big-title">参考设置</p>
-            <!-- 支持向量机 -->
-            <div class="item-lists item-lists-conent" v-show="active == '支持向量机'">
+            <!-- 支持向量机 svr -->
+            <div class="item-lists item-lists-conent" v-show="active == 'SVR'">
                 <div class="item-list clearfix">
                     <span class="fl">C</span>
                     <div class="fl clearfix">
@@ -238,9 +241,7 @@
                 <div class="item-list clearfix">
                     <span class="fl">gamma</span>
                     <div class="fl clearfix">
-                        <select class="fl" v-model="svr.gamma">
-                            <option :value="name" v-for="name in svr.gammaList" :key="name">{{ name }}</option>
-                        </select>
+                        <input type="text" class="fl" v-model="svr.gamma" placeholder="默认为1.0">
                         <p class="fl pop">
                             <span class="wenhao fl">
                                 <i class="icon iconfont icon-qm"></i>
@@ -257,8 +258,8 @@
                 <div class="item-list clearfix">
                     <span class="fl">class weight</span>
                     <div class="fl clearfix">
-                        <select class="fl" v-model="svr.class">
-                            <option :value="name" v-for="name in svr.classList" :key="name">{{ name }}</option>
+                        <select class="fl" v-model="svr.class_weightList">
+                            <option :value="name" v-for="name in svr.class_weightList" :key="name">{{ name }}</option>
                         </select>
                         <p class="fl pop">
                             <span class="wenhao fl">
@@ -268,6 +269,80 @@
                             <span class="border-right"></span>
                             <span class="txt">
                                    每个类所占据的权重，不同的类设置不同的惩罚参数C，缺省的话自适应
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- 支持向量机 svc -->
+            <div class="item-lists item-lists-conent" v-show="active == 'SVC'">
+                <div class="item-list clearfix">
+                    <span class="fl">C</span>
+                    <div class="fl clearfix">
+                        <input type="text" class="fl" v-model="svc.c" placeholder="默认为1.0">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                   C为错误术语的惩罚参数，C值越大，对误分类的惩罚越大，当C的值为无穷大的时候，表示全部正确的分类
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">kemel</span>
+                    <div class="fl clearfix">
+                        <select class="fl" v-model="svc.kemel">
+                            <option  v-for="name in svc.kemelList" :value="name" :key="name">{{ name }}</option>
+                        </select>
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                kemel为指定要在算法中使用的内核类型
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">degree</span>
+                    <div class="fl clearfix">
+                        <input type="text" v-model="svc.degree" class="fl" placeholder="默认值为3">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                    degree为多项式核函数的次数
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">gamma</span>
+                    <div class="fl clearfix">
+                        <input type="text" class="fl" v-model="svc.gamma" placeholder="默认为1.0">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                  Gamma指定了节点分裂所需的最小损失函数下降值。这个参数的值越大，算法越保守
                             </span>
                         </p>
 
@@ -727,34 +802,191 @@
                     </div>
                 </div>
             </div>
-            <!-- SVC -->
-            <div class="item-lists item-lists-conent" v-show="active == 'SVC'">
-                <div class="item-list clearfix">
-                    <span class="fl">SVC</span>
-                </div>
-            </div>
             <!-- 贝叶斯 -->
             <div class="item-lists item-lists-conent" v-show="active == '贝叶斯'">
                 <div class="item-list clearfix">
-                    <span class="fl">贝叶斯</span>
+                    <span class="fl">var_smoothing</span>
+                    <div class="fl clearfix">
+                        <input type="text" v-model="bysc.var_smoothing" class="fl" placeholder="默认为5">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                所有特征的最大方差部分，已添加到方差中以提高计算稳定性。
+                            </span>
+                        </p>
+                    </div>
                 </div>
             </div>
             <!-- K近邻 -->
             <div class="item-lists item-lists-conent" v-show="active == 'K近邻'">
                 <div class="item-list clearfix">
-                    <span class="fl">K近邻</span>
+                    <span class="fl">n_neighbors</span>
+                    <div class="fl clearfix">
+                        <input type="number" v-model="knn.n_neighbors" class="fl" placeholder="默认为5">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                knn算法中指定以最近的几个最近邻样本具有投票权
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">weights</span>
+                    <div class="fl clearfix">
+                        <select class="fl" v-model="knn.weights">
+                            <option :value="name" v-for="name in knn.weightsList" :key="name">{{name}}</option>
+                        </select>
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                 即每个拥有投票权的样本是按什么比重投票，'uniform'表示等比重投票，'distance'表示按距离反比投票
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">algrithm</span>
+                    <div class="fl clearfix">
+                        <select class="fl" v-model="knn.algrithm">
+                            <option :value="name" v-for="name in knn.algrithmList" :key="name">{{name}}</option>
+                        </select>
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                 内部采用什么算法实现。有以下几种选择参数：'+A1:D42_tree':球树、'kd_tree':kd树、'brute':暴力搜索、'auto':自动根据数据的类型和结构选择合适的算法
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">leaf_size</span>
+                    <div class="fl clearfix">
+                        <input type="number" v-model="knn.leaf_size" class="fl" placeholder="默认为30">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                 此参数给出了kd_tree或者ball_tree叶节点规模，叶节点的不同规模会影响数的构造和搜索速度，同样会影响储树的内存的大小。具体最优规模是多少视情况而定
+                            </span>
+                        </p>
+
+                    </div>
                 </div>
             </div>
             <!-- 线性回归 -->
             <div class="item-lists item-lists-conent" v-show="active == '线性回归'">
                 <div class="item-list clearfix">
-                    <span class="fl">线性回归</span>
+                    <span class="fl">fit_intercept</span>
+                    <div class="fl clearfix">
+                        <select class="fl" v-model="linr.fit_intercept">
+                            <option :value="name" v-for="name in linr.fit_interceptList" :key="name">{{name}}</option>
+                        </select>
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                是否使用截距
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">normalize</span>
+                    <div class="fl clearfix">
+                        <select class="fl" v-model="linr.normalize">
+                            <option :value="name" v-for="name in linr.normalizeList" :key="name">{{name}}</option>
+                        </select>
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                将在回归之前通过减去均值并除以l2-范数来对回归变量X进行归一化
+                            </span>
+                        </p>
+                    </div>
                 </div>
             </div>
             <!-- Kmeans -->
             <div class="item-lists item-lists-conent" v-show="active == 'Kmeans'">
                 <div class="item-list clearfix">
-                    <span class="fl">Kmeans</span>
+                    <span class="fl">n_clusters</span>
+                    <div class="fl clearfix">
+                        <input type="number" v-model="kmeans.n_clusters" class="fl" placeholder="默认为8">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                 生成的聚类数，即产生的质心（centroids）数
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">max_iter</span>
+                    <div class="fl clearfix">
+                        <input type="number" v-model="kmeans.max_iter" class="fl" placeholder="默认为300">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                 执行一次k-means算法所进行的最大迭代数
+                            </span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="item-list clearfix">
+                    <span class="fl">n_init</span>
+                    <div class="fl clearfix">
+                        <input type="number"  v-model="kmeans.max_iter" class="fl" placeholder="默认为10">
+                        <p class="fl pop">
+                            <span class="wenhao fl">
+                                <i class="icon iconfont icon-qm"></i>
+                            </span>
+                            <span class="fl help">帮助</span>
+                            <span class="border-right"></span>
+                            <span class="txt">
+                                 用不同的质心初始化值运行算法的次数，最终解是在inertia意义下选出的最优结果
+                            </span>
+                        </p>
+
+                    </div>
                 </div>
             </div>
             <div class="btn-wrap text-c">
@@ -1405,7 +1637,7 @@
                         }
                     ],
                 // 超参参数
-                // SUR
+                // SVR
                 svr:{
                     c:'',
                     kemel:'',
@@ -1417,18 +1649,24 @@
                     ],
                     degree:'',
                     gamma:'',
-                    gammaList:[
-                        'poly',
-                        'rbf',
-                        'sigmoid',
-                        'auto'
-                    ],
-                    class:'',
-                    classList:[
-                        'poly',
-                        'rbf',
-                        'sigmoid'
+                    class_weight:'',
+                    class_weightList:[
+                        '无',
+                        'balanced'
                     ]
+                },
+                //SVC
+                svc:{
+                    c:'',
+                    kemel:'',
+                    kemelList:[
+                        '线性核（linear）',
+                        '多项式核（poly）',
+                        '径向基核（rbf）',
+                        'sigmoid核'
+                    ],
+                    degree:'',
+                    gamma:''
                 },
                 // 决策树
                 decisionTree:{
@@ -1451,8 +1689,8 @@
                     max_features:'',
                     max_featuresList:[
                         'sqrt',
-                        '0.2',
-                        '不填'
+                        'log2',
+                        'auto'
                     ],
                     min_samples_split:'',
                     min_sample_leaf:'',
@@ -1499,6 +1737,46 @@
                     lambda:'',
                     min_gain_to_split:'',
                     max_cat_group:''
+                },
+                //k近邻
+                knn:{
+                    n_neighbors:'',
+                    weights:'uniform',
+                    weightsList:[
+                        'uniform',
+                        'distance'
+                    ],
+                    algrithm:'auto',
+                    algrithmList:[
+                        'auto',
+                        'ball_tree',
+                         'kd_tree', 
+                         'brute'
+                    ],
+                    leaf_size:null
+                },
+                // Kmeans
+                kmeans:{
+                    n_clusters:null,
+                    max_iter:null,
+                    n_init:null
+                },
+                //贝叶斯
+                bysc:{
+                    var_smoothing:''
+                },
+                //线性回归
+                linr:{
+                    fit_intercept:true,
+                    fit_interceptList:[
+                        true,
+                        false
+                    ],
+                    normalize:false,
+                    normalizeList:[
+                        true,
+                        false
+                    ],
                 },
                 isStart:false,
                 selectAlgorithm:[],//选择的算法
@@ -1575,7 +1853,9 @@
             save(){
                 if(this.active == 'SVR'){
                     console.log(this.svr,'SVR')
-                } else if(this.active == '决策树'){
+                } else if(this.active == 'SVC'){
+                    console.log(this.svc,'SVC')
+                }else if(this.active == '决策树'){
                     console.log(this.decisionTree,'决策树')
                 } else if(this.active == '随机森林'){
                     console.log(this.randomForest,'随机森林')
@@ -1585,7 +1865,15 @@
                     console.log(this.logisticRegression,'逻辑回归')
                 } else if(this.active == 'XGBOOTST'){
                     console.log(this.xgbootst,'XGBOOTST')
-                }
+                } else if(this.active == '贝叶斯'){
+                    console.log(this.bysc,'贝叶斯')
+                }  else if(this.active == 'K近邻'){
+                    console.log(this.knn,'K近邻')
+                } else if(this.active == '线性回归'){
+                    console.log(this.linr,'线性回归')
+                } else if(this.active == 'Kmeans'){
+                    console.log(this.kmeans,'Kmeans')
+                } 
                 this.closeDialog()
             },
             filterSelect(){
@@ -1595,14 +1883,14 @@
                     var obj ={}
                     // 分类模型
                     if(item == "SVC"){
-                        obj.name = "支持向量机"
+                        obj.name = "SVC"
                         obj.key=item
                         arr.push(obj)
                     } else if(item == "LR"){
                         obj.name = "逻辑回归"
                         obj.key=item
                         arr.push(obj)
-                    }  else if(item == "CTTREE"){
+                    }  else if(item == "DCTREE"){
                         obj.name = "决策树"
                         obj.key=item
                         arr.push(obj)
@@ -1610,7 +1898,7 @@
                         obj.name = "GBDT"
                         obj.key=item
                         arr.push(obj)
-                    } else if(item == "BYSY"){
+                    } else if(item == "BYSC"){
                         obj.name = "贝叶斯"
                         obj.key=item
                         arr.push(obj)
@@ -1628,10 +1916,10 @@
                         arr.push(obj)
                     } else if(item == "SVR"){
                         // 回归
-                        obj.name = "支持向量机"
+                        obj.name = "SVR"
                         obj.key=item
                         arr.push(obj)
-                    } else if(item == "RVTREE"){
+                    } else if(item == "DVTREE"){
                         obj.name = "决策树"
                         obj.key=item
                         arr.push(obj)

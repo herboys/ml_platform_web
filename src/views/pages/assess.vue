@@ -22,8 +22,8 @@
                             <p class="title text-c">模型排名</p>
                             <div class="form">
                                 <span>排名指标</span>
-                                <select>
-                                    <option value="">模型优劣指标</option>
+                                <select v-model="selectValue">
+                                    <option :value="item" v-for="item in selectList" :key="item">{{item}}</option>
                                 </select>
                                 <a class="btn-sure text-c">确定</a>
                             </div>
@@ -328,7 +328,15 @@
     export default  {
         data(){
             return {
-
+                selectValue:'准确率',
+                selectList:[
+                    '准确率',
+                    '召回率',
+                    'F1',
+                    '相似度',
+                    '欧式距离',
+                    '均方差'
+                ]
             }
         },
         components:{

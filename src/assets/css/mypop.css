@@ -252,6 +252,7 @@
 #alert-box-shujujiTab .item-lists-conent {
     height: 400px;
     overflow-y: scroll;
+    width: 780px;
 }
 
 #alert-box-addNewTask select {

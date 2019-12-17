@@ -32,55 +32,9 @@
                     </ul>
                     <swiper :options="swiperOption" class="swiper-wrap-new" ref="SwiperWrap">
                         <!-- slides -->
-                        <swiper-slide  class="swiper-no-swiping" >
+                        <swiper-slide  class="swiper-no-swiping" v-for="(item,index) in dataList" :key="index">
                             
-                            <div class="swiperItem" v-for="(item,index) in dataList" :key="index" v-if="index<6">
-                                <div class="swiper-top">
-                                    <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" :ref="'swiperEchart0'+(index+1)">
-                                        <swiper-slide >
-                                            <!-- <swiper-chart :values="echartsOption"></swiper-chart> -->
-                                            <div @click="toggleShowecharts(item)">
-                                                <swiper-chart :values="item | filterEcharts" ref="charts" ></swiper-chart>
-                                            </div>
-                                            
-                                        </swiper-slide>
-                                        <div class="swiper-pagination" slot="pagination"></div>
-                                    </swiper>
-                                </div>
-
-                                <!-- <div class="swiper-rect"></div> -->
-                                <div class="swiper-ul">
-                                    <ul>
-                                        <li>{{item.column_name}}</li>
-                                        <li class="p" @click="toggleShow(item,index)">{{item.type}} <i class="icon" v-show="item.trans =='can'"></i>
-                                            <!-- <select name="" id="" v-model="item.type">
-                                                <option :value="name.type" v-for="name in optionlist" >{{name.text}}</option>
-                                            </select> -->
-                                            <ul class="s" v-show="item.isShowtype && item.trans =='can'">
-                                                <li v-for="name in item.optionlist" @click="updateColumns(item,name)">{{name.text}}</li>
-                                                <!-- <li>连续型</li> -->
-                                            </ul>
-                                        </li>
-                                        <li>{{item.count}}</li>
-                                        <li>{{item.miss_column}}</li>
-                                        <li>{{item.mean}}</li>
-                                        <li>
-                                            <span v-show="item.type == '数值'">{{item.min}}</span>
-                                            <span v-show="item.type != '数值'">-</span>
-                                        </li>
-                                        <li>
-                                            <span v-show="item.type == '数值'">{{item.max}}</span>
-                                            <span v-show="item.type != '数值'">-</span>
-                                        </li>
-                                        <li>{{item.std}}</li>
-                                        <li>{{item.unique}}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </swiper-slide>
-                        <swiper-slide  class="swiper-no-swiping" >
-                            
-                            <div class="swiperItem" v-for="(item,index) in dataList" :key="index" v-if="index>5 && index<12">
+                            <div class="swiperItem"  >
                                 <div class="swiper-top">
                                     <swiper v-if="swiperInit" :options="swiperOptionEchart" class="swiper-echarts" :ref="'swiperEchart0'+(index+1)">
                                         <swiper-slide >
@@ -212,10 +166,9 @@
             return {
                 swiperInit:false,
                 swiperOption: {
-                    slidesPerView: 1,
+                    slidesPerView: 6,
                     spaceBetween: 20, 
-                    // slidesPerGroup: 6,
-                    loop:false,
+                    slidesPerGroup: 6,
                     on: {
                         init: ()=>{
                             this.swiperInit=true;
@@ -838,8 +791,8 @@
 </script>
 <style>
 .swiperItem{
-    width: 270px;
+    /* width: 270px;
     float: left;
-    margin-right: 10px;
+    margin-right: 10px; */
 }
 </style>

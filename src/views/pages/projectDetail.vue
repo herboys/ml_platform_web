@@ -197,14 +197,14 @@
                             <div class="half-left fr">
                                 <div class="choose-wrap" v-for="item in preProcesscolmun.deficiencyColumn" :key="item.name">
                                     <label>
-                                        <input type="checkbox" class="checkInput" :checked="item.checked" v-model="item.checked"  v-if="item.abled">
-                                        <input type="checkbox" class="checkInput" :checked="item.checked" v-model="item.checked" disabled="false" v-if="!item.abled">
+                                        <input type="checkbox" class="checkInput" :checked="item.checked" v-model="item.checked"  >
                                         <i class="icon check"></i><span>{{item.name}}</span>
                                     </label>
                                 </div>
                             </div>
                             <span class="pop-arrow"></span>
                             <div class="btn-wrap">
+                                <button class="more" style="margin-top:15px;color:#fff" @click="toApplication">应用</button>
                                 <button class="more" style="margin-top:15px;color:#fff" @click="toReset">重 置</button>
                             </div>
                         </div>
@@ -538,7 +538,7 @@ import {mapMutations} from 'vuex'
                             text:'输入自定义值定义去填充缺失值'
                         },
                     ],
-                    selectRadio:'调用该列平均值去填充该缺失值',
+                    selectRadio:'',
                     mergeColmunName:'',
                     classification:[
                         {
@@ -629,7 +629,15 @@ import {mapMutations} from 'vuex'
                     selectOldradio:'',
                     isSeemItem:false,
                     hasValue:false,
-                    selectKey:[]
+                    selectKey:[],
+                    fillList:{
+                        '调用该列平均值去填充该缺失值':[],
+                        '调用该列中位数去填充该缺失值':[],
+                        '调用该列众数去填充该缺失值':[],
+                        '调用前一个非缺失值去填充该缺失值':[],
+                        '调用后一个非缺失去填充该缺失值':[],
+                        '输入自定义值定义去填充缺失值':[]
+                    }
                 }
             },
             components:{
@@ -666,38 +674,33 @@ import {mapMutations} from 'vuex'
                 selectEliminate(val){
                 },
                 selectRadio:{
-                    // if(this.isSeemItem && val != this.selectOldradio){
-                    //     this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
-                    //         if(item.checked){
-                    //             item.abled = false
-
-                    //         }
-                    //         console.log(item.abled)
-                    //     })
-                    // }
                     deep:true,
                     handler:function(newV,oldV){
-                        if(newV != this.selectOldradio){
-                            this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
-                                if(item.checked && item.key!=newV){
-                                    this.$set(this.preProcesscolmun.deficiencyColumn,index,{checked:!item.checked,abled:false,name:item.name,key:item.key})
-                                } else{
-                                    this.$set(this.preProcesscolmun.deficiencyColumn,index,{checked:item.checked,abled:true,name:item.name,key:item.key})
-                                }
+                        // this.preProcesscolmun.deficiencyColumn.forEach(item=>{
+                        //     if(item.checked){
+                        //         item.key = newV
+                        //     }
+                        // })
+                        // if(newV != this.selectOldradio){
+                        //     this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
+                        //         if(item.checked && item.key!=newV){
+                        //             this.$set(this.preProcesscolmun.deficiencyColumn,index,{checked:!item.checked,abled:false,name:item.name,key:item.key})
+                        //         } else{
+                        //             this.$set(this.preProcesscolmun.deficiencyColumn,index,{checked:item.checked,abled:true,name:item.name,key:item.key})
+                        //         }
                                 
-                            })
-                        } else {
-                            this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
-                                this.selectKey.filter(name=>{
-                                    if(item.key){
-                                        item.checked = true
-                                    } else{
-                                        item.checked = false
-                                    }
-                                })
-                            })
-                        }
-                        console.log(this.preProcesscolmun.deficiencyColumn)
+                        //     })
+                        // } else {
+                        //     this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
+                        //         this.selectKey.filter(name=>{
+                        //             if(item.key){
+                        //                 item.checked = true
+                        //             } else{
+                        //                 item.checked = false
+                        //             }
+                        //         })
+                        //     })
+                        // }
                     }
                     
                     
@@ -940,45 +943,42 @@ import {mapMutations} from 'vuex'
                             var obj={}
                             obj.name = item
                             obj.checked = false
-                            obj.abled=true
-                            obj.key=""
                             arr.push(obj)
 
                         })
                         this.preProcesscolmun.deficiencyColumn = arr
                         // 如果已经预处理过就赋值
-                        
+                        this.selectRadio = ''
                         if(item.yclcs){
                             this.selectGroup=item.yclcs.groupColumn,
                             this.selectType=item.yclcs.modelType,
                             this.selectTarget =item.yclcs.targetColumn
                             
                             
-                            var selectKey
+                            var selectListvalue
                             if(item.yclcs.missingColumn){
-                                this.selectRadio = Object.values(item.yclcs.missingColumn)[0]
-                                this.selectOldradio  = Object.values(item.yclcs.missingColumn)[0]
+                                this.fillList = item.yclcs.missingColumn
                                 
-                                
-                                selectKey = Object.keys(item.yclcs.missingColumn)
-                                this.selectKey = selectKey
+                                selectListvalue= Object.values(item.yclcs.missingColumn)
                             }
-                            this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
-                                selectKey.forEach(name=>{
-                                    if(item.name == name){
-                                        item.checked = true
-                                        item.key = this.selectRadio
-                                    }
+                            selectListvalue.forEach(name=>{
+                                name.filter(label=>{
+                                    this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
+                                        if(item.name == label){
+                                            item.checked = true
+                                            this.preProcesscolmun.deficiencyColumn.splice(index, 1)
+                                        }
+                                    })
+                                    
                                 })
+                                
                             })
                             this.hasValue = true
                         } else {
                             this.selectGroup='',
                             this.selectType='',
                             this.selectTarget =''
-                            this.selectRadio = ''
-                            var selectKey = []
-                            this.this.selectKey = []
+                            
                             this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
                                 item.checked = false
                             })
@@ -1009,7 +1009,7 @@ import {mapMutations} from 'vuex'
                     //         {
                     //             selectColmun:'',
                     //             colmunNUmber:'',
-                    //             selectList:this.tcgcList
+                    //             value:this.tcgcList
                     //         }
                     //     )
                     // }
@@ -1048,7 +1048,7 @@ import {mapMutations} from 'vuex'
                         }]
                         this.mergeList=JSON.parse(JSON.stringify(paras))
                         this.splitList.map(item=>{
-                            item.selectList = this.tcgcList
+                            item.value = this.tcgcList
                         })
                         if(item.tzzcs){
                             this.selectEliminate = item.tzzcs.characteristicOneDto.selectEliminate //剔除类
@@ -1057,7 +1057,7 @@ import {mapMutations} from 'vuex'
                                 this.splitList = item.tzzcs.characteristicOneDto.splitList
                             } else {
                                 this.splitList = [{
-                                    selectList:this.tcgcList,
+                                    value:this.tcgcList,
                                     selectColmun:'',
                                     colmunNUmber:''
                                 }]
@@ -1080,7 +1080,7 @@ import {mapMutations} from 'vuex'
                         } else {
                             this.selectEliminate = '' //剔除类
                             this.splitList = [{
-                                selectList:this.tcgcList,
+                                value:this.tcgcList,
                                 selectColmun:'',
                                 colmunNUmber:''
                             }] //特征拆分
@@ -1121,13 +1121,13 @@ import {mapMutations} from 'vuex'
                                     that.classification.forEach(item=>{
                                         if(key == item.key){
                                             item.checked = true
-                                        }
+                                        } 
                                     })
                                 } else if(that.curItemtype == '回归模型'){
                                     that.regression.forEach(item=>{
                                         if(key == item.key){
                                             item.checked = true
-                                        }
+                                        } 
                                     })
                                 } else if(that.curItemtype == '聚类模型'){
                                     that.clustering.forEach(item=>{
@@ -1181,7 +1181,7 @@ import {mapMutations} from 'vuex'
                     let obj={
                         selectColmun:'',
                         colmunNUmber:'',
-                        selectList:this.tcgcList
+                        value:this.tcgcList
                     }
                     this.splitList.push(obj)
                 },
@@ -1251,32 +1251,26 @@ import {mapMutations} from 'vuex'
                 toPretreatment(){
                     // 预处理接口
                     
-                    const missKey ={}
-
+                   
+                    
                     this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
                         if(item.checked){
-                            missKey[item.name] = this.selectRadio;
+                            this.fillList[this.selectRadio].push(item.name)
+                            this.unique(this.fillList[this.selectRadio])
+                            // missKey[item.name] = this.selectRadio;
                         } 
                     })
+                    //数组去重
                     
-                    if(!this.selectGroup){
-                        this.$message('请选择分组列')
-                        return
-                    } else if(!this.selectTarget){
-                        this.$message('请选择目标列')
-                        return
-                    } else if(!this.selectRadio){
-                        this.$message('请选择填充方式')
-                        return
-                    }else if (!Object.keys(missKey)[0]){
-                        this.$message('请选择缺失列')
-                        return
+                  
+                    if(this.selectType == '聚类模型'){
+                        this.selectTarget =''
                     }
                     let url=`${ReqUrl.pretreatment}`
                     let paramsData={
                         userId:1,
                         groupColumn: this.selectGroup,
-                        missingColumn: missKey,
+                        missingColumn: this.fillList,
                         modelType: this.selectType,
                         targetColumn: this.selectTarget
                     }
@@ -1469,6 +1463,28 @@ import {mapMutations} from 'vuex'
                         that.closeDialog()
                         that.$router.push({path:'/model',query:{miId:that.curItemobject.miId,taId:that.curItemobject.taId}})
                         that.modelItem(paramData)
+                    })
+                },
+                unique(arr){ 
+                    // 数组去重
+                    var hash=[];
+                    for (var i = 0; i < arr.length; i++) {
+                        for (var j = i+1; j < arr.length; j++) {
+                        if(arr[i]===arr[j]){
+                            ++i;
+                        }
+                        }
+                        hash.push(arr[i]);
+                    }
+                    return hash;
+                },
+                toApplication(){
+                    // 应用
+                    this.preProcesscolmun.deficiencyColumn = this.preProcesscolmun.deficiencyColumn.filter((item,index)=>{
+                        if(item.checked){
+                            this.fillList[this.selectRadio].push(item.name)
+                        } 
+                        return !item.checked
                     })
                 }
 

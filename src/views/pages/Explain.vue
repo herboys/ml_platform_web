@@ -85,8 +85,8 @@
                         <span class="fl key">模型类型:</span>
                         <div class="select-con fl">
                             <i class="icon"></i>
-                            <select class="select">
-                                <option value="">决策树</option>
+                            <select class="select" v-model="selectValue">
+                                <option :value="item" v-for="item in selectList" :key="item">{{item}}</option>
                             </select>
                         </div>
                         <a class="fl btn">确定</a>
@@ -169,7 +169,17 @@
                         "name": "15:30",
                         "val": 6655
                     }]
-                }
+                },
+                selectValue:'决策树',
+                selectList:[
+                    '决策树',
+                    '支持向量机',
+                    '逻辑回归'
+                ]
+            }
+        },
+        watch:{
+            selectValue(val){
             }
         },
         components:{
