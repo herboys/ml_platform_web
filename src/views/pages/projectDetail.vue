@@ -35,7 +35,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="(item,index) in taskList" >
-                                <td>{{item.rwmc}}</td>
+                                <td @dblclick="updateText(item)" >{{item.rwmc}}</td>
                                 <td>{{item.sjjName}}</td>
                                 <td>未开始</td>
                                 <td class="handle">
@@ -47,7 +47,7 @@
                                     <router-link :to="{path:'/explain'}" class="explainicon" :class="!item.yclcs?'gray':''"  @click="toLink('js')">解释</router-link>
                                     <!-- <a class="explainicon">解释</a> -->
                                     <a class="moreicon" @click="toggleShow(item,index)">
-                                        <ul class="moreicon-ul" v-show="item.isShow">
+                                        <ul class="moreicon-ul" v-show="item.isShow" @mouseleave="item.isShow=false">
                                             <!-- <li class="lookicon">查看数据</li> -->
                                             <li class="visualicon" @click="toLink('visual',item)">数据可视化</li>
                                             <li class="deployModelicon">部署模型</li>
@@ -88,6 +88,24 @@
 
             </div>
         </section>
+        </div>
+        <!-- 修改数任务 -->
+        <div class="alert-box" id="alert-box-reviseNewObject">
+            <div class="title text-c">
+                修改该任务
+                <span class="close iconfont icon-cross-fill" @click="closeDialog"></span>
+            </div>
+            <div class="content alert-box-content">
+                <p>任务名称</p>
+                <input type="text" v-model="updateTask.name">
+                <!-- <p>项目描述</p>
+                <textarea v-model="updateDatasource.desc"></textarea> -->
+
+                <div class="btn-wrap clearfix">
+                    <button class="btn addBtn fl" @click="toUpdate()">确认</button>
+                    <button class="btn backBtn fr" @click="closeDialog">返回</button>
+                </div>
+            </div>
         </div>
         <!-- 弹窗删除 -->
         <div class="alert-box" id="alert-box-del">
@@ -283,12 +301,7 @@
                 <div class="content-wrap">
                     <div class="content alert-box-content">
                         <div class="item-lists">
-                            <div class="item-list clearfix">
-                                <span class="fl name">选择剔除类<b class="sm">(可多选)</b></span>
-                                <select class="fl select" v-model="selectEliminate">
-                                    <option :value="item.colmunName" v-for="item in tcgcList" >{{item.colmunName}}</option>
-                                </select>
-                            </div>
+                            
 
                             <p class="t">
                                 <span class="light">特称组合：</span>
@@ -304,10 +317,9 @@
                                         <span class="icon add" @click="addMerge" v-show="index ==0">+</span>
                                         <span class="icon minus" @click="removeMerge" v-show="mergeList.length>1 && index ==0">-</span>
                                     </div>
-                                    
                                 </div>
                                 <div class="content-item1">
-                                     <div class="choose-wrap" v-for="name in item.tcgcList">
+                                    <div class="choose-wrap" v-for="name in item.tcgcList">
                                         <label>
                                             <input type="checkbox" :checked="name.checked" @click="ClickItemBtn(index,name)"/>
                                             <i class="icon"></i><span>{{name.colmunName}}</span>
@@ -347,6 +359,12 @@
                                 
                                 </div>
                             </div>
+                            <div class="item-list clearfix">
+                                <span class="fl name">选择剔除类<b class="sm">(可多选)</b></span>
+                                <select class="fl select" v-model="selectEliminate">
+                                    <option :value="item.colmunName" v-for="item in tcgcList" >{{item.colmunName}}</option>
+                                </select>
+                            </div>
                         </div>
                         
                         <!-- <div class="btn-wrap text-c">
@@ -367,7 +385,7 @@
                     <div class="item-lists">
 
                         <p class="t">
-                            <span class="light">线性版本分析：</span>
+                            <span class="light">线性判别分析：</span>
                         </p>
 
                         <div class="item-list clearfix">
@@ -384,7 +402,7 @@
                         </div>
                         <div class="item-list clearfix">
                             <span class="fl name">降维数</span>
-                            <input class="fl input" type="number" min="3" v-model="jiangwei" placeholder="请输入LDA降维时降到的维数" />
+                            <input class="fl input" type="number" min="3" :max="tcgcList.length" v-model="jiangwei" placeholder="请输入LDA降维时降到的维数" />
                         </div>
 
                         <p class="t">
@@ -392,7 +410,7 @@
                         </p>
                         <div class="item-list clearfix">
                             <span class="fl name">主成分个数</span>
-                            <input class="fl input" type="number" min="0" v-model="number" placeholder="请输入拆分的列数" />
+                            <input class="fl input" type="number" min="0" :max="tcgcList.length" v-model="number" placeholder="请输入拆分的列数" />
                         </div>
                         <div class="item-list clearfix">
                             <span class="fl name">白化</span>
@@ -637,7 +655,14 @@ import {mapMutations} from 'vuex'
                         '调用前一个非缺失值去填充该缺失值':[],
                         '调用后一个非缺失去填充该缺失值':[],
                         '输入自定义值定义去填充缺失值':[]
-                    }
+                    },
+                    updateTask:{
+                        name:'',
+                        prId:null,
+                        miId:null,
+                        taId:null
+                    },
+                    preProcesscolmunData:[]
                 }
             },
             components:{
@@ -708,6 +733,7 @@ import {mapMutations} from 'vuex'
                     
                 }
             },
+            
             methods: {
             ...mapMutations(['TASKITEMLIST','modelItem']),
                  ClickItemBtn(index,name){
@@ -938,15 +964,19 @@ import {mapMutations} from 'vuex'
                     })
                     .then(res=>{
                         this.preProcesscolmun = res.data
-                        var arr = []
+                        var arr = [],arrOld=[]
                         this.preProcesscolmun.deficiencyColumn.forEach(item=>{
                             var obj={}
                             obj.name = item
                             obj.checked = false
                             arr.push(obj)
+                            arrOld.push(obj)
 
                         })
+                        
                         this.preProcesscolmun.deficiencyColumn = arr
+                        this.preProcesscolmunData = arrOld
+                   
                         // 如果已经预处理过就赋值
                         this.selectRadio = ''
                         if(item.yclcs){
@@ -984,6 +1014,7 @@ import {mapMutations} from 'vuex'
                             })
                             this.hasValue = false
                         }
+                        
                     })
 
                 },
@@ -1164,7 +1195,7 @@ import {mapMutations} from 'vuex'
                         title: false,
                         anim: 2,
                         closeBtn: 0,
-                        area: ['600px', "500px"], //宽高
+                        area: ['600px', "540px"], //宽高
                         content: $('#alert-box-xunliangmoxing'),
                     });
                 },
@@ -1244,14 +1275,21 @@ import {mapMutations} from 'vuex'
                 },
                 toReset(){
                     this.selectRadio = ''
-                    this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
+                    this.fillList={
+                        '调用该列平均值去填充该缺失值':[],
+                        '调用该列中位数去填充该缺失值':[],
+                        '调用该列众数去填充该缺失值':[],
+                        '调用前一个非缺失值去填充该缺失值':[],
+                        '调用后一个非缺失去填充该缺失值':[],
+                        '输入自定义值定义去填充缺失值':[]
+                    }
+                    this.preProcesscolmunData.forEach(item=>{
                         item.checked = false
                     })
+                    this.preProcesscolmun.deficiencyColumn = this.preProcesscolmunData
                 },
                 toPretreatment(){
                     // 预处理接口
-                    
-                   
                     
                     this.preProcesscolmun.deficiencyColumn.forEach((item,index)=>{
                         if(item.checked){
@@ -1356,21 +1394,6 @@ import {mapMutations} from 'vuex'
                             white:that.baihua
                         }
                     }
-                    // 暂时的
-                    // targetObj.selectEliminate = ''//剔除类
-                    // targetObj.splitList = [] //特征拆分
-                    // targetObj.mergeList = []
-                    // targetObj.reduction={
-                    //     lda:{
-                    //         svd:'',
-                    //         regex:'',
-                    //         n:''
-                    //         },
-                    //     pca:{
-                    //         n:null,
-                    //         white:''
-                    //     }
-                    // }
                     var paramData={
                         characteristicOneDto:targetObj
                     }
@@ -1461,7 +1484,7 @@ import {mapMutations} from 'vuex'
                         // });
                         that.getTasklist()
                         that.closeDialog()
-                        that.$router.push({path:'/model',query:{miId:that.curItemobject.miId,taId:that.curItemobject.taId}})
+                        that.$router.push({path:'/model',query:{miId:that.curItemobject.miId,taId:that.curItemobject.taId,sourceData:that.curItemobject.bmc}})
                         that.modelItem(paramData)
                     })
                 },
@@ -1486,7 +1509,51 @@ import {mapMutations} from 'vuex'
                         } 
                         return !item.checked
                     })
-                }
+                },
+                updateText(item){
+                    layer.open({
+                        type: 1,
+                        title: false,
+                        anim: 2,
+                        closeBtn: 0,
+                        area: ['580px', 1000], //宽高
+                        content: $('#alert-box-reviseNewObject'),
+                    });
+                    console.log(item)
+                    this.updateTask.name = item.rwmc
+                    // this.updateTask.desc = item.dataDesc
+                    this.updateTask.prId = item.prId
+                    this.updateTask.miId = item.miId
+                    this.updateTask.taId = item.taId
+                },
+                toUpdate(){
+                    let that = this
+                    let url  =`${ReqUrl.updateTask}`
+                    if(!that.updateTask.name){
+                        this.$message({
+                            message: '任务名称不能为空',
+                            type: 'warning'
+                        });
+                        return
+                    }
+                    let paramsData={
+                        miId: that.updateTask.miId,
+                        // prId: that.updateTask.prId,
+                        rwmc: that.updateTask.name,
+                        // taId: that.updateTask.taId,
+                        userId: 1
+                    }
+                    axios({
+                        url: url,
+                        method: 'post',
+                        data: paramsData
+                    })
+                    .then(res=>{
+                        that.getTasklist()
+                        that.closeDialog()
+                        
+                    })
+                },
 
             },
             created(){

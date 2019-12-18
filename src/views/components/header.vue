@@ -137,22 +137,22 @@
                                 name:'数据集',
                                 path:'/dataSet',
                             },
-                            {
-                                name:'可视化',
-                                path:'/visual',
-                            },
-                            {
-                                name:'模型',
-                                path:'/model',
-                            },
-                            {
-                                name:'评估',
-                                path:'/assess',
-                            },
-                            {
-                                name:'解释',
-                                path:'/explain',
-                            },
+                            // {
+                            //     name:'可视化',
+                            //     path:'/visual',
+                            // },
+                            // {
+                            //     name:'模型',
+                            //     path:'/model',
+                            // },
+                            // {
+                            //     name:'评估',
+                            //     path:'/assess',
+                            // },
+                            // {
+                            //     name:'解释',
+                            //     path:'/explain',
+                            // },
                             {
                                 name:'部署',
                                 path:'',

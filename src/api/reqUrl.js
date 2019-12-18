@@ -50,3 +50,10 @@ export const saveModelDrill = 'api/task/saveModelDrill'
 export const starTrain = 'api/task/train'
     // 查询模型参数
 export const findMis = 'api/task/findMis'
+    //更新任务
+export const updateTask = 'api/task/updateTask'
+
+//模型训练接口
+export const getTrain = 'api/model/getTrain'
+    //模型超参数设置
+export const modelCcssz = 'api/model/ccssz'

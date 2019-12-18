@@ -11,21 +11,21 @@
         <el-col :span="8">
             <div class="model-box">
                 <header class="model-header">
-                    <span class="name"><i class="round"></i>数据集 testdata</span>
+                    <span class="name"><i class="round"></i>数据集 {{sourceData}}</span>
                 </header>
                 <div class="model-content">
                     <ul class="dataset-list">
-                        <li class="long"><label class="label-text">训练数据集：</label>12K</li>
-                        <li class="short"><label class="label-text">测试数据集：</label>3K</li>
-                        <li class="long"><label class="label-text">行：</label> 15K</li>
-                        <li class="short"><label class="label-text">列：</label>30</li>
-                        <li class="long"><label class="label-text">目标列：</label>是否患高血压</li>
+                        <li class="long"><label class="label-text">训练数据集：</label>{{trainData.train}}</li>
+                        <li class="short"><label class="label-text">测试数据集：</label>{{trainData.test}}</li>
+                        <li class="long"><label class="label-text">行：</label> {{trainData.rows}}</li>
+                        <li class="short"><label class="label-text">列：</label>{{trainData.columns}}</li>
+                        <li class="long"><label class="label-text">目标列：</label>{{trainData.target_column}}</li>
                         
-                        <li class="short"><label class="label-text">有效列：</label> 23</li>
+                        <li class="short"><label class="label-text">有效列：</label> {{trainData.effective_columns}}</li>
                         
-                        <li class="long"><label class="label-text">折叠列：</label>4</li>
-                        <li class="short"><label class="label-text">时间列：</label>2</li>
-                        <li class="long"><label class="label-text">训练类型：</label>布尔</li>
+                        <li class="long"><label class="label-text">折叠列：</label>{{trainData.del_columns}}</li>
+                        <li class="short"><label class="label-text">时间列：</label>{{trainData.time_columns}}</li>
+                        <li class="long"><label class="label-text">训练类型：</label>{{trainData.model_type}}</li>
                         <!-- <li class="long"><label class="label-text">目标频率：</label>7K</li>
                         <li class="short"><label class="label-text">唯一值：</label>10K</li>
                         
@@ -258,8 +258,8 @@
                 <div class="item-list clearfix">
                     <span class="fl">class weight</span>
                     <div class="fl clearfix">
-                        <select class="fl" v-model="svr.class_weightList">
-                            <option :value="name" v-for="name in svr.class_weightList" :key="name">{{ name }}</option>
+                        <select class="fl" v-model="svr.class_weight">
+                            <option  v-for="(name,index) in svr.class_weightList" :value="name" :key="index">{{ name }}</option>
                         </select>
                         <p class="fl pop">
                             <span class="wenhao fl">
@@ -1006,6 +1006,14 @@
     import swiperChart from '../components/swiperChart'
     import * as ReqUrl from '../../api/reqUrl'
     import {mapState} from 'vuex'
+      import qs from 'qs'
+import {mapMutations} from 'vuex'
+  const parseForm = qs.stringify
+  function packup (data = {}) {
+        return parseForm({
+            projectDto: JSON.stringify(data)
+        })
+    }
     export  default {
         data(){
             return {
@@ -1781,7 +1789,9 @@
                 isStart:false,
                 selectAlgorithm:[],//选择的算法
                 selectMiid:null,
-                selectTaid:null
+                selectTaid:null,
+                trainData:{},
+                sourceData:''
                 
             }
         },
@@ -1875,6 +1885,56 @@
                     console.log(this.kmeans,'Kmeans')
                 } 
                 this.closeDialog()
+                var obj = {}
+                this.tabList.forEach(item=>{
+                    if(item.name == 'SVR'){
+                        obj[item.key]=this.svr
+                    } else if(item.name == 'SVC'){
+                        obj[item.key]=this.svc
+                    }else if(item.name == '决策树'){
+                        obj[item.key]=this.decisionTree
+                    } else if(item.name == '随机森林'){
+                        obj[item.key]=this.randomForest
+                    } else if(item.name == 'GBTD'){
+                        obj[item.key]=this.gbtd
+                    } else if(item.name == '逻辑回归'){
+                        obj[item.key]=this.logisticRegression
+                    } else if(item.name == 'XGBOOTST'){
+                        obj[item.key]=this.xgbootst
+                    } else if(item.name == '贝叶斯'){
+                        obj[item.key]=this.bysc
+                    }  else if(item.name == 'K近邻'){
+                        obj[item.key]=this.knn
+                    } else if(item.name == '线性回归'){
+                        obj[item.key]=this.linr
+                    } else if(item.name == 'Kmeans'){
+                        obj[item.key]=this.kmeans
+                    } 
+                })
+                console.log(obj)
+                this.paramSet(obj)
+            },
+            paramSet(obj){
+                var that = this
+                console.log(JSON.stringify(obj))
+                let url=`${ReqUrl.modelCcssz}`
+                var paramsData={
+                    miId:that.selectMiid,
+                    
+                }
+                axios({
+                        url: url,
+                        method: 'post',
+                        params:paramsData,
+                        data:{csssz:JSON.stringify(obj)}
+                    })
+                    .then(res=>{
+                        that.selectAlgorithm = JSON.parse(res.data.mxcs).algorithm
+                        console.log(that.selectAlgorithm)
+                        if(that.selectAlgorithm[0]){
+                            that.filterSelect()
+                        }
+                    })
             },
             filterSelect(){
                 // 判断选择的算法
@@ -2005,14 +2065,30 @@
                             that.filterSelect()
                         }
                     })
+            },
+            getTrain(){
+                var that = this
+                let url=`${ReqUrl.getTrain}`
+                axios({
+                        url: url,
+                        method: 'get',
+                        params:{miId:that.selectMiid},
+                    })
+                    .then(res=>{
+                        that.trainData = res.data
+                        console.log(res,'model')
+                    })
             }
         },
         created() {
             this.selectMiid = this.$route.query.miId
             this.selectTaid = this.$route.query.taId
+            this.sourceData = this.$route.query.sourceData
             if(this.selectMiid){
                 this.findMis()
+                this.getTrain()
             }
+            
             
         },
     }

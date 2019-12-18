@@ -24,7 +24,7 @@
 
                     <div class="chooseType">
                         <p @click="chooseType"><span>{{chooseTypeTxt}}</span> <i class="icon up-icon"></i></p>
-                        <div v-show="isShowChooseType">
+                        <div v-show="isShowChooseType" @mouseleave="isShowChooseType=false">
                             <ul>
                                 <li @click="chooseThis($event)">以文件方式上传</li>
                                 <li @click="chooseThis($event)">以数据库方式上传</li>

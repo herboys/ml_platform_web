@@ -52,11 +52,11 @@
                                 <div class="swiper-ul">
                                     <ul>
                                         <li>{{item.column_name}}</li>
-                                        <li class="p" @click="toggleShow(item,index)">{{item.type}} <i class="icon" v-show="item.trans =='can'"></i>
+                                        <li class="p" @click="toggleShow(item,index)">{{item.type}} <i class="icon" v-show="item.trans =='can'" ></i>
                                             <!-- <select name="" id="" v-model="item.type">
                                                 <option :value="name.type" v-for="name in optionlist" >{{name.text}}</option>
                                             </select> -->
-                                            <ul class="s" v-show="item.isShowtype && item.trans =='can'">
+                                            <ul class="s" v-show="item.isShowtype && item.trans =='can'" @mouseleave="item.isShowtype=false">
                                                 <li v-for="name in item.optionlist" @click="updateColumns(item,name)">{{name.text}}</li>
                                                 <!-- <li>连续型</li> -->
                                             </ul>
