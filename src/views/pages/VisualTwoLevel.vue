@@ -18,10 +18,10 @@
         </section>
         <!-- 直方图参数设置弹框  -->
         <div class="alert-box" id="alert-box-tezhenggongcheng">
-            <div id="alert-box-tezhenggongcheng1" >
+            <div id="alert-box-tezhenggongcheng1">
                 <div class="title text-c">
                     {{echartsType}}参数设置
-                    <span  @click="closeDialog" class="close iconfont icon-cross-fill" ></span>
+                    <span @click="closeDialog" class="close iconfont icon-cross-fill"></span>
                 </div>
                 <div class="content-wrap">
                     <div class="content alert-box-content">
@@ -31,22 +31,24 @@
                             </p>
                             <div>
                                 <div class="content-item1">
-                                     <div class="choose-wrap" v-for="(item,index) in mergeList" :key="index"  >
-                                                                        <label>
-                                    <input type="checkbox" :checked="item.ischeckbox" @click="MergeListItemBtn(item,index)"/>
-                                    <i class="icon"></i><span>{{item.name}}</span>
-                                </label>
-                                </div>
+                                     
+                                    <div class="choose-wrap" v-for="(item,index) in mergeList" :key="index"  >
+                                                                            <label>
+                                        <input type="checkbox" :checked="item.ischeckbox"
+                                               @click="MergeListItemBtn(item,index)"/>
+                                        <i class="icon"></i><span>{{item.colmunName}}</span>
+                                    </label>
+                                    </div>
                                 </div>
                             </div>
                             <p class="t">
                                 <span class="light">Y轴选择：</span>
                             </p>
-                            <div  >
+                            <div>
                                 <div class="item-list clearfix">
                                     <div class="form-wrap fl clearfix">
-                                        <select class="fl select" >
-                                            <option   v-for="(item) in mergeList">{{item.name}}</option>
+                                        <select class="fl select" v-model="yitemcolmunName">
+                                            <option v-for="(item) in mergeList">{{item.colmunName}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -62,17 +64,18 @@
         <!-- echarts 弹框 -->
         <div class="alert-box" id="alert-box-echarts">
             <div class="slider">
-                <div class="slide"    v-for="(item,index) in echartslist" :key="index">
+                <div class="slide" v-for="(item,index) in echartslist" :key="index">
                     <div class="echarts-item">
-                        <div class="title text-c"  >
+                        <div class="title text-c">
                             {{item.echartsType}}图像
                             <span @click="closeDialog" class="close iconfont icon-cross-fill"></span>
                         </div>
                         <div class="content alert-box-content">
-                            <swiper-chart class="echarts"  style="width: 676px;" :values="item.DynamicList"></swiper-chart>
+                            <swiper-chart class="echarts" style="width: 676px;"
+                                          :values="item.DynamicList"></swiper-chart>
                             <p class="text-c">
                                 <button class="btn btn-download" @click="EchartsDownload(index)">下载图像</button>
-                                <button class="btn btn-download"  @click="backdialogSetOption">重置可视化</button>
+                                <button class="btn btn-download" @click="backdialogSetOption">重置可视化</button>
                             </p>
                         </div>
                     </div>
@@ -153,7 +156,7 @@
 
                     },
                     {
-                        name: '箱型图',
+                        name: '箱线图',
                         echartsBarOption: {
                             color: ['#3398DB'],
                             legend: {
@@ -1891,35 +1894,33 @@
                 DynamicList: {},
                 echartsType: '',
                 swiperInit: false,
-                mergeList:[],
-                echartslist:[],
+                mergeList: [],
+                yitemcolmunName: '',
+                echartslist: [],
             }
         },
         components: {swiperChart},
-        computed:{
+        computed: {
             ...mapState(['taskitemlist'])
         },
         mounted() {
-            console.log(this.taskitemlist,'vuex')
             this.mock()
         },
         methods: {
-            mock(){
+            mock() {
                 axios({
-                    url:'http://localhost:8080/mock.json',
-                    method:'get'
-                }).then(res=>{
-                    this.mergeList=this.taskitemlist.tzzcs.selectList
-                    console.log( this.mergeList)
+                    url: 'http://localhost:8080/mock.json',
+                    method: 'get'
+                }).then(res => {
+                    this.mergeList = this.taskitemlist.tzzcs.characteristicOneDto.splitList[0].selectList
                 })
             },
-            backdialogSetOption(){
+            backdialogSetOption() {
                 layer.closeAll();
-                this.mergeList.forEach(res=>{
-                    res.ischeckbox=false
+                this.mergeList.forEach(res => {
+                    res.ischeckbox = false
                 })
-                console.log(this.mergeList)
-                this.echartslist=[]
+                this.echartslist = []
                 setTimeout(function () {
                     setOptionEcharts = layer.open({
                         type: 1,
@@ -1933,19 +1934,6 @@
             },
             dialogSetOption(type) {
                 this.echartsType = JSON.parse(JSON.stringify(type))
-                let para={
-                    ta_id:'24',
-                    type:this.echartsType,
-                    columnsx:['ID','性别','职业'],
-                    columny:'年龄',
-                    method:'count',
-                    interval_num:'3'
-                }
-                axios({
-                    url:'api/visualization/getVisualization',
-                    method:'post',
-                    data:para
-                })
                 setOptionEcharts = layer.open({
                     type: 1,
                     title: false,
@@ -1957,72 +1945,153 @@
             },
             closeDialog() {
                 layer.closeAll();
-                this.mergeList.forEach(res=>{
-                    res.ischeckbox=false
+                this.mergeList.forEach(res => {
+                    res.ischeckbox = false
                 })
                 console.log(this.mergeList)
-                this.echartslist=[]
+                this.echartslist = []
             },
 
             toView() {
-                this.$nextTick(()=>{
-                    this.StaticList.forEach(item => {
-                        if (item.name == this.echartsType) {
-
-                            let prop = item.echartsBarOption
-                            this.DynamicList = JSON.parse(JSON.stringify(prop))
-                            this.DynamicList.xAxis[0].show=true
-                            this.DynamicList.yAxis[0].axisLine.show=true
-                            this.DynamicList.yAxis[0].axisLabel.show=true
-                            this.DynamicList.series[0].name=this.echartsType
-                            //this.DynamicList.series[0].color='#4ca536'
-                            this.mergeList.forEach(items=>{
-                                if(items.ischeckbox===true){
-                                    let paras={
-                                        echartsType:this.echartsType,
-                                        DynamicList: this.DynamicList
+                this.$nextTick(res => {
+                    let columnsx = []
+                    this.mergeList.forEach(isitem => {
+                        if (isitem.ischeckbox == true) {
+                            columnsx.push(isitem.colmunName)
+                        }
+                    })
+                    let miansss = []
+                    let datas = []
+                    let para = {
+                        ta_id: this.taskitemlist.taId,
+                        type: this.echartsType,
+                        columnsx: columnsx,
+                        columny: this.yitemcolmunName,
+                        method: 'count',
+                        interval_num: '3'
+                    }
+                    axios({
+                        url: 'api/visualization/getVisualization',
+                        method: 'post',
+                        data: para
+                    }).then(res => {
+                        switch (this.echartsType) {
+                            case '直方图':
+                                miansss = res.data
+                                for (let i = 0; i < miansss.length; i++) {
+                                    let para = {
+                                        isvalues: Object.values(miansss[i].data),
+                                        iskeys: Object.keys(miansss[i].data)
                                     }
-                                    this.echartslist.push(paras)
+                                    datas.push(para)
                                 }
-                            })
+                                this.StaticList.forEach(item => {
+                                    if (item.name == this.echartsType) {
+                                        for (let i = 0; i < datas.length; i++) {
+                                            let para = {
+                                                echartsType: this.echartsType,
+                                                DynamicList: {
+                                                    color: ['#3398DB'],
+                                                    legend: {
+                                                        textStyle: {
+                                                            color: "#FFF"
+                                                        },
+                                                        left: '20',
+                                                        top: "10",
+                                                        icon: "circle",
 
+                                                    },
+                                                    grid: {
+                                                        left: '20',
+                                                        right: '5%',
+                                                        bottom: '0%',
+                                                        top: '15%',
+                                                        containLabel: true
+                                                    },
+                                                    xAxis: [
+                                                        {
+                                                            type: 'category',
+                                                            data: datas[i].iskeys,
+                                                            show: true,
+                                                            axisLabel: {
+                                                                color: '#fff',
+                                                                fontSize:10
+                                                            },
+                                                        }
+
+                                                    ],
+                                                    yAxis: [{
+                                                        type: 'value',
+                                                        splitNumber: 5,
+                                                        splitArea: {show: false},//去除网格区域
+                                                        axisTick: {
+                                                            show: false
+                                                        },
+                                                        axisLabel: {
+                                                            color: '#fff',
+                                                            fontSize:10
+                                                        },
+                                                        axisLine: {
+                                                            show: true
+                                                        },
+                                                        splitLine: {
+                                                            show: true,
+                                                            lineStyle: {
+                                                                type: "dotted",
+                                                                color: "#353F7D"
+                                                            }
+                                                        }
+                                                    }],
+                                                    series: [
+                                                        {
+                                                            name:this.echartsType,
+                                                            type: 'bar',
+                                                            barWidth: '50%',
+                                                            data:  datas[i].isvalues
+                                                        }
+                                                    ]
+                                                },
+                                            }
+                                            this.echartslist.push(para)
+                                        }
+                                    }
+                                })
+                                break;
+                            case '箱线图':
+                                console.log('箱线图',res,data)
+                                break;
 
                         }
                     })
-                })
-                if( this.echartslist.length>0){
-                    layer.closeAll(setOptionEcharts)
-                    layer.open({
-                        type: 1,
-                        title: false,
-                        anim: 2,
-                        closeBtn: 0,
-                        area: ['676px', 1000], //宽高
-                        content: $('#alert-box-echarts'),
-                    });
-                    $('#alert-box-echarts .slider').bxSlider({
-                        slideWidth: 676,
-                        infiniteLoop: false,
-                        hideControlOnEnd: true,
-                        slideMargin: 0,
-                        pager: false
-                    });
-
-                }
-
-
-            },
-            MergeListItemBtn(item,index){
-                this.mergeList.forEach((element,indexs)=>{
-                    if(indexs==index){
-                        element.ischeckbox=! element.ischeckbox
+                    if (this.echartslist.length > 0) {
+                        layer.closeAll(setOptionEcharts)
+                        layer.open({
+                            type: 1,
+                            title: false,
+                            anim: 2,
+                            closeBtn: 0,
+                            area: ['676px', 1000], //宽高
+                            content: $('#alert-box-echarts'),
+                        });
+                        $('#alert-box-echarts .slider').bxSlider({
+                            slideWidth: 676,
+                            infiniteLoop: false,
+                            hideControlOnEnd: true,
+                            slideMargin: 0,
+                            pager: false
+                        });
                     }
                 })
-                console.log( this.mergeList,'9999')
+            },
+            MergeListItemBtn(item, index) {
+                this.mergeList.forEach((element, indexs) => {
+                    if (indexs == index) {
+                        element.ischeckbox = !element.ischeckbox
+                    }
+                })
 
             },
-            EchartsDownload(id){
-                console.log(id)
+            EchartsDownload(id) {
                 var img = new Image();
                 img.src = echarts.init(document.getElementById(id)).getDataURL({
                     pixelRatio: 2,
@@ -2051,7 +2120,7 @@
         }
     }
 </script>
-<style scoped src='../../assets/css/mypop.css' ></style>
+<style scoped src='../../assets/css/mypop.css'></style>
 <style scoped>
     .echart-item {
         margin-right: 1.5%;
